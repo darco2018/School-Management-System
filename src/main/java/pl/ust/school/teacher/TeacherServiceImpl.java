@@ -11,8 +11,8 @@ import pl.ust.school.subject.Subject;
 import pl.ust.school.subject.SubjectDto;
 import pl.ust.school.subject.SubjectService;
 import pl.ust.school.system.RecordNotFoundException;
-import pl.ust.school.tss.TSS;
-import pl.ust.school.tss.TSSService;
+import pl.ust.school.lesson.Lesson;
+import pl.ust.school.lesson.LessonService;
 
 @Service
 public class TeacherServiceImpl implements TeacherService {
@@ -24,7 +24,7 @@ public class TeacherServiceImpl implements TeacherService {
 	private SubjectService subjectService;
 
 	@Autowired
-	private TSSService tSSService;
+	private LessonService lessonService;
 
 	@Autowired
 	private TeacherMapper mapper;
@@ -62,7 +62,7 @@ public class TeacherServiceImpl implements TeacherService {
 		Optional<Teacher> opt = this.teacherRepo.findById(id);
 		if (opt.isPresent()) {
 			Teacher teacher = opt.get();
-			teacher.removeTeacherFromAllTSSs();
+			teacher.removeTeacherFromAllLessons();
 			teacher.setDeleted(true);
 			this.teacherRepo.save(teacher);
 		} else {
@@ -75,8 +75,8 @@ public class TeacherServiceImpl implements TeacherService {
 		
 		Collection<SubjectDto> all = this.subjectService.getAllSubjectDtos();
 
-		for (TSS tSS : teacherDto.getTsses()) {
-			all.removeIf(subject -> subject.getName().equals(tSS.getSubject().getName()));
+		for (Lesson lesson : teacherDto.getLessons()) {
+			all.removeIf(subject -> subject.getName().equals(lesson.getSubject().getName()));
 		}
 
 		return all;
@@ -84,17 +84,17 @@ public class TeacherServiceImpl implements TeacherService {
 	}
 
 	@Override
-	public void removeTSS(long tSSId) {
+	public void removeLesson(long lessonId) {
 		
 		///////////////////im working here /////////////////
 		
 		
-		this.tSSService.deleteTSS(tSSId);
+		this.lessonService.deleteLesson(lessonId);
 		
-		/*Optional<TSS> opt = this.tSSService.getTSS(tSSId);
+		/*Optional<Lesson> opt = this.lessonService.getLesson(lessonId);
 
 		if (opt.isPresent()) {
-			TSS ts = opt.get();
+			Lesson ts = opt.get();
 			Teacher teacher = ts.getTeacher();
 			//teacher.removeSubject(ts);
 			this.teacherRepo.save(teacher);
@@ -104,9 +104,9 @@ public class TeacherServiceImpl implements TeacherService {
 	}
 
 	@Override
-	public void addTSS(long teacherId, long subjectId) {
+	public void addLesson(long teacherId, long subjectId) {
 
-		if (!isUniqueTSS(teacherId, subjectId)) {
+		if (!isUniqueLesson(teacherId, subjectId)) {
 			return;
 		}
 
@@ -116,7 +116,7 @@ public class TeacherServiceImpl implements TeacherService {
 		Optional<Teacher> teacherOpt = this.teacherRepo.findById(teacherId);
 		if (teacherOpt.isPresent()) {
 			Teacher teacher = teacherOpt.get();
-			teacher.addTSS(subject);
+			teacher.addLesson(subject);
 			this.teacherRepo.save(teacher);
 		} else {
 			throw new RecordNotFoundException("No teacher with id " + teacherId + " has been found.");
@@ -137,9 +137,9 @@ public class TeacherServiceImpl implements TeacherService {
 
 	}
 
-	private boolean isUniqueTSS(long teacherId, long subjectId) {
+	private boolean isUniqueLesson(long teacherId, long subjectId) {
 
-		Optional<TSS> opt = this.tSSService.getTSS(teacherId, subjectId);
+		Optional<Lesson> opt = this.lessonService.getLesson(teacherId, subjectId);
 		return opt.isPresent() ? false : true;
 
 	}

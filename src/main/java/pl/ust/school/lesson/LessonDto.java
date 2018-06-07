@@ -1,4 +1,4 @@
-package pl.ust.school.tss;
+package pl.ust.school.lesson;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +14,7 @@ import pl.ust.school.teacher.Teacher;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TSSDto {
+public class LessonDto {
 	
 	private long id;
 	private boolean isDeleted;

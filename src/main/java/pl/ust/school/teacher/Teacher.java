@@ -18,53 +18,53 @@ import lombok.Setter;
 import lombok.ToString;
 import pl.ust.school.model.Person;
 import pl.ust.school.subject.Subject;
-import pl.ust.school.tss.TSS;
+import pl.ust.school.lesson.Lesson;
 
 @Entity
 @Table(name = "teachers")
 @Where(clause = "is_deleted=false")
 @Getter @Setter @NoArgsConstructor
-@ToString(callSuper=true, includeFieldNames = false, exclude= "tsses")
+@ToString(callSuper=true, includeFieldNames = false, exclude= "lessons")
 public class Teacher extends Person {
 
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * @param tsses = objects of type TSS (TeacherSubjectSchoolform), eg Smith/Maths/FirstYear1A
+	 * @param lessons = objects of type Lesson (TeacherSubjectSchoolform), eg Smith/Maths/FirstYear1A
 	 */
 	@OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	private Set<TSS> tsses;
+	private Set<Lesson> lessons;
 
 	/////////////// helpers ///////////////////
 
-	public void addTSS(Subject subject) {
-		TSS tSS = new TSS(this, subject, null);
-		this.tsses.add(tSS);
-		subject.getTsses().add(tSS);
+	public void addLesson(Subject subject) {
+		Lesson lesson = new Lesson(this, subject, null);
+		this.lessons.add(lesson);
+		subject.getLessons().add(lesson);
 	}
 	
-	public void removeTSS(Subject subject) {
-		TSS tSS = new TSS(this, subject, null);
-		subject.getTsses().remove(tSS);
-		this.tsses.remove(tSS);
-		tSS.setTeacher(null);
-		tSS.setSubject(null);
+	public void removeLesson(Subject subject) {
+		Lesson lesson = new Lesson(this, subject, null);
+		subject.getLessons().remove(lesson);
+		this.lessons.remove(lesson);
+		lesson.setTeacher(null);
+		lesson.setSubject(null);
 	}
 	
-	public void removeTeacherFromAllTSSs() {
+	public void removeTeacherFromAllLessons() {
 		
-		for(TSS tSS : this.getTsses()) {
-			tSS.setTeacher(null);
+		for(Lesson lesson : this.getLessons()) {
+			lesson.setTeacher(null);
 		}
 	}
 
 	/////////////// getters and setters ///////////////////
 
-	public Set<TSS> getTsses() {
-		if (this.tsses == null) {
-			this.tsses = new TreeSet<>();
+	public Set<Lesson> getLessons() {
+		if (this.lessons == null) {
+			this.lessons = new TreeSet<>();
 		}
-		return this.tsses;
+		return this.lessons;
 	}
 	
 }

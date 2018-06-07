@@ -27,10 +27,10 @@
 		</tr>
 	</thead>
 	<tbody>
-		<c:forEach items='${schoolformDto.tsses}' var='tss'>
+		<c:forEach items='${schoolformDto.lessons}' var='lesson'>
 			<tr>
-				<td>${tss.subject.name}</td>
-				<td>${tss.teacher.firstName}&nbsp${tss.teacher.lastName}</td>
+				<td>${lesson.subject.name}</td>
+				<td>${lesson.teacher.firstName}&nbsp${lesson.teacher.lastName}</td>
 			</tr>
 		</c:forEach>
 	</tbody>

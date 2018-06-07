@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pl.ust.school.system.RecordNotFoundException;
-import pl.ust.school.tss.TSS;
-import pl.ust.school.tss.TSSDto;
-import pl.ust.school.tss.TSSMapper;
-import pl.ust.school.tss.TSSService;
+import pl.ust.school.lesson.Lesson;
+import pl.ust.school.lesson.LessonDto;
+import pl.ust.school.lesson.LessonMapper;
+import pl.ust.school.lesson.LessonService;
 
 @Service
 public class SchoolformServiceImpl implements SchoolformService {
@@ -23,10 +23,10 @@ public class SchoolformServiceImpl implements SchoolformService {
 	private SchoolformMapper schoolformMapper;
 	
 	@Autowired
-	private TSSService tSSService;
+	private LessonService lessonService;
 	
 	@Autowired
-	private TSSMapper tSSMapper;
+	private LessonMapper lessonMapper;
 	
 
 	public long createSchoolform(SchoolformDto schoolformDto) {
@@ -63,14 +63,14 @@ public class SchoolformServiceImpl implements SchoolformService {
 	///////////////////////////////////////////
 
 	@Override
-	public Collection<TSSDto> getNotTaughtTSSs(SchoolformDto schoolformDto) {
+	public Collection<LessonDto> getNotTaughtLessons(SchoolformDto schoolformDto) {
 
-		Collection<TSS> tssesFromSchoolform = schoolformDto.getTsses();
-		Collection<TSS> all = this.tSSService.getAllTSSs();
-		all.removeAll(tssesFromSchoolform);
+		Collection<Lesson> lessonsFromSchoolform = schoolformDto.getLessons();
+		Collection<Lesson> all = this.lessonService.getAllLessons();
+		all.removeAll(lessonsFromSchoolform);
 
 		return all.stream()
-				.map(tSSMapper::toDTO)
+				.map(lessonMapper::toDTO)
 				.collect(Collectors.toList());
 	}
 	
@@ -91,10 +91,10 @@ public class SchoolformServiceImpl implements SchoolformService {
 		if (opt.isPresent()) {
 			Schoolform schoolform = opt.get();
 			schoolform.removeAllStudents();
-			for(TSS tss : schoolform.getTsses()) {
-				tss.setSchoolform(null);
+			for(Lesson lesson : schoolform.getLessons()) {
+				lesson.setSchoolform(null);
 			}
-			schoolform.getTsses().clear();
+			schoolform.getLessons().clear();
 			this.schoolformRepo.delete(schoolform);
 		} else {
 			throw new RecordNotFoundException("No schoolform with id " + id + " has been found.");
@@ -102,33 +102,33 @@ public class SchoolformServiceImpl implements SchoolformService {
 	}
 
 	@Override
-	public void removeSchoolformFromTSS(long schoolformId, long tSSId) {
+	public void removeSchoolformFromLesson(long schoolformId, long lessonId) {
 		
 		
 		
-		Optional<TSS> tssOpt = this.tSSService.getTSS(tSSId);
-		if (tssOpt.isPresent()) {
-			TSS tss = tssOpt.get();
-			Schoolform schoolform = tss.getSchoolform();
-			tss.setSchoolform(null);
+		Optional<Lesson> lessonOpt = this.lessonService.getLesson(lessonId);
+		if (lessonOpt.isPresent()) {
+			Lesson lesson = lessonOpt.get();
+			Schoolform schoolform = lesson.getSchoolform();
+			lesson.setSchoolform(null);
 			this.schoolformRepo.save(schoolform);
 		} else {
-			throw new RecordNotFoundException("No TSS with id " + tSSId + " has been found.");
+			throw new RecordNotFoundException("No Lesson with id " + lessonId + " has been found.");
 		}	
 		
 	}
 
 	@Override
-	public void addSchoolformToTSS(long schoolformId, long tSSId) {
-		Optional<TSS> tssOpt = this.tSSService.getTSS(tSSId);
+	public void addSchoolformToLesson(long schoolformId, long lessonId) {
+		Optional<Lesson> lessonOpt = this.lessonService.getLesson(lessonId);
 
-		if (tssOpt.isPresent()) {
-			TSS tss = tssOpt.get();
+		if (lessonOpt.isPresent()) {
+			Lesson lesson = lessonOpt.get();
 
 			Optional<Schoolform> schOpt = this.schoolformRepo.findById(schoolformId);
 			if (schOpt.isPresent()) {
 				Schoolform schoolform = schOpt.get();
-				tss.setSchoolform(schoolform);
+				lesson.setSchoolform(schoolform);
 				this.schoolformRepo.save(schoolform);
 			} else {
 				throw new RecordNotFoundException("No schoolform with id " + schoolformId + " has been found.");

@@ -216,7 +216,7 @@ public class TeacherControllerTest {
 	@Test  
 	public void shouldProcessRemoveSubjectSuccessfully() throws Exception {
 		
-		mockMvc.perform(get("/teacher/{teacherId}/remove/{tSSId}/"  , TEST_TEACHER_ID, 1L))
+		mockMvc.perform(get("/teacher/{teacherId}/remove/{lessonId}/"  , TEST_TEACHER_ID, 1L))
 		.andDo(print())
 
 		// assert

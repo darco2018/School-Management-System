@@ -15,7 +15,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pl.ust.school.tss.TSS;
+import pl.ust.school.lesson.Lesson;
 
 @Builder
 @Getter
@@ -43,7 +43,7 @@ public class TeacherDto {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Past
 	private LocalDate birthDate;
-	private Set<TSS> tsses;
+	private Set<Lesson> lessons;
 
 	public boolean isNew() {
 		return this.id < 1;
@@ -85,7 +85,7 @@ public class TeacherDto {
 	 * public Builder withBirthDate(LocalDate birthDate) { teacherDto.birthDate =
 	 * birthDate; return this; }
 	 * 
-	 * public Builder withTSSs(Set<TSS> tsss) { teacherDto.tsss = tsss; return this;
+	 * public Builder withLessons(Set<Lesson> lessons) { teacherDto.lessons = lessons; return this;
 	 * }
 	 * 
 	 * public TeacherDto build() { return teacherDto; }

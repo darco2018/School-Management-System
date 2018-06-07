@@ -3,7 +3,7 @@ package pl.ust.school.student;
 import java.util.Collection;
 import java.util.Optional;
 
-import pl.ust.school.tss.TSSDto;
+import pl.ust.school.lesson.LessonDto;
 
 public interface StudentService {
 	 
@@ -13,6 +13,6 @@ public interface StudentService {
 	void deleteStudent(long id);
 	Collection<StudentDto> getStudentsBySchoolformId(long id);
 	public void removeStudentFromSchoolform(long studentId);
-	TSSDto filterGradesWithSubject(TSSDto tssDto);
+	LessonDto filterGradesWithSubject(LessonDto lessonDto);
 
 }

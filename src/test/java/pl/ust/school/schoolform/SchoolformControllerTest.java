@@ -26,7 +26,7 @@ import pl.ust.school.schoolform.SchoolformController;
 import pl.ust.school.schoolform.SchoolformDto;
 import pl.ust.school.schoolform.SchoolformService;
 import pl.ust.school.student.StudentService;
-import pl.ust.school.tss.TSSService;
+import pl.ust.school.lesson.LessonService;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(SchoolformController.class)
@@ -49,7 +49,7 @@ public class SchoolformControllerTest {
 	private StudentService studentService;
 	
 	@MockBean
-	private TSSService tSSService;
+	private LessonService lessonService;
 
 	private SchoolformDto schoolform1A;
 

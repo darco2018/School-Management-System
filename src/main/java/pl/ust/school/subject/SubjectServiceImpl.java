@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pl.ust.school.system.RecordNotFoundException;
-import pl.ust.school.tss.TSSService;
+import pl.ust.school.lesson.LessonService;
 
 @Service
 public class SubjectServiceImpl implements SubjectService {
@@ -17,7 +17,7 @@ public class SubjectServiceImpl implements SubjectService {
 	private SubjectRepository subjectRepo;
 	
 	@Autowired
-	private TSSService tSSService;
+	private LessonService lessonService;
 
 	@Autowired
 	private SubjectMapper mapper;
@@ -64,7 +64,7 @@ public class SubjectServiceImpl implements SubjectService {
 		Optional<Subject> opt = this.subjectRepo.findById(subjectId);
 
 		if (opt.isPresent()) {
-			this.tSSService.deleteTSSsBySubject(subjectId);
+			this.lessonService.deleteLessonsBySubject(subjectId);
 			this.subjectRepo.delete(opt.get());
 		} else {
 			throw new RecordNotFoundException("No subject with id " + subjectId + " has been found.");

@@ -16,39 +16,39 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import pl.ust.school.model.NamedEntity;
-import pl.ust.school.tss.TSS;
+import pl.ust.school.lesson.Lesson;
 
 @Entity
 @Table(name = "subjects")
 @Where(clause = "is_deleted=false")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-@ToString(callSuper = true, includeFieldNames = false, exclude = "tsses")
+@ToString(callSuper = true, includeFieldNames = false, exclude = "lessons")
 public class Subject extends NamedEntity {
 
 	private static final long serialVersionUID = 1L;
 	/**
-	 * @param tsses = objects of type TSS (TeacherSubjectSchoolform), eg Smith/Maths/FirstYear1A
+	 * @param lessons = objects of type Lesson (TeacherSubjectSchoolform), eg Smith/Maths/FirstYear1A
 	 */
 	@OneToMany(mappedBy = "subject", fetch = FetchType.EAGER) 
-	private Set<TSS> tsses;
+	private Set<Lesson> lessons;
 
 	/////////////// helper ///////////////////
 
-	public void addTSS(TSS tSS) {
-		tsses.add(tSS);
+	public void addLesson(Lesson lesson) {
+		lessons.add(lesson);
 	}
 
-	public void removeTSS(TSS tSS) {
-		tSS.setSubject(null);
+	public void removeLesson(Lesson lesson) {
+		lesson.setSubject(null);
 	}
 
 	/////////////// getters and setters ///////////////////
 
-	public Set<TSS> getTsses() {
-		if (this.tsses == null) {
-			this.tsses = new TreeSet<>();
+	public Set<Lesson> getLessons() {
+		if (this.lessons == null) {
+			this.lessons = new TreeSet<>();
 		}
-		return this.tsses;
+		return this.lessons;
 	}
 
 }

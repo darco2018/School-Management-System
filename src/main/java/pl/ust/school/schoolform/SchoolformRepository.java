@@ -11,7 +11,7 @@ public interface SchoolformRepository extends AppBaseRepository<Schoolform, Long
 	
 	@Transactional(readOnly = true)  
 	Collection<Schoolform> findByName(String name);
-	Optional<Schoolform> findByIdAndTssesId(long schoolformId, long tSSId);
+	Optional<Schoolform> findByIdAndLessonsId(long schoolformId, long lessonId);
 
 	
 	

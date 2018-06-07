@@ -17,12 +17,12 @@ import lombok.Setter;
 import lombok.ToString;
 import pl.ust.school.model.NamedEntity;
 import pl.ust.school.student.Student;
-import pl.ust.school.tss.TSS;
+import pl.ust.school.lesson.Lesson;
 
 @Entity
 @Table(name = "schoolforms") 
 @Where(clause = "is_deleted=false")
-@Getter @Setter @NoArgsConstructor @ToString(callSuper=true, exclude= { "students", "tsses" })
+@Getter @Setter @NoArgsConstructor @ToString(callSuper=true, exclude= { "students", "lessons" })
 public class Schoolform extends NamedEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -31,10 +31,10 @@ public class Schoolform extends NamedEntity {
 	private Collection<Student> students; 
 	
 	/**
-	 * @param tsses = objects of type TSS (TeacherSubjectSchoolform), eg Smith/Maths/FirstYear1A
+	 * @param lessons = objects of type Lesson (TeacherSubjectSchoolform), eg Smith/Maths/FirstYear1A
 	 */
 	@OneToMany(mappedBy = "schoolform", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-	private Collection<TSS> tsses; 
+	private Collection<Lesson> lessons; 
 
 	/////////////// getters and setters ///////////////////
 
@@ -45,11 +45,11 @@ public class Schoolform extends NamedEntity {
 		return this.students;
 	}
 
-	public Collection<TSS> getTsses() {
-		if (this.tsses == null) {
-			this.tsses = new HashSet<>();
+	public Collection<Lesson> getLessons() {
+		if (this.lessons == null) {
+			this.lessons = new HashSet<>();
 		}
-		return this.tsses;
+		return this.lessons;
 	}
 
 	/////////////// helpers for Students ///////////////////
@@ -72,23 +72,23 @@ public class Schoolform extends NamedEntity {
 		this.students.clear();
 	}
 	
-	/////////////// helpers for TSS ///////////////////
+	/////////////// helpers for Lesson ///////////////////
 	
 	
-	public void addTSS(TSS ts) {
-		tsses.add(ts);
+	public void addLesson(Lesson ts) {
+		lessons.add(ts);
 		ts.setSchoolform(this);
 	}
 	
-	public void removeTSS(TSS ts) {
+	public void removeLesson(Lesson ts) {
 		ts.setSchoolform(null);
-		tsses.remove(ts);
+		lessons.remove(ts);
 	}
 	
 	
-	public void removeAllTSSs() {
+	public void removeAllLessons() {
 		
-		for (TSS ts : this.getTsses()) {
+		for (Lesson ts : this.getLessons()) {
 			ts.setSchoolform(null);
 		}
 		this.students.clear();

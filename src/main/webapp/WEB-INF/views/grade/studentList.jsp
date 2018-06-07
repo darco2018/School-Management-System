@@ -13,11 +13,10 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<div>
-
-					<h2>Grades in class ${tssDto.schoolform.name} / ${tssDto.subject.name} / ${tssDto.teacher.firstName}&nbsp${tssDto.teacher.lastName}</h2>
+					<h2>Grades</h2>
 
 					<div id="content">
-						<%@ include file="jspf/withStudents.jspf"%>
+						<%@ include file="jspf/withStudentGrades.jspf"%>
 					</div>
 
 				</div>

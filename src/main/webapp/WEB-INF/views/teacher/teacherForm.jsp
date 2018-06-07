@@ -13,7 +13,7 @@
 			<h3>Personal data</h3>
 		<form:form class="form-horizontal" action="#" method="POST" modelAttribute="teacherDto">
 			<form:hidden path="isDeleted" />
-			<form:hidden path="tsses" />
+			<form:hidden path="lessons" />
 			<form:hidden path="password" />
 			<form:hidden path="email" />
 

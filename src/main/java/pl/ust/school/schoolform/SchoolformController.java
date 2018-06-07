@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import pl.ust.school.student.StudentService;
 import pl.ust.school.system.RecordNotFoundException;
-import pl.ust.school.tss.TSSService;
+import pl.ust.school.lesson.LessonService;
 
 @Controller
 @RequestMapping("schoolform")
@@ -35,7 +35,7 @@ public class SchoolformController {
 
 	private static final String NAME_COLLECTION_OF_SCHOOLFORMS = "schoolformItems";
 	private static final String NAME_COLLECTION_OF_STUDENTS = "studentItems";
-	private static final String COLLECTION_OF_TEACHERSTUDENTS_NAME = "tSSItems";
+	private static final String COLLECTION_OF_TEACHERSTUDENTS_NAME = "lessonItems";
 	private static final String ENTITY_NAME = "entityName";
 	private static final String ENTITY_NAME_VALUE = "schoolform";
 
@@ -46,7 +46,7 @@ public class SchoolformController {
 	private StudentService studentService;
 	
 	@Autowired
-	private TSSService tSSService;
+	private LessonService lessonService;
 
 	//////////////////////////// before each ////////////////////////////
 
@@ -98,7 +98,7 @@ public class SchoolformController {
 		if (opt.isPresent()) {
 			model.addAttribute("schoolformDto", opt.get());
 			model.addAttribute(NAME_COLLECTION_OF_STUDENTS, this.studentService.getStudentsBySchoolformId(id));
-			model.addAttribute(COLLECTION_OF_TEACHERSTUDENTS_NAME, this.tSSService.getAllTSSs());
+			model.addAttribute(COLLECTION_OF_TEACHERSTUDENTS_NAME, this.lessonService.getAllLessons());
 			//
 		} else {
 			throw new RecordNotFoundException("No school form with id " + id + " has been found.");
@@ -130,9 +130,9 @@ public class SchoolformController {
 		if (opt.isPresent()) {
 			SchoolformDto schoolformDto = opt.get();
 			model.addAttribute("schoolformDto", schoolformDto);
-			model.addAttribute("notTaughTSSs", this.schoolformService.getNotTaughtTSSs(schoolformDto));
+			model.addAttribute("notTaughLessons", this.schoolformService.getNotTaughtLessons(schoolformDto));
 			model.addAttribute(NAME_COLLECTION_OF_STUDENTS, this.studentService.getStudentsBySchoolformId(id));
-			model.addAttribute(COLLECTION_OF_TEACHERSTUDENTS_NAME, this.tSSService.getAllTSSs());
+			model.addAttribute(COLLECTION_OF_TEACHERSTUDENTS_NAME, this.lessonService.getAllLessons());
 		} else {
 			throw new RecordNotFoundException("No schoolform with id " + id + " has been found.");
 		}
@@ -144,7 +144,7 @@ public class SchoolformController {
 	public String updateSchoolform(@Valid SchoolformDto schoolformDto, BindingResult result, @PathVariable long id, Model model) {
 
 		if (result.hasErrors()) {
-			model.addAttribute("notTaughTSSs", this.schoolformService.getNotTaughtTSSs(schoolformDto));
+			model.addAttribute("notTaughLessons", this.schoolformService.getNotTaughtLessons(schoolformDto));
 			return VIEW_CREATE_OR_UPDATE_FORM;
 		} else {
 			schoolformDto.setId(id);
@@ -154,19 +154,19 @@ public class SchoolformController {
 
 	}
 
-	////////////////////////// remove/add new tSS from/to this scholform //////////
+	////////////////////////// remove/add new lesson from/to this scholform //////////
 
-	@GetMapping("/{schoolformId}/tSS/{tSSId}/remove")
-	private String removeTSSFromSchoolForm(@PathVariable long schoolformId, @PathVariable long tSSId) {
+	@GetMapping("/{schoolformId}/lesson/{lessonId}/remove")
+	private String removeLessonFromSchoolForm(@PathVariable long schoolformId, @PathVariable long lessonId) {
 
-		this.schoolformService.removeSchoolformFromTSS(schoolformId, tSSId);
+		this.schoolformService.removeSchoolformFromLesson(schoolformId, lessonId);
 		return "redirect:/schoolform/update/" + schoolformId;
 	}
 
-	@GetMapping("/{schoolformId}/tSS/{tSSId}/add")
-	private String addSubjectToTeacher(@PathVariable long schoolformId, @PathVariable long tSSId) {
+	@GetMapping("/{schoolformId}/lesson/{lessonId}/add")
+	private String addSubjectToTeacher(@PathVariable long schoolformId, @PathVariable long lessonId) {
 
-		this.schoolformService.addSchoolformToTSS(schoolformId, tSSId);
+		this.schoolformService.addSchoolformToLesson(schoolformId, lessonId);
 		return "redirect:/schoolform/update/" + schoolformId;
 	}
 

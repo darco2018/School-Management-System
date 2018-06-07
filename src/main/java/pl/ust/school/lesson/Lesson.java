@@ -1,4 +1,4 @@
-package pl.ust.school.tss;
+package pl.ust.school.lesson;
 
 import java.util.Objects;
 
@@ -19,14 +19,14 @@ import pl.ust.school.schoolform.Schoolform;
 import pl.ust.school.subject.Subject;
 import pl.ust.school.teacher.Teacher;
 
-/**
+/**  TSS
  * JavaBean domain object representing a triplet of a Teacher, a Subject and a Schoolform
  */
 @Entity
 @Table(name = "teachers_subjects_schoolforms")
 @Where(clause = "is_deleted=false")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @ToString(callSuper = true)
-public class TSS extends BaseEntity {
+public class Lesson extends BaseEntity {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -56,24 +56,24 @@ public class TSS extends BaseEntity {
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		TSS that = (TSS) o;
+		Lesson that = (Lesson) o;
 		return Objects.equals(this.subject, that.subject) && 
 				Objects.equals(this.teacher, that.teacher) &&
 				Objects.equals(this.schoolform, that.schoolform);
 	}
 
-	public void removeTSS() {
+	public void removeLesson() {
 		
 		if(this.teacher != null) {
-			this.teacher.getTsses().remove(this);
+			this.teacher.getLessons().remove(this);
 		}
 		
 		if(this.subject != null) {
-			this.subject.getTsses().remove(this);
+			this.subject.getLessons().remove(this);
 		}
 		
 		if(this.schoolform != null) {
-			this.schoolform.getTsses().remove(this);
+			this.schoolform.getLessons().remove(this);
 		}
 		
 	}

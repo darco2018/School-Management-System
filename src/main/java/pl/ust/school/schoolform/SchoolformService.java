@@ -3,7 +3,7 @@ package pl.ust.school.schoolform;
 import java.util.Collection;
 import java.util.Optional;
 
-import pl.ust.school.tss.TSSDto;
+import pl.ust.school.lesson.LessonDto;
 
 public interface SchoolformService {
 	
@@ -12,9 +12,9 @@ public interface SchoolformService {
 	Optional<SchoolformDto> getSchoolformDtoById(long id);
 	Optional<Schoolform> getSchoolformById(long id);
 	void deleteSchoolform(Long id);
-	Collection<TSSDto> getNotTaughtTSSs(SchoolformDto dto);
-	void removeSchoolformFromTSS(long schoolformId, long tSSId);
-	void addSchoolformToTSS(long schoolformId, long tSSId);
+	Collection<LessonDto> getNotTaughtLessons(SchoolformDto dto);
+	void removeSchoolformFromLesson(long schoolformId, long lessonId);
+	void addSchoolformToLesson(long schoolformId, long lessonId);
 	
 	
 

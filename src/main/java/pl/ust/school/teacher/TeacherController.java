@@ -140,17 +140,17 @@ public class TeacherController {
 
 	////////////////////////// remove/add new subject to this teacher //////////
 
-	@GetMapping("/{teacherId}/remove/{tSSId}")
-	private String removeSubjectFromTeacher(@PathVariable long teacherId, @PathVariable long tSSId) {
+	@GetMapping("/{teacherId}/remove/{lessonId}")
+	private String removeSubjectFromTeacher(@PathVariable long teacherId, @PathVariable long lessonId) {
 
-		this.teacherService.removeTSS(tSSId); // completely
+		this.teacherService.removeLesson(lessonId); // completely
 		return "redirect:/teacher/update/" + teacherId;
 	}
 
 	@GetMapping("/{teacherId}/subject/{subjectId}/add")
 	private String addSubjectToTeacher(@PathVariable long teacherId, @PathVariable long subjectId) {
 
-		this.teacherService.addTSS(teacherId, subjectId);
+		this.teacherService.addLesson(teacherId, subjectId);
 		return "redirect:/teacher/update/" + teacherId;
 	}
 

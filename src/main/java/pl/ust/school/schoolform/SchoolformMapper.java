@@ -13,7 +13,7 @@ public class SchoolformMapper {
 					.isDeleted(schoolform.isDeleted())
 					.name(schoolform.getName())
 					.students(schoolform.getStudents())
-					.tsses(schoolform.getTsses())
+					.lessons(schoolform.getLessons())
 					.build();
 	}
 	
@@ -32,7 +32,7 @@ public class SchoolformMapper {
 		schoolform.setDeleted(dto.getIsDeleted());
 		schoolform.setName(dto.getName());
 		schoolform.setStudents(dto.getStudents());
-		schoolform.setTsses(dto.getTsses());
+		schoolform.setLessons(dto.getLessons());
 		return schoolform;
 	}
 	

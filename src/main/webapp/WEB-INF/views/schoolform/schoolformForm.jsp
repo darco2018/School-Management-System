@@ -13,7 +13,7 @@
 
 		<form:form class="form-horizontal" action="#" method="POST" modelAttribute="schoolformDto">
 			<form:hidden path="isDeleted" />
-			<form:hidden path="tsses" />
+			<form:hidden path="lessons" />
 			<form:hidden path="students" />
 
 			<div class="form-group row">
@@ -33,7 +33,7 @@
 	<div>
 		<c:if test="${empty notFound}">
 			<c:if test="${ not schoolformDto['new']}">
-				<%@ include file="../schoolform/jspf/withTSSs.jspf"%>
+				<%@ include file="../schoolform/jspf/withLessons.jspf"%>
 			</c:if>
 
 		</c:if>

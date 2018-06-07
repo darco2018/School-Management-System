@@ -34,9 +34,9 @@
 		</tr>
 	</thead>
 	<tbody>
-		<c:forEach items='${teacherDto.tsses}' var='tSS'>
+		<c:forEach items='${teacherDto.lessons}' var='lesson'>
 			<tr>
-				<td>${tSS.subject.name}</td>
+				<td>${lesson.subject.name}</td>
 			</tr>
 		</c:forEach>
 	</tbody>

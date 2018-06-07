@@ -12,7 +12,7 @@
 		<h2>${actionType}&nbspa&nbspsubject</h2>
 		<form:form class="form-horizontal" action="#" method="POST" modelAttribute="subjectDto">
 					<form:hidden path="isDeleted" />
-					<form:hidden path="tsses" />
+					<form:hidden path="lessons" />
 					
 			<div class="form-group row">
 				<div class="col-xs-4">

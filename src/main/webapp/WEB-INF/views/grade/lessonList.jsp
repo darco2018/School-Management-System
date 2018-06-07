@@ -13,10 +13,10 @@
 			<div class="col-sm-12">
 				<div>
 
-					<h2>TSSes</h2>
+					<h2>Lessons</h2>
 
 					<div id="content">
-						<%@ include file="jspf/withTSSs.jspf"%>
+						<%@ include file="jspf/withLessons.jspf"%>
 					</div>
 
 				</div>

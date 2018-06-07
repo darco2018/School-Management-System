@@ -12,7 +12,7 @@ import pl.ust.school.grade.Grade;
 import pl.ust.school.schoolform.Schoolform;
 import pl.ust.school.schoolform.SchoolformService;
 import pl.ust.school.system.RecordNotFoundException;
-import pl.ust.school.tss.TSSDto;
+import pl.ust.school.lesson.LessonDto;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -108,10 +108,10 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public TSSDto filterGradesWithSubject(TSSDto tssDto) {
+	public LessonDto filterGradesWithSubject(LessonDto lessonDto) {
 		
-		long subjectId = tssDto.getSubject().getId();
-		Collection<Student> students = tssDto.getSchoolform().getStudents();
+		long subjectId = lessonDto.getSubject().getId();
+		Collection<Student> students = lessonDto.getSchoolform().getStudents();
 		
 		for (Student student : students) {
 			
@@ -124,7 +124,7 @@ public class StudentServiceImpl implements StudentService {
 			}
 		}
 		
-		return tssDto;
+		return lessonDto;
 	}
 
 }
