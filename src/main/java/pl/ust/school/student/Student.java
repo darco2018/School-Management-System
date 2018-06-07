@@ -1,9 +1,11 @@
 package pl.ust.school.student;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashSet;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -32,8 +34,29 @@ public class Student extends Person {
 	@JoinColumn(name = "schoolform_id")
 	private Schoolform schoolform;
 	
-	@OneToMany(mappedBy = "student")
-	private List <Grade> grades = new ArrayList<>();
-	
+	@OneToMany(mappedBy = "student", cascade = { CascadeType.MERGE, CascadeType.PERSIST }, fetch = FetchType.EAGER)
+	private Collection <Grade> grades;
+
+	/////////////// helpers  ///////////////////
+
+	public void addGrade(Grade grade) {
+		this.grades.add(grade);
+		grade.setStudent(this);
+	}
+
+	public void removeGrade(Grade grade) {
+		grades.remove(grade);
+		grade.setStudent(null);
+	}
+
+	/////////////// getters and setters ///////////////////
+
+	public Collection<Grade> getGrades() {
+		if (this.grades == null) {
+			this.grades = new HashSet<>();
+		}
+		return this.grades;
+	}
+
 	
 }

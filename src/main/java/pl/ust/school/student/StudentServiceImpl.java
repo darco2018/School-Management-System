@@ -11,8 +11,9 @@ import org.springframework.stereotype.Service;
 import pl.ust.school.grade.Grade;
 import pl.ust.school.schoolform.Schoolform;
 import pl.ust.school.schoolform.SchoolformService;
+import pl.ust.school.subject.Subject;
+import pl.ust.school.subject.SubjectService;
 import pl.ust.school.system.RecordNotFoundException;
-import pl.ust.school.lesson.LessonDto;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -25,6 +26,9 @@ public class StudentServiceImpl implements StudentService {
 
 	@Autowired
 	private SchoolformService schoolformService;
+	
+	@Autowired
+	private SubjectService subjectService;
 
 	///////////////////////////////////
 	@Override
@@ -94,7 +98,6 @@ public class StudentServiceImpl implements StudentService {
 		if (opt.isPresent()) {
 			Student student = opt.get();
 			student.setDeleted(true);
-			//student.remove(); - nic wiecej nie robi...
 			this.studentRepo.save(student);
 		} else {
 			throw new RecordNotFoundException("No student with id " + id + " has been found.");
@@ -108,23 +111,38 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public LessonDto filterGradesWithSubject(LessonDto lessonDto) {
-		
-		long subjectId = lessonDto.getSubject().getId();
-		Collection<Student> students = lessonDto.getSchoolform().getStudents();
-		
+	public Collection<Student> filterGrades(long subjectId, Collection<Student> students) {
+
 		for (Student student : students) {
 			
 			for (Iterator<Grade> iterator = student.getGrades().iterator(); iterator.hasNext();) {
-				Grade grade = (Grade) iterator.next();
+				Grade grade = iterator.next();
 				if(grade.getSubject().getId() != subjectId) {
 					iterator.remove();
 				}
-				
 			}
 		}
 		
-		return lessonDto;
+		return students;
+	}
+	
+	
+	@Override
+	public void addGrade(String gradeValue, long studentId, long subjectId) {
+
+		Optional<Student> opt = this.studentRepo.findById(studentId);
+		if (opt.isPresent()) {
+			Student student = opt.get();
+
+			Optional<Subject> subjectOpt = this.subjectService.getSubjectById(subjectId);
+			if (subjectOpt.isPresent()) {
+				Grade grade = new Grade();
+				grade.setGradeValue(gradeValue);
+				grade.setSubject(subjectOpt.get());
+				student.addGrade(grade);
+				this.studentRepo.save(student);
+			}
+		}
 	}
 
 }

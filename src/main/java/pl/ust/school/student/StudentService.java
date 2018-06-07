@@ -13,6 +13,7 @@ public interface StudentService {
 	void deleteStudent(long id);
 	Collection<StudentDto> getStudentsBySchoolformId(long id);
 	public void removeStudentFromSchoolform(long studentId);
-	LessonDto filterGradesWithSubject(LessonDto lessonDto);
+	Collection<Student> filterGrades(long subjectId, Collection<Student> students);
+	void addGrade(String gradeValue, long studentId, long subjectId);
 
 }
