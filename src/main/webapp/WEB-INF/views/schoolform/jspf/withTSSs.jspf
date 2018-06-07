@@ -1,0 +1,57 @@
+<h3>Subject-teacher pairs in this school form</h3>
+<table
+	class="table table-striped table-bordered table-hover table-condensed">
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Subject</th>
+			<th>Teacher</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+	<tbody>
+		<c:forEach items='${schoolformDto.tsses}' var='tss'>
+			<tr>
+				<td>${tss.id}</td>
+				<td>${tss.subject.name}</td>
+				<td>${tss.teacher.firstName}&nbsp${tss.teacher.lastName}</td>
+				<td><form
+						action='${pageContext.request.contextPath}/schoolform/${tss.schoolform.id}/tSS/${tss.id}/remove'
+						method="GET">
+						<input type="submit" value="Remove" />
+					</form></td>
+			</tr>
+		</c:forEach>
+	</tbody>
+</table>
+
+
+<h3>Other subject-teacher pairs</h3>
+<p>(A new teacher/subject can be added in the <a href="${pageContext.request.contextPath}/teacher/list">Teacher panel</a>.)</p>
+<table
+	class="table table-striped table-bordered table-hover table-condensed">
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Subject</th>
+			<th>Teacher</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+	<tbody>
+		<c:forEach items='${notTaughTSSs}' var='tss'>
+			<tr>
+				<td>${tss.id}</td>
+				<td>${tss.subject.name}</td>
+				<td>${tss.teacher.firstName}&nbsp${tss.teacher.lastName}</td>
+				<td>
+					<form
+						action='${pageContext.request.contextPath}/schoolform/${schoolformDto.id}/tSS/${tss.id}/add'
+						method="GET">
+						<input type="submit" value="Add" />
+					</form>
+				</td>
+			</tr>
+		</c:forEach>
+	</tbody>
+</table>
