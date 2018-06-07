@@ -1,12 +1,12 @@
 package pl.ust.school.student;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import pl.ust.school.grade.Grade;
 import pl.ust.school.schoolform.Schoolform;
@@ -112,16 +112,11 @@ public class StudentServiceImpl implements StudentService {
 
 	@Override
 	public Collection<Student> filterGrades(long subjectId, Collection<Student> students) {
+		
+		Assert.notNull(students, "Collection of students canot be null.");
 
-		for (Student student : students) {
-			
-			for (Iterator<Grade> iterator = student.getGrades().iterator(); iterator.hasNext();) {
-				Grade grade = iterator.next();
-				if(grade.getSubject().getId() != subjectId) {
-					iterator.remove();
-				}
-			}
-		}
+		students.stream().forEach(student -> student.getGrades()
+													.removeIf(grade -> grade.getSubject().getId() != subjectId));
 		
 		return students;
 	}
