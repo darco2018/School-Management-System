@@ -115,7 +115,7 @@ public class StudentServiceImpl implements StudentService {
 		
 		for (Student student : students) {
 			
-			for (Iterator iterator = student.getGrades().iterator(); iterator.hasNext();) {
+			for (Iterator<Grade> iterator = student.getGrades().iterator(); iterator.hasNext();) {
 				Grade grade = (Grade) iterator.next();
 				if(grade.getSubject().getId() != subjectId) {
 					iterator.remove();

@@ -27,6 +27,8 @@ import pl.ust.school.subject.Subject;
 @ToString(includeFieldNames = false, callSuper=true, exclude= { "student"})
 public class Grade extends BaseEntity{
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

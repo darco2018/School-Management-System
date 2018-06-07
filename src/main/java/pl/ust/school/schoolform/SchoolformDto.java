@@ -1,7 +1,6 @@
 package pl.ust.school.schoolform;
 
 import java.util.Collection;
-import java.util.Set;
 
 import javax.validation.constraints.NotEmpty;
 

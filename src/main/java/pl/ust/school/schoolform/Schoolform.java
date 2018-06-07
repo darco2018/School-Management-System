@@ -2,7 +2,6 @@ package pl.ust.school.schoolform;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -18,7 +17,6 @@ import lombok.Setter;
 import lombok.ToString;
 import pl.ust.school.model.NamedEntity;
 import pl.ust.school.student.Student;
-import pl.ust.school.student.StudentDto;
 import pl.ust.school.tss.TSS;
 
 @Entity
