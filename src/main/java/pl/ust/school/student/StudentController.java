@@ -143,14 +143,7 @@ public class StudentController {
 		}
 
 	}
-
-	@GetMapping("/{studentId}/removeFrom/{schoolformId}")
-	public String removeStudentFromSchoolform(@PathVariable long studentId, @PathVariable long schoolformId) {
-
-		this.studentService.removeStudentFromSchoolform(studentId);
-		return "redirect:/schoolform/view/" + schoolformId;
-	}
-
+	
 	////////////////////// exception handling ////////////////////////////////////
 
 	@ExceptionHandler

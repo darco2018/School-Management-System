@@ -1,5 +1,6 @@
 package pl.ust.school.schoolform;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import pl.ust.school.student.StudentDto;
 import pl.ust.school.student.StudentService;
 import pl.ust.school.system.RecordNotFoundException;
 import pl.ust.school.lesson.LessonService;
@@ -35,7 +37,7 @@ public class SchoolformController {
 
 	private static final String NAME_COLLECTION_OF_SCHOOLFORMS = "schoolformItems";
 	private static final String NAME_COLLECTION_OF_STUDENTS = "studentItems";
-	private static final String COLLECTION_OF_TEACHERSTUDENTS_NAME = "lessonItems";
+	private static final String NAME_COLLECTION_OF_LESSONS = "lessonItems";
 	private static final String ENTITY_NAME = "entityName";
 	private static final String ENTITY_NAME_VALUE = "schoolform";
 
@@ -97,9 +99,10 @@ public class SchoolformController {
 
 		if (opt.isPresent()) {
 			model.addAttribute("schoolformDto", opt.get());
-			model.addAttribute(NAME_COLLECTION_OF_STUDENTS, this.studentService.getStudentsBySchoolformId(id));
-			model.addAttribute(COLLECTION_OF_TEACHERSTUDENTS_NAME, this.lessonService.getAllLessons());
-			//
+			Collection<StudentDto> coll =  this.studentService.getStudentDtosBySchoolformId(id);
+			model.addAttribute(NAME_COLLECTION_OF_STUDENTS, coll);
+			model.addAttribute(NAME_COLLECTION_OF_LESSONS, this.lessonService.getAllLessons());
+
 		} else {
 			throw new RecordNotFoundException("No school form with id " + id + " has been found.");
 		}
@@ -131,8 +134,8 @@ public class SchoolformController {
 			SchoolformDto schoolformDto = opt.get();
 			model.addAttribute("schoolformDto", schoolformDto);
 			model.addAttribute("notTaughLessons", this.schoolformService.getNotTaughtLessons(schoolformDto));
-			model.addAttribute(NAME_COLLECTION_OF_STUDENTS, this.studentService.getStudentsBySchoolformId(id));
-			model.addAttribute(COLLECTION_OF_TEACHERSTUDENTS_NAME, this.lessonService.getAllLessons());
+			model.addAttribute(NAME_COLLECTION_OF_STUDENTS, this.studentService.getStudentDtosBySchoolformId(id));
+			model.addAttribute(NAME_COLLECTION_OF_LESSONS, this.lessonService.getAllLessons());
 		} else {
 			throw new RecordNotFoundException("No schoolform with id " + id + " has been found.");
 		}
@@ -167,6 +170,17 @@ public class SchoolformController {
 	private String addSubjectToTeacher(@PathVariable long schoolformId, @PathVariable long lessonId) {
 
 		this.schoolformService.addSchoolformToLesson(schoolformId, lessonId);
+		
+		return "redirect:/schoolform/update/" + schoolformId;
+	}
+	
+	//////////////////////////////remove student from schoolform//////////////////////////////////////////
+	
+
+	@GetMapping("/{studentId}/removeFrom/{schoolformId}")
+	public String removeStudentFromSchoolform(@PathVariable long studentId, @PathVariable long schoolformId) {
+
+		this.studentService.removeStudentFromSchoolform(studentId);
 		return "redirect:/schoolform/update/" + schoolformId;
 	}
 
