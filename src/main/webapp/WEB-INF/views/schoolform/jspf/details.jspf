@@ -47,7 +47,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<c:forEach items='${schoolformDto.students}' var='student'>
+		<c:forEach items='${studentItems}' var='student'>
 			<tr>
 				<td>${student.id}</td>
 				<td>${student.firstName}&nbsp${student.lastName}</td>
