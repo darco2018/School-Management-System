@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pl.ust.school.lesson.LessonDto;
 import pl.ust.school.lesson.LessonService;
 import pl.ust.school.student.Student;
+import pl.ust.school.student.StudentDto;
 import pl.ust.school.student.StudentService;
 import pl.ust.school.system.AppConstants;
 
@@ -48,10 +49,9 @@ public class GradeController {
 		model.addAttribute("subjectName", lessonDto.getSubject().getName());
 		model.addAttribute("teacherName", lessonDto.getTeacher().getFirstName() + " " + lessonDto.getTeacher().getLastName());
 		
-		Collection<Student> studentsWithAllGrades = lessonDto.getSchoolform().getStudents();
-		Collection<Student> studentsWithFilteredGrades = this.studentService.filterGrades(lessonDto.getSubject().getId(), studentsWithAllGrades);
-		model.addAttribute(NAME_COLLECTION_OF_STUDENTS, studentsWithFilteredGrades);
-		
+		Collection<StudentDto> withFilteredGrades = this.studentService.filterGradesBySubject(lessonDto.getSubject().getId(),
+																						lessonDto.getSchoolform().getStudents());
+		model.addAttribute(NAME_COLLECTION_OF_STUDENTS, withFilteredGrades);
 		model.addAttribute("gradeItems", AppConstants.GRADES_LIST);
 
 		return VIEW_GRADE_LIST;

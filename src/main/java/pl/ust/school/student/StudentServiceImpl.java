@@ -123,14 +123,16 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public Collection<Student> filterGrades(long subjectId, Collection<Student> students) {
+	public Collection<StudentDto> filterGradesBySubject(long subjectId, Collection<Student> students) {
 		
 		Assert.notNull(students, "Collection of students cannot be null.");
 
 		students.stream().forEach(student -> student.getGrades()
 													.removeIf(grade -> grade.getSubject().getId() != subjectId));
 		
-		return students;
+		return students.stream()
+				.map(mapper::toDTO)
+				.collect(Collectors.toSet());
 	}
 	
 	

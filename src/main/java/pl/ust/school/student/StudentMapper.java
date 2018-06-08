@@ -17,6 +17,7 @@ public class StudentMapper {
 					.password(student.getPassword())
 					.telephone(student.getTelephone())
 					.schoolform(student.getSchoolform()) 
+					.grades(student.getGrades())
 					.build();
 	}
 
@@ -32,6 +33,7 @@ public class StudentMapper {
 		student.setPassword(dto.getPassword());
 		student.setTelephone(dto.getTelephone());
 		student.setSchoolform(dto.getSchoolform());
+		student.setGrades(dto.getGrades());
 		return student;
 	}
 

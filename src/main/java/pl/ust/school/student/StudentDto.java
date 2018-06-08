@@ -1,6 +1,7 @@
 package pl.ust.school.student;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
@@ -14,6 +15,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.ust.school.grade.Grade;
 import pl.ust.school.schoolform.Schoolform;
 
 @Builder
@@ -43,6 +45,7 @@ public class StudentDto {
 	@Past
 	private LocalDate birthDate;
 	private Schoolform schoolform;
+	private List <Grade> grades;
 	
 	public boolean isNew() {
         return this.id < 1;

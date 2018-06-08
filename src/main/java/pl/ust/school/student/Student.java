@@ -1,7 +1,8 @@
 package pl.ust.school.student;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -35,7 +36,7 @@ public class Student extends Person {
 	private Schoolform schoolform;
 	
 	@OneToMany(mappedBy = "student", cascade = { CascadeType.MERGE, CascadeType.PERSIST }, fetch = FetchType.EAGER)
-	private Collection <Grade> grades;
+	private List <Grade> grades;
 
 	/////////////// helpers  ///////////////////
 
@@ -51,9 +52,9 @@ public class Student extends Person {
 
 	/////////////// getters and setters ///////////////////
 
-	public Collection<Grade> getGrades() {
+	public List<Grade> getGrades() {
 		if (this.grades == null) {
-			this.grades = new HashSet<>();
+			this.grades = new ArrayList<>();
 		}
 		return this.grades;
 	}

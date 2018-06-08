@@ -10,7 +10,7 @@ public interface StudentService {
 	StudentDto getStudentDtoById(long id);
 	Collection<StudentDto> getStudentDtosBySchoolformId(long id);
 	Collection<StudentDto> getAllStudentDtos();
-	Collection<Student> filterGrades(long subjectId, Collection<Student> students); // not DTOS?
+	Collection<StudentDto> filterGradesBySubject(long subjectId, Collection<Student> students); // not DTOS?
 	void addGrade(String gradeValue, long studentId, long subjectId);
 	void removeStudentFromSchoolform(long studentId);
 
