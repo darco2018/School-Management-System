@@ -47,12 +47,12 @@ public class SubjectServiceImpl implements SubjectService {
 		}
 	}
 
-	public Optional<Subject> getSubjectById(long id) {
+	public Subject getSubjectById(long id) {
 
 		Optional<Subject> opt = this.subjectRepo.findById(id);
 
 		if (opt.isPresent()) {
-			return opt;
+			return opt.get();
 		} else {
 			throw new RecordNotFoundException("No subject with id " + id + " has been found.");
 		}

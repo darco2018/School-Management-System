@@ -1,7 +1,5 @@
 package pl.ust.school.teacher;
 
-import java.util.Optional;
-
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,8 +1,6 @@
 package pl.ust.school.student;
 
 import java.util.Collection;
-import java.util.Optional;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;

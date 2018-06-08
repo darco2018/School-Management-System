@@ -1,7 +1,6 @@
 package pl.ust.school.student;
 
 import java.util.Collection;
-import java.util.Optional;
 
 public interface StudentService {
 	 

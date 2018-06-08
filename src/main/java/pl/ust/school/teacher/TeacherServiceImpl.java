@@ -110,8 +110,7 @@ public class TeacherServiceImpl implements TeacherService {
 			return;
 		}
 
-		Optional<Subject> subjectOpt = this.subjectService.getSubjectById(subjectId);
-		Subject subject = subjectOpt.get();
+		Subject subject = this.subjectService.getSubjectById(subjectId);
 
 		Optional<Teacher> teacherOpt = this.teacherRepo.findById(teacherId);
 		if (teacherOpt.isPresent()) {
