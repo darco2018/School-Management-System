@@ -94,14 +94,8 @@ public class StudentController {
 	@RequestMapping("view/{id}")
 	public String viewStudent(@PathVariable long id, Model model) {
 
-		Optional<StudentDto> opt = this.studentService.getStudentDtoById(id);
-
-		if (opt.isPresent()) {
-			StudentDto studentDto = opt.get();
-			model.addAttribute("studentDto", studentDto);
-		} else {
-			throw new RecordNotFoundException("No student with id " + id + " has been found.");
-		}
+		StudentDto studentDto = this.studentService.getStudentDtoById(id);
+		model.addAttribute("studentDto", studentDto);
 
 		return VIEW_DETAILS;
 	}
@@ -125,8 +119,8 @@ public class StudentController {
 	@GetMapping("/update/{id}")
 	public String showUpdateForm(@PathVariable long id, Model model) {
 
-		Optional<StudentDto> opt = studentService.getStudentDtoById(id);
-		opt.ifPresent(model::addAttribute);
+		StudentDto studentDto = this.studentService.getStudentDtoById(id);
+		model.addAttribute("studentDto", studentDto);
 
 		return VIEW_CREATE_OR_UPDATE_FORM;
 	}

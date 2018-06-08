@@ -21,14 +21,6 @@ public class StudentMapper {
 					.schoolform(student.getSchoolform()) 
 					.build();
 	}
-	
-	public Optional<StudentDto> toDTO(Optional<Student> opt) {
-		if(opt.isPresent()) {
-			return Optional.of(toDTO(opt.get()));
-		} else {
-			return Optional.empty();
-		}
-	}
 
 	public Student fromDTO(StudentDto dto) {
 		Student student = new Student();

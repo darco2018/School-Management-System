@@ -81,11 +81,11 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public Optional<StudentDto> getStudentDtoById(long id) {
+	public StudentDto getStudentDtoById(long id) {
 		Optional<Student> opt = this.studentRepo.findById(id);
 
 		if (opt.isPresent()) {
-			return this.mapper.toDTO(opt);
+			return this.mapper.toDTO(opt.get());
 		} else {
 			throw new RecordNotFoundException("No student with id " + id + " has been found.");
 		}
