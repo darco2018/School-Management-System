@@ -22,13 +22,7 @@ public class TeacherMapper {
 					.build();
 	}
 	
-	public Optional<TeacherDto> toDTO(Optional<Teacher> opt) {
-		if(opt.isPresent()) {
-			return Optional.of(toDTO(opt.get()));
-		} else {
-			return Optional.empty();
-		}
-	}
+	
 
 	public Teacher fromDTO(TeacherDto dto) {
 		Teacher teacher = new Teacher();

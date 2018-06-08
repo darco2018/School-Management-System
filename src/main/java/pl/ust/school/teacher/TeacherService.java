@@ -9,7 +9,7 @@ public interface TeacherService {
 	
 	long createTeacher(TeacherDto teacherDto);
 	Collection<TeacherDto> getAllTeacherDtos();
-	Optional<TeacherDto> getTeacherDtoById(long id);
+	TeacherDto getTeacherDtoById(long id);
 	Optional<Teacher> getTeacherById(long id);
 	void deleteTeacher(long id);
 	void removeLesson(long lessonId);

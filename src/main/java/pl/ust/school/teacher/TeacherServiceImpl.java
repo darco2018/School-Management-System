@@ -45,12 +45,12 @@ public class TeacherServiceImpl implements TeacherService {
 	}
 
 	@Override
-	public Optional<TeacherDto> getTeacherDtoById(long id) {
+	public TeacherDto getTeacherDtoById(long id) {
 
 		Optional<Teacher> opt = this.teacherRepo.findById(id);
 
 		if (opt.isPresent()) {
-			return this.mapper.toDTO(opt);
+			return this.mapper.toDTO(opt.get());
 		} else {
 			throw new RecordNotFoundException("No teacher with id " + id + " has been found.");
 		}

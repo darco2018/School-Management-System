@@ -83,13 +83,8 @@ public class TeacherController {
 	@RequestMapping("view/{id}")
 	public String viewTeacher(@PathVariable long id, Model model) {
 
-		Optional<TeacherDto> opt = this.teacherService.getTeacherDtoById(id);
-
-		if (opt.isPresent()) {
-			model.addAttribute("teacherDto", opt.get());
-		} else {
-			throw new RecordNotFoundException("No teacher with id " + id + " has been found.");
-		}
+		TeacherDto teacherDto = this.teacherService.getTeacherDtoById(id);
+		model.addAttribute("teacherDto", teacherDto);
 
 		return VIEW_DETAILS;
 	}
@@ -112,15 +107,9 @@ public class TeacherController {
 	@GetMapping("/update/{id}")
 	public String showUpdateForm(@PathVariable long id, Model model) {
 
-		Optional<TeacherDto> opt = this.teacherService.getTeacherDtoById(id);
-		if (opt.isPresent()) {
-			TeacherDto teacherDto = opt.get();
-			model.addAttribute("teacherDto", teacherDto);
-			model.addAttribute("notTaughSubjects", this.teacherService.getNotTaughtSubjects(teacherDto));
-
-		} else {
-			throw new RecordNotFoundException("No teacher with id " + id + " has been found.");
-		}
+		TeacherDto teacherDto = this.teacherService.getTeacherDtoById(id);
+		model.addAttribute("teacherDto", teacherDto);
+		model.addAttribute("notTaughSubjects", this.teacherService.getNotTaughtSubjects(teacherDto));
 
 		return VIEW_CREATE_OR_UPDATE_FORM;
 	}
