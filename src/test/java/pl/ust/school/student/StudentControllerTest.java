@@ -119,7 +119,7 @@ public class StudentControllerTest {
 
 	@Test
 	public void shouldRetrieveListOfStudents() throws Exception {
-		given(this.studentService.getAllStudents())
+		given(this.studentService.getAllStudentDtos())
 				.willReturn(Lists.newArrayList(john, new StudentDto()));
 
 		mockMvc.perform(get("/student/list"))

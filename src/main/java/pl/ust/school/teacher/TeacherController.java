@@ -107,7 +107,7 @@ public class TeacherController {
 
 		TeacherDto teacherDto = this.teacherService.getTeacherDtoById(id);
 		model.addAttribute("teacherDto", teacherDto);
-		model.addAttribute("notTaughSubjects", this.teacherService.getNotTaughtSubjects(teacherDto));
+		model.addAttribute("notTaughSubjects", this.teacherService.getNotTaughtSubjectDtos(teacherDto));
 
 		return VIEW_CREATE_OR_UPDATE_FORM;
 	}
@@ -116,7 +116,7 @@ public class TeacherController {
 	public String updateTeacher(@Valid TeacherDto teacherDto, BindingResult result, @PathVariable long id, Model model) {
 
 		if (result.hasErrors()) {
-		    model.addAttribute("notTaughSubjects", this.teacherService.getNotTaughtSubjects(teacherDto));
+		    model.addAttribute("notTaughSubjects", this.teacherService.getNotTaughtSubjectDtos(teacherDto));
 			return VIEW_CREATE_OR_UPDATE_FORM;
 		} else {
 			teacherDto.setId(id);

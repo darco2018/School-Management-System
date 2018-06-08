@@ -124,7 +124,7 @@ public class SchoolformController {
 
 			SchoolformDto schoolformDto = this.schoolformService.getSchoolformDtoById(id);
 			model.addAttribute("schoolformDto", schoolformDto);
-			model.addAttribute("notTaughLessons", this.schoolformService.getNotTaughtLessons(schoolformDto));
+			model.addAttribute("notTaughLessons", this.schoolformService.getNotTaughtLessonDtos(schoolformDto));
 			model.addAttribute(NAME_COLLECTION_OF_STUDENTS, this.studentService.getStudentDtosBySchoolformId(id));
 			model.addAttribute(NAME_COLLECTION_OF_LESSONS, this.lessonService.getAllLessons());
 
@@ -135,7 +135,7 @@ public class SchoolformController {
 	public String updateSchoolform(@Valid SchoolformDto schoolformDto, BindingResult result, @PathVariable long id, Model model) {
 
 		if (result.hasErrors()) {
-			model.addAttribute("notTaughLessons", this.schoolformService.getNotTaughtLessons(schoolformDto));
+			model.addAttribute("notTaughLessons", this.schoolformService.getNotTaughtLessonDtos(schoolformDto));
 			return VIEW_CREATE_OR_UPDATE_FORM;
 		} else {
 			schoolformDto.setId(id);

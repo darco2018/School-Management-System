@@ -23,8 +23,10 @@ public class SubjectServiceImpl implements SubjectService {
 	private SubjectMapper mapper;
 
 	public long createSubject(SubjectDto subjectDto) {
+		
 		Subject subject = this.mapper.fromDTO(subjectDto);
 		subject = this.subjectRepo.save(subject);
+		
 		return subject.getId();
 	}
 
@@ -61,11 +63,13 @@ public class SubjectServiceImpl implements SubjectService {
 	@Override
 	public void deleteSubject(long subjectId) {
 		
-		Optional<Subject> opt = this.subjectRepo.findById(subjectId);
+		Optional<Subject> subjectOpt = this.subjectRepo.findById(subjectId);
 
-		if (opt.isPresent()) {
+		if (subjectOpt.isPresent()) {
+			
 			this.lessonService.deleteLessonsBySubject(subjectId);
-			this.subjectRepo.delete(opt.get());
+			this.subjectRepo.delete(subjectOpt.get());
+			
 		} else {
 			throw new RecordNotFoundException("No subject with id " + subjectId + " has been found.");
 		}

@@ -30,36 +30,27 @@ public class StudentServiceImpl implements StudentService {
 	@Autowired
 	private SubjectService subjectService;
 
-	///////////////////////////////////
 	@Override
 	public void removeStudentFromSchoolform(long studentId) {
 
-		Optional<Student> opt = this.studentRepo.findById(studentId);
-		if (opt.isPresent()) {
-			Student student = opt.get();
+		Optional<Student> studentOpt = this.studentRepo.findById(studentId);
+		
+		if (studentOpt.isPresent()) {
+			
+			Student student = studentOpt.get();
 			student.getSchoolform().removeStudent(student);
 			this.studentRepo.save(student);
+			
 		} else {
 			throw new RecordNotFoundException("No student with id " + studentId + " has been found.");
 		}
 	}
 
-	////////////////////////////
-
 	private void addStudentToSchoolform(Student student) {
 
-		Schoolform schoolform;
-		long schoolformId = student.getSchoolform().getId();
-		Optional<Schoolform> schoolformOpt = this.schoolformService.getSchoolformById(schoolformId);
-		if (schoolformOpt.isPresent()) {
-			schoolform = schoolformOpt.get();
-			schoolform.addStudent(student);
-		} else {
-			throw new RecordNotFoundException("No school form with id " + schoolformId + " has been found.");
-		}
+		Schoolform schoolform = this.schoolformService.getSchoolformById(student.getSchoolform().getId());
+		schoolform.addStudent(student);
 	}
-
-	////////////////////////////
 
 	@Override
 	public long createStudent(StudentDto studentDto) {
@@ -75,17 +66,33 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public Collection<StudentDto> getAllStudents() {
+	public Collection<StudentDto> getAllStudentDtos() {
 
-		return this.studentRepo.findAll().stream().map(mapper::toDTO).collect(Collectors.toList());
+		return this.studentRepo.findAll()
+								.stream()
+								.map(mapper::toDTO)
+								.collect(Collectors.toList());
 	}
 
 	@Override
 	public StudentDto getStudentDtoById(long id) {
+		
 		Optional<Student> opt = this.studentRepo.findById(id);
 
 		if (opt.isPresent()) {
 			return this.mapper.toDTO(opt.get());
+		} else {
+			throw new RecordNotFoundException("No student with id " + id + " has been found.");
+		}
+	}
+	
+	@Override
+	public Student getStudentById(long id) {
+		
+		Optional<Student> opt = this.studentRepo.findById(id);
+
+		if (opt.isPresent()) {
+			return opt.get();
 		} else {
 			throw new RecordNotFoundException("No student with id " + id + " has been found.");
 		}
@@ -95,10 +102,13 @@ public class StudentServiceImpl implements StudentService {
 	public void deleteStudent(long id) {
 
 		Optional<Student> opt = this.studentRepo.findById(id);
+		
 		if (opt.isPresent()) {
+			
 			Student student = opt.get();
 			student.setDeleted(true);
 			this.studentRepo.save(student);
+			
 		} else {
 			throw new RecordNotFoundException("No student with id " + id + " has been found.");
 		}
@@ -106,14 +116,16 @@ public class StudentServiceImpl implements StudentService {
 
 	@Override
 	public Collection<StudentDto> getStudentDtosBySchoolformId(long id) {
-
-		return this.studentRepo.findBySchoolformId(id).stream().map(mapper::toDTO).collect(Collectors.toSet());
+		
+		return this.studentRepo.findBySchoolformId(id).stream()
+														.map(mapper::toDTO)
+														.collect(Collectors.toSet());
 	}
 
 	@Override
 	public Collection<Student> filterGrades(long subjectId, Collection<Student> students) {
 		
-		Assert.notNull(students, "Collection of students canot be null.");
+		Assert.notNull(students, "Collection of students cannot be null.");
 
 		students.stream().forEach(student -> student.getGrades()
 													.removeIf(grade -> grade.getSubject().getId() != subjectId));
@@ -126,6 +138,7 @@ public class StudentServiceImpl implements StudentService {
 	public void addGrade(String gradeValue, long studentId, long subjectId) {
 
 		Optional<Student> opt = this.studentRepo.findById(studentId);
+		
 		if (opt.isPresent()) {
 			
 			Student student = opt.get();
@@ -136,9 +149,12 @@ public class StudentServiceImpl implements StudentService {
 			grade.setSubject(subject);
 			student.addGrade(grade);
 			this.studentRepo.save(student);
+			
 		} else {
 			throw new RecordNotFoundException("No student with id " + studentId + " has been found.");
 		}
 	}
+
+	
 
 }

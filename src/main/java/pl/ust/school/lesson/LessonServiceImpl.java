@@ -19,7 +19,7 @@ public class LessonServiceImpl implements LessonService{
 	private LessonMapper lessonMapper;
 
 	@Override
-	public Optional<Lesson> getLesson(long teacherId, long subjectId) {
+	public Optional<Lesson> getLessonByTeacherAndSubject(long teacherId, long subjectId) {
 		return this.lessonRepo.findByTeacherIdAndSubjectId(teacherId, subjectId);
 	}
 
@@ -42,6 +42,7 @@ public class LessonServiceImpl implements LessonService{
 		Optional<Lesson> opt = this.lessonRepo.findById(lessonId);
 		
 		if(opt.isPresent()) {
+			
 			Lesson lesson = opt.get();
 			lesson.removeLesson();
 			this.lessonRepo.delete(lesson);
@@ -56,16 +57,22 @@ public class LessonServiceImpl implements LessonService{
 		
 		Collection<Lesson> lessonsWithThisSubject = this.lessonRepo.findBySubjectId(subjectId);
 		
-		for(Lesson lesson : lessonsWithThisSubject) {
+		lessonsWithThisSubject.stream().forEach(lesson->{
 			lesson.removeLesson();
-			this.lessonRepo.delete(lesson);
-		}
-		
+			this.lessonRepo.delete(lesson);			
+		});
 	}
 	
 	@Override
-	public Optional<Lesson> getLesson(long lessonId) {
-		return this.lessonRepo.findById(lessonId);
+	public Lesson getLessonById(long lessonId) {
+		
+		Optional<Lesson> opt = this.lessonRepo.findById(lessonId);
+		
+		if(opt.isPresent()) {
+			return opt.get();
+		} else {
+			throw new RecordNotFoundException("No Lesson with id " + lessonId + " has been found.");
+		} 
 	}
 
 
@@ -75,10 +82,7 @@ public class LessonServiceImpl implements LessonService{
 		Optional<Lesson> opt = this.lessonRepo.findById(lessonId);
 		
 		if(opt.isPresent()) {
-			
-			Lesson lesson = opt.get();
-			return this.lessonMapper.toDTO(lesson);
-			
+			return this.lessonMapper.toDTO(opt.get());
 		} else {
 			throw new RecordNotFoundException("No Lesson with id " + lessonId + " has been found.");
 		} 

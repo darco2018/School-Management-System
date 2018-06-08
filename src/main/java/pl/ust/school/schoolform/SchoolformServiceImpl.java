@@ -30,8 +30,10 @@ public class SchoolformServiceImpl implements SchoolformService {
 	
 
 	public long createSchoolform(SchoolformDto schoolformDto) {
+		
 		Schoolform schoolform = this.schoolformMapper.fromDTO(schoolformDto);
 		schoolform = this.schoolformRepo.save(schoolform);
+		
 		return schoolform.getId();
 	}
 
@@ -47,29 +49,26 @@ public class SchoolformServiceImpl implements SchoolformService {
 	}
 
 	@Override
-	public Optional<Schoolform> getSchoolformById(long id) {
+	public Schoolform getSchoolformById(long id) {
 
 		Optional<Schoolform> opt = this.schoolformRepo.findById(id);
 
 		if (opt.isPresent()) {
-			return opt;
+			return opt.get();
 		} else {
 			throw new RecordNotFoundException("No schoolform with id " + id + " has been found.");
 		}
 
 	}
 
-	
-	///////////////////////////////////////////
-
 	@Override
-	public Collection<LessonDto> getNotTaughtLessons(SchoolformDto schoolformDto) {
+	public Collection<LessonDto> getNotTaughtLessonDtos(SchoolformDto schoolformDto) {
 
-		Collection<Lesson> lessonsFromSchoolform = schoolformDto.getLessons();
-		Collection<Lesson> all = this.lessonService.getAllLessons();
-		all.removeAll(lessonsFromSchoolform);
+		Collection<Lesson> lessonsInThisSchoolform = schoolformDto.getLessons();
+		Collection<Lesson> allLessons = this.lessonService.getAllLessons();
+		allLessons.removeAll(lessonsInThisSchoolform);
 
-		return all.stream()
+		return allLessons.stream()
 				.map(lessonMapper::toDTO)
 				.collect(Collectors.toList());
 	}
@@ -84,18 +83,18 @@ public class SchoolformServiceImpl implements SchoolformService {
 	
 	public void deleteSchoolform(Long id) {
 		
-		//////////////////// workinf area ///////////////////////
-
 		Optional<Schoolform> opt = this.schoolformRepo.findById(id);
 
 		if (opt.isPresent()) {
+			
 			Schoolform schoolform = opt.get();
 			schoolform.removeAllStudents();
-			for(Lesson lesson : schoolform.getLessons()) {
-				lesson.setSchoolform(null);
-			}
-			schoolform.getLessons().clear();
+			Collection<Lesson> lessons = schoolform.getLessons();
+			lessons.stream().forEach(lesson -> lesson.setSchoolform(null));
+			lessons.clear();
+			
 			this.schoolformRepo.delete(schoolform);
+			
 		} else {
 			throw new RecordNotFoundException("No schoolform with id " + id + " has been found.");
 		}
@@ -103,39 +102,30 @@ public class SchoolformServiceImpl implements SchoolformService {
 
 	@Override
 	public void removeSchoolformFromLesson(long schoolformId, long lessonId) {
-		
-		
-		
-		Optional<Lesson> lessonOpt = this.lessonService.getLesson(lessonId);
-		if (lessonOpt.isPresent()) {
-			Lesson lesson = lessonOpt.get();
-			Schoolform schoolform = lesson.getSchoolform();
-			lesson.setSchoolform(null);
-			this.schoolformRepo.save(schoolform);
-		} else {
-			throw new RecordNotFoundException("No Lesson with id " + lessonId + " has been found.");
-		}	
-		
+
+		Lesson lesson = this.lessonService.getLessonById(lessonId);
+		Schoolform schoolform = lesson.getSchoolform();
+		lesson.setSchoolform(null);
+		this.schoolformRepo.save(schoolform);
 	}
 
 	@Override
 	public void addSchoolformToLesson(long schoolformId, long lessonId) {
-		Optional<Lesson> lessonOpt = this.lessonService.getLesson(lessonId);
 
-		if (lessonOpt.isPresent()) {
-			Lesson lesson = lessonOpt.get();
+		Lesson lesson = this.lessonService.getLessonById(lessonId);
+		Optional<Schoolform> schOpt = this.schoolformRepo.findById(schoolformId);
+		
+		if (schOpt.isPresent()) {
+			
+			Schoolform schoolform = schOpt.get();
+			lesson.setSchoolform(schoolform);
+			this.schoolformRepo.save(schoolform);
+			
+		} else {
+			throw new RecordNotFoundException("No schoolform with id " + schoolformId + " has been found.");
 
-			Optional<Schoolform> schOpt = this.schoolformRepo.findById(schoolformId);
-			if (schOpt.isPresent()) {
-				Schoolform schoolform = schOpt.get();
-				lesson.setSchoolform(schoolform);
-				this.schoolformRepo.save(schoolform);
-			} else {
-				throw new RecordNotFoundException("No schoolform with id " + schoolformId + " has been found.");
+		}
 
-			}
-
-		} 
 	}
 
 }

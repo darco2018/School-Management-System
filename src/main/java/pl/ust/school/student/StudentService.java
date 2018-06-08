@@ -5,12 +5,13 @@ import java.util.Collection;
 public interface StudentService {
 	 
 	long createStudent(StudentDto studentDto);
-	Collection<StudentDto> getAllStudents();
-	StudentDto getStudentDtoById(long id);
 	void deleteStudent(long id);
-	public void removeStudentFromSchoolform(long studentId);
-	Collection<Student> filterGrades(long subjectId, Collection<Student> students);
-	void addGrade(String gradeValue, long studentId, long subjectId);
+	Student getStudentById(long id);
+	StudentDto getStudentDtoById(long id);
 	Collection<StudentDto> getStudentDtosBySchoolformId(long id);
+	Collection<StudentDto> getAllStudentDtos();
+	Collection<Student> filterGrades(long subjectId, Collection<Student> students); // not DTOS?
+	void addGrade(String gradeValue, long studentId, long subjectId);
+	void removeStudentFromSchoolform(long studentId);
 
 }
