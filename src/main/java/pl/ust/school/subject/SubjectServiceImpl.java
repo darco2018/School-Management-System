@@ -36,12 +36,12 @@ public class SubjectServiceImpl implements SubjectService {
 				.collect(Collectors.toSet());
 	}
 
-	public Optional<SubjectDto> getSubjectDtoById(long id) {
+	public SubjectDto getSubjectDtoById(long id) {
 
 		Optional<Subject> opt = this.subjectRepo.findById(id);
 
 		if (opt.isPresent()) {
-			return this.mapper.toDTO(opt);
+			return this.mapper.toDTO(opt.get());
 		} else {
 			throw new RecordNotFoundException("No subject with id " + id + " has been found.");
 		}

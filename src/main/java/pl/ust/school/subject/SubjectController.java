@@ -81,14 +81,8 @@ public class SubjectController {
 	@RequestMapping("view/{id}")
 	public String viewSubject(@PathVariable long id, Model model) {
 
-		Optional<SubjectDto> opt = this.subjectService.getSubjectDtoById(id);
-
-		if (opt.isPresent()) {
-			SubjectDto subjectDto = opt.get();
-			model.addAttribute("subjectDto", subjectDto);
-		} else {
-			throw new RecordNotFoundException("No subject with id " + id + " has been found.");
-		}
+		SubjectDto subjectDto = this.subjectService.getSubjectDtoById(id);
+		model.addAttribute("subjectDto", subjectDto);
 
 		return VIEW_DETAILS;
 	}
@@ -111,8 +105,8 @@ public class SubjectController {
 	@GetMapping("/update/{id}")
 	public String showUpdateForm(@PathVariable long id, Model model) {
 
-		Optional<SubjectDto> opt = this.subjectService.getSubjectDtoById(id);
-		opt.ifPresent(model::addAttribute);
+		SubjectDto subjectDto = this.subjectService.getSubjectDtoById(id);
+		model.addAttribute(subjectDto);
 
 		return VIEW_CREATE_OR_UPDATE_FORM;
 	}
