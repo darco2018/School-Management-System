@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import pl.ust.school.lesson.LessonDto;
 import pl.ust.school.lesson.LessonService;
-import pl.ust.school.student.Student;
 import pl.ust.school.student.StudentDto;
 import pl.ust.school.student.StudentService;
 import pl.ust.school.system.AppConstants;
