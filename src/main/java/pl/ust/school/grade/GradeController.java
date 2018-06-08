@@ -52,7 +52,7 @@ public class GradeController {
 		Collection<Student> studentsWithFilteredGrades = this.studentService.filterGrades(lessonDto.getSubject().getId(), studentsWithAllGrades);
 		model.addAttribute(NAME_COLLECTION_OF_STUDENTS, studentsWithFilteredGrades);
 		
-		model.addAttribute("gradeItems", AppConstants.GRADES);
+		model.addAttribute("gradeItems", AppConstants.GRADES_LIST);
 
 		return VIEW_GRADE_LIST;
 	}

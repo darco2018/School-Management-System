@@ -10,9 +10,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import java.util.Optional;
-
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,7 +48,7 @@ public class SubjectControllerTest {
     	this.biology.setId(TEST_SUBJECT_ID);
     	this.biology.setName("Biology");
     	
-		given(this.subjectService.getSubjectDtoById(TEST_SUBJECT_ID)).willReturn(Optional.of(this.biology));
+		given(this.subjectService.getSubjectDtoById(TEST_SUBJECT_ID)).willReturn(this.biology);
         
 		// System.err.println("----------@Before setup()-----------------");  useful when debugging as it's easy to see when each test starts/ends
     }
@@ -107,7 +104,7 @@ public class SubjectControllerTest {
   
     @Test
     public void shouldHandle404AndPassMessageWhenEntityNotFound() throws Exception {
-    	 given(this.subjectService.getSubjectDtoById(-1L)).willReturn((Optional.empty()));
+    	 given(this.subjectService.getSubjectDtoById(-1L)).willReturn(new SubjectDto());
         mockMvc.perform(get("/subject/view/{id}", -1)
         )
         	.andDo(print())

@@ -9,8 +9,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import java.util.Optional;
-
 import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,11 +20,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import pl.ust.school.schoolform.SchoolformController;
-import pl.ust.school.schoolform.SchoolformDto;
-import pl.ust.school.schoolform.SchoolformService;
-import pl.ust.school.student.StudentService;
 import pl.ust.school.lesson.LessonService;
+import pl.ust.school.student.StudentService;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(SchoolformController.class)
@@ -59,7 +54,7 @@ public class SchoolformControllerTest {
 		schoolform1A.setId(TEST_SCHOOLFORM_ID);
 		schoolform1A.setName("1A");
 
-		given(this.schoolformService.getSchoolformDtoById(TEST_SCHOOLFORM_ID)).willReturn(Optional.of(this.schoolform1A));
+		given(this.schoolformService.getSchoolformDtoById(TEST_SCHOOLFORM_ID)).willReturn(this.schoolform1A);
 
 		System.err.println("----------@Before setup()-----------------"); // useful when debugging as it's easy to see
 																			// when each test starts/ends
@@ -120,7 +115,7 @@ public class SchoolformControllerTest {
 
 	@Test
 	public void shouldHandle404AndPassMessageWhenEntityNotFound() throws Exception {
-		given(this.schoolformService.getSchoolformDtoById(-1L)).willReturn((Optional.empty()));
+		given(this.schoolformService.getSchoolformDtoById(-1L)).willReturn(new SchoolformDto());
 		
 		mockMvc.perform(get("/schoolform/view/{id}", -1))
 				.andDo(print())

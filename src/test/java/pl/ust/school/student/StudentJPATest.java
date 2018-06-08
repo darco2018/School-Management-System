@@ -70,7 +70,6 @@ public class StudentJPATest {
 	private Student createStudent(String name) {
 		
 		Student student = new Student();
-		student = new Student();
 		student.setFirstName("Jessica");
 		student.setLastName("Motgmomery");
 		student.setEmail(name + "@gamil.com");

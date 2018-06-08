@@ -311,7 +311,6 @@ public class StudentRepositoryTest {
 		private Student createStudent(String name) {
 			
 			Student student = new Student();
-			student = new Student();
 			student.setFirstName(name);
 			student.setLastName("Motgmomery");
 			student.setEmail(name + "@gamil.com");

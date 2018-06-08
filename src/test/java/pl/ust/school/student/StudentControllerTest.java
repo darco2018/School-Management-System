@@ -10,8 +10,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.time.LocalDate;
-import java.util.Optional;
-
 import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
@@ -68,7 +66,7 @@ public class StudentControllerTest {
 		john.setSchoolform(new Schoolform());
 		john.setTelephone("1234567");
 		
-		given(this.studentService.getStudentDtoById(TEST_STUDENT_ID)).willReturn( Optional.of(this.john));
+		given(this.studentService.getStudentDtoById(TEST_STUDENT_ID)).willReturn( this.john);
 
 		System.err.println("----------@Before setup()-----------------"); // useful when debugging as it's easy to see
 	}
@@ -144,7 +142,7 @@ public class StudentControllerTest {
 
 	@Test
 	public void shouldHandle404AndPassMessageWhenEntityNotFound() throws Exception {
-		given(this.studentService.getStudentDtoById(-1L)).willReturn((Optional.empty()));
+		given(this.studentService.getStudentDtoById(-1L)).willReturn(new StudentDto());
 
 		mockMvc.perform(get("/student/view/{id}", -1))
 				.andDo(print())

@@ -127,16 +127,17 @@ public class StudentServiceImpl implements StudentService {
 
 		Optional<Student> opt = this.studentRepo.findById(studentId);
 		if (opt.isPresent()) {
+			
 			Student student = opt.get();
+			Subject subject = this.subjectService.getSubjectById(subjectId);
 
-			Optional<Subject> subjectOpt = this.subjectService.getSubjectById(subjectId);
-			if (subjectOpt.isPresent()) {
-				Grade grade = new Grade();
-				grade.setGradeValue(gradeValue);
-				grade.setSubject(subjectOpt.get());
-				student.addGrade(grade);
-				this.studentRepo.save(student);
-			}
+			Grade grade = new Grade();
+			grade.setGradeValue(gradeValue);
+			grade.setSubject(subject);
+			student.addGrade(grade);
+			this.studentRepo.save(student);
+		} else {
+			throw new RecordNotFoundException("No student with id " + studentId + " has been found.");
 		}
 	}
 
