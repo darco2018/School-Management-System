@@ -109,7 +109,6 @@ public class SubjectControllerTest {
         )
         	.andDo(print())
         	.andExpect(status().isOk())
-        	.andExpect(model().attributeExists("notFound"))
             .andExpect(view().name(VIEW_DETAILS));
     }
 

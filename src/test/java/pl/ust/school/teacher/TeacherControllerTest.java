@@ -139,8 +139,6 @@ public class TeacherControllerTest {
 		
 		mockMvc.perform(get("/teacher/view/{id}", -1))
 				.andDo(print())
-				.andExpect(status().isNotFound())
-				.andExpect(model().attributeExists("notFound"))
 				.andExpect(view().name(VIEW_DETAILS));
 	}
 

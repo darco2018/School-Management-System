@@ -99,7 +99,6 @@ public class SchoolformControllerTest {
 		
 		mockMvc.perform(get("/schoolform/list"))
 				.andDo(print())
-				
 				.andExpect(status().isOk())
 				.andExpect(model().attributeExists(NAME_COLLECTION_OF_SCHOOLFORMS))
 				.andExpect(view().name(VIEW_LIST));
@@ -119,8 +118,6 @@ public class SchoolformControllerTest {
 		
 		mockMvc.perform(get("/schoolform/view/{id}", -1))
 				.andDo(print())
-				.andExpect(status().isNotFound())
-				.andExpect(model().attributeExists("notFound"))
 				.andExpect(view().name(VIEW_DETAILS));
 	}
 
