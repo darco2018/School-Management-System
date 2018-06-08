@@ -35,12 +35,12 @@ public class SchoolformServiceImpl implements SchoolformService {
 		return schoolform.getId();
 	}
 
-	public Optional<SchoolformDto> getSchoolformDtoById(long id) {
+	public SchoolformDto getSchoolformDtoById(long id) {
 
 		Optional<Schoolform> opt = this.schoolformRepo.findById(id);
 
 		if (opt.isPresent()) {
-			return this.schoolformMapper.toDTO(opt);
+			return this.schoolformMapper.toDTO(opt.get());
 		} else {
 			throw new RecordNotFoundException("No schoolform with id " + id + " has been found.");
 		}

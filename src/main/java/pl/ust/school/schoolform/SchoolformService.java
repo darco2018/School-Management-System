@@ -9,7 +9,7 @@ public interface SchoolformService {
 	
 	long createSchoolform(SchoolformDto subjectDto);
 	Collection<SchoolformDto> getAllSchoolformDtos();
-	Optional<SchoolformDto> getSchoolformDtoById(long id);
+	SchoolformDto getSchoolformDtoById(long id);
 	Optional<Schoolform> getSchoolformById(long id);
 	void deleteSchoolform(Long id);
 	Collection<LessonDto> getNotTaughtLessons(SchoolformDto dto);

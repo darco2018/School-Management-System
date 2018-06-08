@@ -1,7 +1,5 @@
 package pl.ust.school.schoolform;
 
-import java.util.Optional;
-
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,13 +15,6 @@ public class SchoolformMapper {
 					.build();
 	}
 	
-	public Optional<SchoolformDto> toDTO(Optional<Schoolform> opt) {
-		if(opt.isPresent()) {
-			return Optional.of(toDTO(opt.get()));
-		} else {
-			return Optional.empty();
-		}
-	}
 
 	public Schoolform fromDTO(SchoolformDto dto) {
 		

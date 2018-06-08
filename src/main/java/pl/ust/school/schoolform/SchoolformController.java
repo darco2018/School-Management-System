@@ -95,17 +95,12 @@ public class SchoolformController {
 	@RequestMapping("view/{id}")
 	public String viewSchoolform(@PathVariable long id, Model model) {
 		
-		Optional<SchoolformDto> opt = this.schoolformService.getSchoolformDtoById(id);
-
-		if (opt.isPresent()) {
-			model.addAttribute("schoolformDto", opt.get());
+			SchoolformDto schoolformDto = this.schoolformService.getSchoolformDtoById(id);
+			model.addAttribute("schoolformDto", schoolformDto);
 			Collection<StudentDto> coll =  this.studentService.getStudentDtosBySchoolformId(id);
 			model.addAttribute(NAME_COLLECTION_OF_STUDENTS, coll);
 			model.addAttribute(NAME_COLLECTION_OF_LESSONS, this.lessonService.getAllLessons());
 
-		} else {
-			throw new RecordNotFoundException("No school form with id " + id + " has been found.");
-		}
 
 		return VIEW_DETAILS;
 	}
@@ -129,16 +124,11 @@ public class SchoolformController {
 	@GetMapping("/update/{id}")
 	public String showUpdateForm(@PathVariable long id, Model model) {
 
-		Optional<SchoolformDto> opt = this.schoolformService.getSchoolformDtoById(id);
-		if (opt.isPresent()) {
-			SchoolformDto schoolformDto = opt.get();
+			SchoolformDto schoolformDto = this.schoolformService.getSchoolformDtoById(id);
 			model.addAttribute("schoolformDto", schoolformDto);
 			model.addAttribute("notTaughLessons", this.schoolformService.getNotTaughtLessons(schoolformDto));
 			model.addAttribute(NAME_COLLECTION_OF_STUDENTS, this.studentService.getStudentDtosBySchoolformId(id));
 			model.addAttribute(NAME_COLLECTION_OF_LESSONS, this.lessonService.getAllLessons());
-		} else {
-			throw new RecordNotFoundException("No schoolform with id " + id + " has been found.");
-		}
 
 		return VIEW_CREATE_OR_UPDATE_FORM;
 	}
