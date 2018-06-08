@@ -1,5 +1,14 @@
 package pl.ust.school.grade;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter @AllArgsConstructor
 public enum Grades {
 	
 	ZERO("0"),
@@ -20,10 +29,16 @@ public enum Grades {
 	MINUS_SIX("-6"),
 	SIX("6");
 	
-	private String grade;
-	
-	Grades(String grade) {
-		this.grade = grade;
+	private String gradeAsString;
+
+	public static Set<String> getGrades() {
+		
+		LinkedHashSet<String> sortedGrades = new LinkedHashSet<>();
+		Arrays.asList(Grades.values()).stream().forEach(grade -> sortedGrades.add(grade.getGradeAsString()));
+		
+		return Collections.unmodifiableSet(sortedGrades);
 	}
+	
+	
 
 }

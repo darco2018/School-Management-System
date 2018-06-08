@@ -1,6 +1,7 @@
 package pl.ust.school.grade;
 
 import java.util.Collection;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +15,6 @@ import pl.ust.school.lesson.LessonDto;
 import pl.ust.school.lesson.LessonService;
 import pl.ust.school.student.StudentDto;
 import pl.ust.school.student.StudentService;
-import pl.ust.school.system.AppConstants;
 
 @Controller
 @RequestMapping("grade")
@@ -22,6 +22,7 @@ public class GradeController {
 	
 	private static final String VIEW_LESSON_LIST = "grade/lessonList";
 	private static final String VIEW_GRADE_LIST = "grade/studentList";
+	private static final Set<String> VALUE_GRADE_LIST = Grades.getGrades();                              
 
 	private static final String NAME_COLLECTION_OF_LESSONS = "lessonItems";
 	private static final String NAME_COLLECTION_OF_STUDENTS = "studentItems";
@@ -51,7 +52,7 @@ public class GradeController {
 		Collection<StudentDto> withFilteredGrades = this.studentService.filterGradesBySubject(lessonDto.getSubject().getId(),
 																						lessonDto.getSchoolform().getStudents());
 		model.addAttribute(NAME_COLLECTION_OF_STUDENTS, withFilteredGrades);
-		model.addAttribute("gradeItems", AppConstants.GRADES_LIST);
+		model.addAttribute("gradeItems", VALUE_GRADE_LIST);
 
 		return VIEW_GRADE_LIST;
 	}
