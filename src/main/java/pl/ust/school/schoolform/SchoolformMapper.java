@@ -12,7 +12,7 @@ public class SchoolformMapper {
 					.id(schoolform.getId())
 					.isDeleted(schoolform.isDeleted())
 					.name(schoolform.getName())
-					.students(schoolform.getStudents())
+					//.students(schoolform.getStudents())
 					.lessons(schoolform.getLessons())
 					.build();
 	}
@@ -31,7 +31,7 @@ public class SchoolformMapper {
 		schoolform.setId(dto.getId());
 		schoolform.setDeleted(dto.getIsDeleted());
 		schoolform.setName(dto.getName());
-		schoolform.setStudents(dto.getStudents());
+		//schoolform.setStudents(dto.getStudents());
 		schoolform.setLessons(dto.getLessons());
 		return schoolform;
 	}

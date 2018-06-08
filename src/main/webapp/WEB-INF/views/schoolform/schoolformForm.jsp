@@ -14,7 +14,6 @@
 		<form:form class="form-horizontal" action="#" method="POST" modelAttribute="schoolformDto">
 			<form:hidden path="isDeleted" />
 			<form:hidden path="lessons" />
-			<form:hidden path="students" />
 
 			<div class="form-group row">
 				<div class="col-xs-4">

@@ -105,7 +105,7 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public Collection<StudentDto> getStudentsBySchoolformId(long id) {
+	public Collection<StudentDto> getStudentDtosBySchoolformId(long id) {
 
 		return this.studentRepo.findBySchoolformId(id).stream().map(mapper::toDTO).collect(Collectors.toSet());
 	}

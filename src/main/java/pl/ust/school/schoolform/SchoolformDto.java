@@ -9,7 +9,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pl.ust.school.student.Student;
 import pl.ust.school.lesson.Lesson;
 
 @Builder 
@@ -20,7 +19,6 @@ public class SchoolformDto {
 	private boolean isDeleted;
 	@NotEmpty
 	private String name;
-	private Collection<Student> students; 
 	private Collection<Lesson> lessons; 
 	
 	public boolean isNew() {
