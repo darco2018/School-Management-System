@@ -1,10 +1,13 @@
 package pl.ust.school.teacher;
 
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import pl.ust.school.subject.Subject;
@@ -41,12 +44,12 @@ public class TeacherServiceImpl implements TeacherService {
 	}
 
 	@Override
-	public Collection<TeacherDto> getAllTeacherDtos() {
+	public Set<TeacherDto> getAllTeacherDtos(Sort sort) {
 
-		return this.teacherRepo.findAll()
+		return this.teacherRepo.findAll(sort)
 								.stream()
 								.map(mapper::toDTO)
-								.collect(Collectors.toList());
+								.collect(Collectors.toCollection(LinkedHashSet::new));
 	}
 
 	@Override

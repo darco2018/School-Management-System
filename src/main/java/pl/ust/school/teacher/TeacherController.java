@@ -3,6 +3,7 @@ package pl.ust.school.teacher;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -72,7 +73,7 @@ public class TeacherController {
 
 	@RequestMapping("/list")
 	public String listTeachers(@RequestParam(defaultValue = "0", required = false) int min, Model model) {
-		model.addAttribute(NAME_COLLECTION_OF_TEACHERS, this.teacherService.getAllTeacherDtos());
+		model.addAttribute(NAME_COLLECTION_OF_TEACHERS, this.teacherService.getAllTeacherDtos(orderByLastName()));
 		return VIEW_LIST;
 	}
 
@@ -148,6 +149,10 @@ public class TeacherController {
 	private String recordNotFoundHandler(RecordNotFoundException ex, Model model) {
 		model.addAttribute("notFound", ex.getMessage());
 		return VIEW_DETAILS;
+	}
+	
+	private Sort orderByLastName() {
+	    return new Sort(Sort.Direction.ASC, "lastName");
 	}
 
 }

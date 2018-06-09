@@ -11,12 +11,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.time.LocalDate;
 import org.assertj.core.util.Lists;
+import org.assertj.core.util.Sets;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -113,7 +115,7 @@ public class TeacherControllerTest {
 	@Test
 	public void shouldRetrieveListOfTeachers() throws Exception {
 
-		given(this.teacherService.getAllTeacherDtos()).willReturn(Lists.newArrayList(john, new TeacherDto()));
+		given(this.teacherService.getAllTeacherDtos(new Sort(Sort.Direction.ASC, "lastName"))).willReturn(Sets.newLinkedHashSet(john, new TeacherDto()));
 		
 		mockMvc.perform(get("/teacher/list"))
 				.andDo(print())

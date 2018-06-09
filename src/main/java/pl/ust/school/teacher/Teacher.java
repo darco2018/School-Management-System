@@ -30,7 +30,7 @@ public class Teacher extends Person {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * @param lessons = objects of type Lesson (TeacherSubjectSchoolform), eg Smith/Maths/FirstYear1A
+	 * @param lessons = objects of type Lesson (Teacher-Subject-Schoolform), eg Smith/Maths/FirstYear1A
 	 */
 	@OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private Set<Lesson> lessons;
