@@ -1,6 +1,5 @@
 package pl.ust.school.teacher;
 
-import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -10,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import pl.ust.school.lesson.Lesson;
+import pl.ust.school.lesson.LessonService;
 import pl.ust.school.subject.Subject;
 import pl.ust.school.subject.SubjectDto;
 import pl.ust.school.subject.SubjectService;
 import pl.ust.school.system.RecordNotFoundException;
-import pl.ust.school.lesson.Lesson;
-import pl.ust.school.lesson.LessonService;
 
 @Service
 public class TeacherServiceImpl implements TeacherService {
@@ -82,12 +81,13 @@ public class TeacherServiceImpl implements TeacherService {
 	}
 
 	@Override
-	public Collection<SubjectDto> getNotTaughtSubjectDtos(TeacherDto teacherDto) {
+	public Set<SubjectDto> getNotTaughtSubjectDtos(TeacherDto teacherDto, Sort sort) {
 		
-		Collection<SubjectDto> allSubjects = this.subjectService.getAllSubjectDtos();
+		Set<SubjectDto> allSubjects = this.subjectService.getAllSubjectDtos(sort);
 
 		for (Lesson lesson : teacherDto.getLessons()) {
-			allSubjects.removeIf(subject -> subject.getName().equals(lesson.getSubject().getName()));
+			allSubjects.removeIf(subject ->
+									subject.getName().equals(lesson.getSubject().getName()));
 		}
 
 		return allSubjects;
@@ -143,5 +143,5 @@ public class TeacherServiceImpl implements TeacherService {
 		return opt.isPresent() ? false : true;
 
 	}
-
+	
 }

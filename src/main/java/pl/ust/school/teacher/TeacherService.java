@@ -13,7 +13,7 @@ public interface TeacherService {
 	void deleteTeacher(long id);
 	TeacherDto getTeacherDtoById(long id);
 	Teacher getTeacherById(long id);
-	Collection<SubjectDto> getNotTaughtSubjectDtos(TeacherDto teacherDto);
+	Collection<SubjectDto> getNotTaughtSubjectDtos(TeacherDto teacherDto, Sort sort);
 	Set<TeacherDto> getAllTeacherDtos(Sort sort);
 	void removeLesson(long lessonId);
 	void addLesson(long teacherId, long subjectId);

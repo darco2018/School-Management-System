@@ -147,7 +147,7 @@ public class TeacherControllerTest {
 	@Test
 	public void shouldAddDtoToModelWhenUpdate() throws Exception {
 		
-		given(this.teacherService.getNotTaughtSubjectDtos( new TeacherDto()))
+		given(this.teacherService.getNotTaughtSubjectDtos( new TeacherDto(), new Sort(Sort.Direction.ASC, "name")))
 				.willReturn(Lists.newArrayList( new SubjectDto()));
 
 		mockMvc.perform(get("/teacher/update/{id}", TEST_TEACHER_ID))

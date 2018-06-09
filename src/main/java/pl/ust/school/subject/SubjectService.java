@@ -1,6 +1,8 @@
 package pl.ust.school.subject;
 
-import java.util.Collection;
+import java.util.Set;
+
+import org.springframework.data.domain.Sort;
 
 public interface SubjectService {
 	
@@ -8,7 +10,7 @@ public interface SubjectService {
 	void deleteSubject(long id);
 	SubjectDto getSubjectDtoById(long id);
 	Subject getSubjectById(long id);
-	Collection<SubjectDto> getAllSubjectDtos();
+	Set<SubjectDto> getAllSubjectDtos(Sort sort);
 	
 	
 	

@@ -1,7 +1,7 @@
 package pl.ust.school.subject;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.TreeSet;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,8 +15,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import pl.ust.school.model.NamedEntity;
 import pl.ust.school.lesson.Lesson;
+import pl.ust.school.model.NamedEntity;
 
 @Entity
 @Table(name = "subjects")
@@ -46,7 +46,7 @@ public class Subject extends NamedEntity {
 
 	public Set<Lesson> getLessons() {
 		if (this.lessons == null) {
-			this.lessons = new TreeSet<>();
+			this.lessons = new LinkedHashSet<>();
 		}
 		return this.lessons;
 	}

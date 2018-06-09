@@ -96,7 +96,7 @@ public class SchoolformControllerTest {
 	public void shouldRetrieveListOfSchooForms() throws Exception {
 
 		given(this.schoolformService.getAllSchoolformDtos(new Sort(Sort.Direction.ASC, "name")))
-				.willReturn(   Sets.newLinkedHashSet(schoolform1A, new SchoolformDto()));
+				.willReturn( Sets.newLinkedHashSet(schoolform1A, new SchoolformDto()));
 		
 		mockMvc.perform(get("/schoolform/list"))
 				.andDo(print())

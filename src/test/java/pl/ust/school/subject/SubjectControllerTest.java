@@ -1,6 +1,5 @@
 package pl.ust.school.subject;
 
-import org.assertj.core.util.Lists;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -10,18 +9,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import org.assertj.core.util.Sets;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-
-import pl.ust.school.subject.SubjectController;
-import pl.ust.school.subject.SubjectDto;
-import pl.ust.school.subject.SubjectService;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(SubjectController.class)
@@ -86,7 +83,9 @@ public class SubjectControllerTest {
     @Test
     public void shouldRetrieveListOfSubjects() throws Exception {
     	
-        given(this.subjectService.getAllSubjectDtos()).willReturn(Lists.newArrayList(this.biology, new SubjectDto()));
+        given(this.subjectService.getAllSubjectDtos(new Sort(Sort.Direction.ASC, "name")))
+        	.willReturn( Sets.newLinkedHashSet(this.biology, new SubjectDto()));
+        
         mockMvc.perform(get("/subject/list"))
             .andExpect(status().isOk())
             .andExpect(model().attributeExists(NAME_COLLECTION_OF_SUBJECTS))

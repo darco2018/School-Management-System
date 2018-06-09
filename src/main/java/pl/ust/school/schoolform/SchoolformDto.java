@@ -1,6 +1,6 @@
 package pl.ust.school.schoolform;
 
-import java.util.Collection;
+import java.util.Set;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -19,7 +19,7 @@ public class SchoolformDto {
 	private boolean isDeleted;
 	@NotEmpty
 	private String name;
-	private Collection<Lesson> lessons; 
+	private Set<Lesson> lessons; 
 	
 	public boolean isNew() {
         return this.id < 1;

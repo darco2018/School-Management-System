@@ -1,8 +1,8 @@
 
 package pl.ust.school.teacher;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.TreeSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -16,9 +16,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import pl.ust.school.lesson.Lesson;
 import pl.ust.school.model.Person;
 import pl.ust.school.subject.Subject;
-import pl.ust.school.lesson.Lesson;
 
 @Entity
 @Table(name = "teachers")
@@ -62,7 +62,7 @@ public class Teacher extends Person {
 
 	public Set<Lesson> getLessons() {
 		if (this.lessons == null) {
-			this.lessons = new TreeSet<>();
+			this.lessons = new LinkedHashSet<>();
 		}
 		return this.lessons;
 	}

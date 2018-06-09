@@ -1,7 +1,5 @@
 package pl.ust.school.schoolform;
 
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -38,7 +36,7 @@ public class Schoolform extends NamedEntity {
 	 * @param lessons = objects of type Lesson (TeacherSubjectSchoolform), eg Smith/Maths/FirstYear1A
 	 */
 	@OneToMany(mappedBy = "schoolform", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-	private Collection<Lesson> lessons; 
+	private Set<Lesson> lessons; 
 
 	/////////////// getters and setters ///////////////////
 
@@ -49,9 +47,9 @@ public class Schoolform extends NamedEntity {
 		return this.students;
 	}
 
-	public Collection<Lesson> getLessons() {
+	public Set<Lesson> getLessons() {
 		if (this.lessons == null) {
-			this.lessons = new HashSet<>();
+			this.lessons = new LinkedHashSet<>();
 		}
 		return this.lessons;
 	}

@@ -86,7 +86,7 @@ public class SchoolformController {
 
 	@RequestMapping("/list")
 	public String listSchoolforms(@RequestParam(defaultValue = "0", required = false) int min, Model model) {
-		model.addAttribute(NAME_COLLECTION_OF_SCHOOLFORMS, this.schoolformService.getAllSchoolformDtos(orderByLastName()));
+		model.addAttribute(NAME_COLLECTION_OF_SCHOOLFORMS, this.schoolformService.getAllSchoolformDtos(orderByName()));
 		return VIEW_LIST;
 	}
 
@@ -183,7 +183,7 @@ public class SchoolformController {
 		return VIEW_DETAILS;
 	}
 	
-	private Sort orderByLastName() {
+	private Sort orderByName() {
 	    return new Sort(Sort.Direction.ASC, "name");
 	}
 

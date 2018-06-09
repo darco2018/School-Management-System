@@ -1,14 +1,16 @@
 package pl.ust.school.subject;
 
-import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import pl.ust.school.system.RecordNotFoundException;
 import pl.ust.school.lesson.LessonService;
+import pl.ust.school.system.RecordNotFoundException;
 
 @Service
 public class SubjectServiceImpl implements SubjectService {
@@ -30,12 +32,12 @@ public class SubjectServiceImpl implements SubjectService {
 		return subject.getId();
 	}
 
-	public Collection<SubjectDto> getAllSubjectDtos() {
+	public Set<SubjectDto> getAllSubjectDtos(Sort sort) {
 
-		return this.subjectRepo.findAll()
+		return this.subjectRepo.findAll(sort)
 				.stream()
 				.map(mapper::toDTO)
-				.collect(Collectors.toSet());
+				.collect(Collectors.toCollection(LinkedHashSet::new));
 	}
 
 	public SubjectDto getSubjectDtoById(long id) {

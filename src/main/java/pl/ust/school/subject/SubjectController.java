@@ -3,6 +3,7 @@ package pl.ust.school.subject;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -70,7 +71,7 @@ public class SubjectController {
 
 	@RequestMapping("/list")
 	public String listSubjects(@RequestParam(defaultValue = "0", required = false) int min, Model model) {
-		model.addAttribute(NAME_COLLECTION_OF_SUBJECTS, this.subjectService.getAllSubjectDtos());
+		model.addAttribute(NAME_COLLECTION_OF_SUBJECTS, this.subjectService.getAllSubjectDtos(orderByName()));
 		return VIEW_LIST;
 	}
 
@@ -128,6 +129,10 @@ public class SubjectController {
 	private String recordNotFoundHandler(RecordNotFoundException ex, Model model) {
 		model.addAttribute("notFound", ex.getMessage());
 		return VIEW_DETAILS;
+	}
+	
+	private Sort orderByName() {
+	    return new Sort(Sort.Direction.ASC, "name");
 	}
 
 }
