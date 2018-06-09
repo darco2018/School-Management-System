@@ -2,11 +2,14 @@ package pl.ust.school.schoolform;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Where;
@@ -15,9 +18,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import pl.ust.school.lesson.Lesson;
 import pl.ust.school.model.NamedEntity;
 import pl.ust.school.student.Student;
-import pl.ust.school.lesson.Lesson;
 
 @Entity
 @Table(name = "schoolforms") 
@@ -28,7 +31,8 @@ public class Schoolform extends NamedEntity {
 	private static final long serialVersionUID = 1L;
 
 	@OneToMany(mappedBy = "schoolform", cascade = { CascadeType.MERGE, CascadeType.PERSIST }, fetch = FetchType.EAGER)
-	private Collection<Student> students; 
+	@OrderBy("lastName")
+	private Set<Student> students; 
 	
 	/**
 	 * @param lessons = objects of type Lesson (TeacherSubjectSchoolform), eg Smith/Maths/FirstYear1A
@@ -38,9 +42,9 @@ public class Schoolform extends NamedEntity {
 
 	/////////////// getters and setters ///////////////////
 
-	public Collection<Student> getStudents() {
+	public Set<Student> getStudents() {
 		if (this.students == null) {
-			this.students = new HashSet<>();
+			this.students = new LinkedHashSet<>();
 		}
 		return this.students;
 	}

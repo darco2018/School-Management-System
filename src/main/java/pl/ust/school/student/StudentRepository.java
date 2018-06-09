@@ -1,6 +1,7 @@
 package pl.ust.school.student;
 
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
@@ -34,8 +35,8 @@ public interface StudentRepository extends AppBaseRepository<Student, Long> {
 	Slice<Student> findByLastNameOrderByEmailAsc(String lastName, Pageable of);
 	
 	@Transactional(readOnly = true)
-	@Query("select s from Student s where s.schoolform.id =	?1")
-	Collection<Student> findBySchoolformId(long id); // 1. _ nie jest tu konieczny. 2.Search by field Schoolform in
+	//@Query("select s from Student s where s.schoolform.id =	?1")
+	LinkedHashSet<Student> findBySchoolformIdOrderByLastName(long id); // 1. _ nie jest tu konieczny. 2.Search by field Schoolform in
 														// Student
 	@Transactional(readOnly = true)
 	Iterable<Student> saveAll(Iterable<Student> students);

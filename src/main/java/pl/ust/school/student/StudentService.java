@@ -1,6 +1,9 @@
 package pl.ust.school.student;
 
 import java.util.Collection;
+import java.util.Set;
+
+import org.springframework.data.domain.Sort;
 
 public interface StudentService {
 	 
@@ -8,9 +11,9 @@ public interface StudentService {
 	void deleteStudent(long id);
 	Student getStudentById(long id);
 	StudentDto getStudentDtoById(long id);
-	Collection<StudentDto> getStudentDtosBySchoolformId(long id);
-	Collection<StudentDto> getAllStudentDtos();
-	Collection<StudentDto> filterGradesBySubject(long subjectId, Collection<Student> students); // not DTOS?
+	Set<StudentDto> getStudentDtosBySchoolformId(long id);
+	Set<StudentDto> getAllStudentDtos(Sort sort);
+	Set<StudentDto> filterGradesBySubject(long subjectId, Collection<Student> students); // not DTOS?
 	void addGrade(String gradeValue, long studentId, long subjectId);
 	void removeStudentFromSchoolform(long studentId);
 

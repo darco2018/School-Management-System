@@ -23,17 +23,18 @@ public interface AppBaseRepository<T, Long> extends Repository<T, Long> {
 	@Transactional
 	void deleteById(long id);
 	
-	Optional<T>	findById(Long id);
-	
-	//from PagingAndSortingRepository 
-	@Transactional(readOnly = true)  
-	Iterable<T> findAll(Sort sort);
-	
 	@Transactional(readOnly = true) 
-	Page<T>	findAll(Pageable pageable);
+	Optional<T>	findById(Long id);
 	
 	@Transactional(readOnly = true) 
 	Collection<T> findAll();
+	
+	//from PagingAndSortingRepository 
+	@Transactional(readOnly = true)  
+	Collection<T> findAll(Sort sort);
+	
+	@Transactional(readOnly = true) 
+	Page<T>	findAll(Pageable pageable);
 	
 	@Transactional(readOnly = true) 
 	long count();

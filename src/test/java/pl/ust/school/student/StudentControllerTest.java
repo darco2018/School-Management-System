@@ -10,21 +10,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.time.LocalDate;
-import org.assertj.core.util.Lists;
+
+import org.assertj.core.util.Sets;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import pl.ust.school.schoolform.Schoolform;
 import pl.ust.school.schoolform.SchoolformService;
-import pl.ust.school.student.StudentController;
-import pl.ust.school.student.StudentDto;
-import pl.ust.school.student.StudentService;
 
 
 // allows the Web App Context to be loaded. By default Spring will load the context into a Static variable so it only gets 
@@ -119,8 +118,8 @@ public class StudentControllerTest {
 
 	@Test
 	public void shouldRetrieveListOfStudents() throws Exception {
-		given(this.studentService.getAllStudentDtos())
-				.willReturn(Lists.newArrayList(john, new StudentDto()));
+		given(this.studentService.getAllStudentDtos(new Sort(Sort.Direction.ASC, "lastName")))
+				.willReturn(Sets.newLinkedHashSet(john, new StudentDto()));
 
 		mockMvc.perform(get("/student/list"))
 				.andDo(print())

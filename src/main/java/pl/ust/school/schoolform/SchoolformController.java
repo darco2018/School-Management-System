@@ -1,6 +1,7 @@
 package pl.ust.school.schoolform;
 
-import java.util.Collection;
+import java.util.Set;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import pl.ust.school.lesson.LessonService;
 import pl.ust.school.student.StudentDto;
 import pl.ust.school.student.StudentService;
 import pl.ust.school.system.RecordNotFoundException;
-import pl.ust.school.lesson.LessonService;
 
 @Controller
 @RequestMapping("schoolform")
@@ -95,8 +96,8 @@ public class SchoolformController {
 		
 			SchoolformDto schoolformDto = this.schoolformService.getSchoolformDtoById(id);
 			model.addAttribute("schoolformDto", schoolformDto);
-			Collection<StudentDto> coll =  this.studentService.getStudentDtosBySchoolformId(id);
-			model.addAttribute(NAME_COLLECTION_OF_STUDENTS, coll);
+			Set<StudentDto> students =  this.studentService.getStudentDtosBySchoolformId(id);
+			model.addAttribute(NAME_COLLECTION_OF_STUDENTS, students);
 			model.addAttribute(NAME_COLLECTION_OF_LESSONS, this.lessonService.getAllLessons());
 
 

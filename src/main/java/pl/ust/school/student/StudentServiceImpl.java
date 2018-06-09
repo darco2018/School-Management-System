@@ -1,10 +1,13 @@
 package pl.ust.school.student;
 
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -66,13 +69,15 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public Collection<StudentDto> getAllStudentDtos() {
+	public Set<StudentDto> getAllStudentDtos(Sort sort) {
 
-		return this.studentRepo.findAll()
+		return this.studentRepo.findAll(sort)
 								.stream()
 								.map(mapper::toDTO)
-								.collect(Collectors.toList());
+								.collect(Collectors.toCollection(LinkedHashSet::new));
 	}
+	
+	
 
 	@Override
 	public StudentDto getStudentDtoById(long id) {
@@ -115,15 +120,16 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public Collection<StudentDto> getStudentDtosBySchoolformId(long id) {
+	public Set<StudentDto> getStudentDtosBySchoolformId(long id) {
 		
-		return this.studentRepo.findBySchoolformId(id).stream()
+		
+		return this.studentRepo.findBySchoolformIdOrderByLastName(id).stream()
 														.map(mapper::toDTO)
-														.collect(Collectors.toSet());
+														.collect(Collectors.toCollection(LinkedHashSet::new));
 	}
 
 	@Override
-	public Collection<StudentDto> filterGradesBySubject(long subjectId, Collection<Student> students) {
+	public Set<StudentDto> filterGradesBySubject(long subjectId, Collection<Student> students) {
 		
 		Assert.notNull(students, "Collection of students cannot be null.");
 
@@ -132,7 +138,7 @@ public class StudentServiceImpl implements StudentService {
 		
 		return students.stream()
 				.map(mapper::toDTO)
-				.collect(Collectors.toSet());
+				.collect(Collectors.toCollection(LinkedHashSet::new));
 	}
 	
 	

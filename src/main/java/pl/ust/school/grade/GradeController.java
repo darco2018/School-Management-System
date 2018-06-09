@@ -1,6 +1,5 @@
 package pl.ust.school.grade;
 
-import java.util.Collection;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +48,7 @@ public class GradeController {
 		model.addAttribute("subjectName", lessonDto.getSubject().getName());
 		model.addAttribute("teacherName", lessonDto.getTeacher().getFirstName() + " " + lessonDto.getTeacher().getLastName());
 		
-		Collection<StudentDto> withFilteredGrades = this.studentService.filterGradesBySubject(lessonDto.getSubject().getId(),
+		Set<StudentDto> withFilteredGrades = this.studentService.filterGradesBySubject(lessonDto.getSubject().getId(),
 																						lessonDto.getSchoolform().getStudents());
 		model.addAttribute(NAME_COLLECTION_OF_STUDENTS, withFilteredGrades);
 		model.addAttribute("gradeItems", VALUE_GRADE_LIST);
