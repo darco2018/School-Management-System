@@ -1,17 +1,20 @@
 package pl.ust.school.schoolform;
 
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import pl.ust.school.system.RecordNotFoundException;
 import pl.ust.school.lesson.Lesson;
 import pl.ust.school.lesson.LessonDto;
 import pl.ust.school.lesson.LessonMapper;
 import pl.ust.school.lesson.LessonService;
+import pl.ust.school.system.RecordNotFoundException;
 
 @Service
 public class SchoolformServiceImpl implements SchoolformService {
@@ -73,12 +76,12 @@ public class SchoolformServiceImpl implements SchoolformService {
 				.collect(Collectors.toList());
 	}
 	
-	public Collection<SchoolformDto> getAllSchoolformDtos() {
+	public Set<SchoolformDto> getAllSchoolformDtos(Sort sort) {
 
-		return this.schoolformRepo.findAll()
+		return this.schoolformRepo.findAll(sort)
 				.stream()
 				.map(schoolformMapper::toDTO)
-				.collect(Collectors.toList());
+				.collect(Collectors.toCollection(LinkedHashSet::new));
 	}
 	
 	public void deleteSchoolform(Long id) {

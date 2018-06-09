@@ -53,7 +53,7 @@ public class StudentController {
 
 	@ModelAttribute(NAME_COLLECTION_OF_SCHOOLFORMS)
 	public Collection<SchoolformDto> populateSchoolformItems() {
-		return this.schoolformService.getAllSchoolformDtos();
+		return this.schoolformService.getAllSchoolformDtos(orderByName());
 	}
 
 	//////////////////////////////////////////////////////////
@@ -148,6 +148,10 @@ public class StudentController {
 	
 	private Sort orderByLastName() {
 	    return new Sort(Sort.Direction.ASC, "lastName");
+	}
+	
+	private Sort orderByName() {
+	    return new Sort(Sort.Direction.ASC, "name");
 	}
 
 }

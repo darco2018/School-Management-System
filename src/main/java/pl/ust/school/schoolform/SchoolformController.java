@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -85,7 +86,7 @@ public class SchoolformController {
 
 	@RequestMapping("/list")
 	public String listSchoolforms(@RequestParam(defaultValue = "0", required = false) int min, Model model) {
-		model.addAttribute(NAME_COLLECTION_OF_SCHOOLFORMS, this.schoolformService.getAllSchoolformDtos());
+		model.addAttribute(NAME_COLLECTION_OF_SCHOOLFORMS, this.schoolformService.getAllSchoolformDtos(orderByLastName()));
 		return VIEW_LIST;
 	}
 
@@ -180,6 +181,10 @@ public class SchoolformController {
 	private String recordNotFoundHandler(RecordNotFoundException ex, Model model) {
 		model.addAttribute("notFound", ex.getMessage());
 		return VIEW_DETAILS;
+	}
+	
+	private Sort orderByLastName() {
+	    return new Sort(Sort.Direction.ASC, "name");
 	}
 
 }
