@@ -2,6 +2,9 @@ package pl.ust.school.lesson;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.Set;
+
+import org.springframework.data.domain.Sort;
 
 public interface LessonService {
 	
@@ -11,7 +14,7 @@ public interface LessonService {
 	Lesson getLessonById(long lessonId);
 	LessonDto getLessonDto(long lessonId);
 	Collection<Lesson> getAllLessons();
-	Collection<LessonDto> getAllLessonDtos(); 
+	Set<LessonDto> getAllLessonDtos(Sort sort); 
 	
 
 }

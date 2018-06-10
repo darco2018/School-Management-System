@@ -37,7 +37,7 @@ public class TeacherController {
 	@Autowired
 	private TeacherService teacherService;
 
-	//////////////////////////// before each ////////////////////////////
+	//////////////////////////// before each  ////////////////////////////
 
 	@ModelAttribute
 	public void addEntityName(Model model) {

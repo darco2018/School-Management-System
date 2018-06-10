@@ -86,7 +86,7 @@ public class SchoolformController {
 
 	@RequestMapping("/list")
 	public String listSchoolforms(@RequestParam(defaultValue = "0", required = false) int min, Model model) {
-		model.addAttribute(NAME_COLLECTION_OF_SCHOOLFORMS, this.schoolformService.getAllSchoolformDtos(orderByName()));
+		model.addAttribute(NAME_COLLECTION_OF_SCHOOLFORMS, this.schoolformService.getAllSchoolformDtos(orderBySchoolformName()));
 		return VIEW_LIST;
 	}
 
@@ -99,7 +99,7 @@ public class SchoolformController {
 			model.addAttribute("schoolformDto", schoolformDto);
 			Set<StudentDto> students =  this.studentService.getStudentDtosBySchoolformId(id);
 			model.addAttribute(NAME_COLLECTION_OF_STUDENTS, students);
-			model.addAttribute(NAME_COLLECTION_OF_LESSONS, this.lessonService.getAllLessons());
+			model.addAttribute(NAME_COLLECTION_OF_LESSONS, this.lessonService.getAllLessonDtos( orderBySubjectName()));
 
 
 		return VIEW_DETAILS;
@@ -126,7 +126,7 @@ public class SchoolformController {
 
 			SchoolformDto schoolformDto = this.schoolformService.getSchoolformDtoById(id);
 			model.addAttribute("schoolformDto", schoolformDto);
-			model.addAttribute("notTaughLessons", this.schoolformService.getNotTaughtLessonDtos(schoolformDto));
+			model.addAttribute("notTaughLessons", this.schoolformService.getNotTaughtLessonDtos(schoolformDto, orderBySubjectName()));
 			model.addAttribute(NAME_COLLECTION_OF_STUDENTS, this.studentService.getStudentDtosBySchoolformId(id));
 			model.addAttribute(NAME_COLLECTION_OF_LESSONS, this.lessonService.getAllLessons());
 
@@ -137,7 +137,7 @@ public class SchoolformController {
 	public String updateSchoolform(@Valid SchoolformDto schoolformDto, BindingResult result, @PathVariable long id, Model model) {
 
 		if (result.hasErrors()) {
-			model.addAttribute("notTaughLessons", this.schoolformService.getNotTaughtLessonDtos(schoolformDto));
+			model.addAttribute("notTaughLessons", this.schoolformService.getNotTaughtLessonDtos(schoolformDto, orderBySubjectName()));
 			return VIEW_CREATE_OR_UPDATE_FORM;
 		} else {
 			schoolformDto.setId(id);
@@ -183,8 +183,12 @@ public class SchoolformController {
 		return VIEW_DETAILS;
 	}
 	
-	private Sort orderByName() {
+	private Sort orderBySchoolformName() {
 	    return new Sort(Sort.Direction.ASC, "name");
+	}
+	
+	private Sort orderBySubjectName() {
+	    return new Sort(Sort.Direction.ASC, "Subject.name");
 	}
 
 }

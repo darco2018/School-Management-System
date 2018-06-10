@@ -1,10 +1,13 @@
 package pl.ust.school.lesson;
 
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import pl.ust.school.system.RecordNotFoundException;
@@ -29,11 +32,11 @@ public class LessonServiceImpl implements LessonService{
 	}
 
 	@Override
-	public Collection<LessonDto> getAllLessonDtos() {
-		return this.lessonRepo.findAll()
+	public Set<LessonDto> getAllLessonDtos(Sort sort) {
+		return this.lessonRepo.findAll(sort)
 				.stream()
 				.map(lessonMapper::toDTO)
-				.collect(Collectors.toSet());
+				.collect(Collectors.toCollection(LinkedHashSet::new));
 	}
 
 	@Override
@@ -88,5 +91,7 @@ public class LessonServiceImpl implements LessonService{
 		} 
 		
 	}
+	
+	
 
 }

@@ -65,15 +65,18 @@ public class SchoolformServiceImpl implements SchoolformService {
 	}
 
 	@Override
-	public Collection<LessonDto> getNotTaughtLessonDtos(SchoolformDto schoolformDto) {
+	public Set<LessonDto> getNotTaughtLessonDtos(SchoolformDto schoolformDto, Sort sort) {
 
-		Collection<Lesson> lessonsInThisSchoolform = schoolformDto.getLessons();
-		Collection<Lesson> allLessons = this.lessonService.getAllLessons();
-		allLessons.removeAll(lessonsInThisSchoolform);
+		Set<Lesson> lessonsInThisSchoolform = schoolformDto.getLessons();
+		
+		LinkedHashSet<LessonDto> dtosInThisSchoolform = lessonsInThisSchoolform.stream()
+		.map(lessonMapper::toDTO)
+		.collect(Collectors.toCollection(LinkedHashSet::new));
+		
+		Set<LessonDto> allLessonDTOs = this.lessonService.getAllLessonDtos(sort);
+		allLessonDTOs.removeAll(dtosInThisSchoolform);
 
-		return allLessons.stream()
-				.map(lessonMapper::toDTO)
-				.collect(Collectors.toList());
+		return 	allLessonDTOs;
 	}
 	
 	public Set<SchoolformDto> getAllSchoolformDtos(Sort sort) {

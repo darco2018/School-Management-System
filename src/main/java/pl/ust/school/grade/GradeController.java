@@ -3,6 +3,7 @@ package pl.ust.school.grade;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,9 +33,9 @@ public class GradeController {
 	@Autowired
 	StudentService studentService;
 	
-	@GetMapping("/lessonList")
+	@GetMapping("/lessons")
 	public String showLessons(Model model) { 
-		model.addAttribute(NAME_COLLECTION_OF_LESSONS, this.lessonService.getAllLessonDtos());
+		model.addAttribute(NAME_COLLECTION_OF_LESSONS, this.lessonService.getAllLessonDtos(orderBySchoolformName()));
 		return VIEW_LESSON_LIST;
 	}
 
@@ -63,6 +64,10 @@ public class GradeController {
 		
 		this.studentService.addGrade(gradeValue,studentId, subjectId);
 		return "redirect:/grade/showGrades/lesson/" + lessonID; 
+	}
+	
+	private Sort orderBySchoolformName() {
+	    return new Sort(Sort.Direction.ASC, "Schoolform.name");
 	}
 }
 

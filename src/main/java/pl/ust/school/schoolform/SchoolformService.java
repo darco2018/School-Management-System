@@ -1,6 +1,5 @@
 package pl.ust.school.schoolform;
 
-import java.util.Collection;
 import java.util.Set;
 
 import org.springframework.data.domain.Sort;
@@ -14,7 +13,7 @@ public interface SchoolformService {
 	SchoolformDto getSchoolformDtoById(long id);
 	Schoolform getSchoolformById(long id);
 	Set<SchoolformDto> getAllSchoolformDtos(Sort sort);	
-	Collection<LessonDto> getNotTaughtLessonDtos(SchoolformDto dto);
+	Set<LessonDto> getNotTaughtLessonDtos(SchoolformDto dto, Sort sort);
 	void removeSchoolformFromLesson(long schoolformId, long lessonId);
 	void addSchoolformToLesson(long schoolformId, long lessonId);
 
