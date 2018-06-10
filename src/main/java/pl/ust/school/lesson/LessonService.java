@@ -13,7 +13,7 @@ public interface LessonService {
 	Optional<Lesson> getLessonByTeacherAndSubject(long teacherId, long subjectId);
 	Lesson getLessonById(long lessonId);
 	LessonDto getLessonDto(long lessonId);
-	Collection<Lesson> getAllLessons();
+	Set<Lesson> getAllLessons();
 	Set<LessonDto> getAllLessonDtos(Sort sort); 
 	
 

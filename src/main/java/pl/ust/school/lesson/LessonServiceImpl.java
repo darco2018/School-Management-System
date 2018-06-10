@@ -27,8 +27,8 @@ public class LessonServiceImpl implements LessonService{
 	}
 
 	@Override
-	public Collection<Lesson> getAllLessons() {
-		return this.lessonRepo.findAll();
+	public Set<Lesson> getAllLessons() {
+		return (Set<Lesson>) this.lessonRepo.findAll();
 	}
 
 	@Override

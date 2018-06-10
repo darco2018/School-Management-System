@@ -1,6 +1,7 @@
 package pl.ust.school.schoolform;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -66,17 +67,20 @@ public class SchoolformServiceImpl implements SchoolformService {
 
 	@Override
 	public Set<LessonDto> getNotTaughtLessonDtos(SchoolformDto schoolformDto, Sort sort) {
-
-		Set<Lesson> lessonsInThisSchoolform = schoolformDto.getLessons();
 		
-		LinkedHashSet<LessonDto> dtosInThisSchoolform = lessonsInThisSchoolform.stream()
-		.map(lessonMapper::toDTO)
-		.collect(Collectors.toCollection(LinkedHashSet::new));
+		LinkedHashSet<LessonDto> allLessonsSorted = (LinkedHashSet<LessonDto>) this.lessonService.getAllLessonDtos(sort);
+		Collection<LessonDto> schoolformLessons = schoolformDto.getLessons().stream().map(lessonMapper::toDTO)
+				 .collect(Collectors.toCollection(LinkedHashSet::new));
 		
-		Set<LessonDto> allLessonDTOs = this.lessonService.getAllLessonDtos(sort);
-		allLessonDTOs.removeAll(dtosInThisSchoolform);
-
-		return 	allLessonDTOs;
+		for (Iterator iterator = allLessonsSorted.iterator(); iterator.hasNext();) {
+			LessonDto lessonDto =(LessonDto) iterator.next();
+			for(LessonDto schoolformLesson : schoolformLessons) {
+				if( lessonDto.getId() == schoolformLesson.getId())
+					iterator.remove();
+			}
+		}
+			
+		return 	allLessonsSorted;
 	}
 	
 	public Set<SchoolformDto> getAllSchoolformDtos(Sort sort) {
