@@ -1,5 +1,7 @@
 package pl.ust.school.teacher;
 
+import java.util.Set;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import pl.ust.school.lesson.Lesson;
 import pl.ust.school.system.RecordNotFoundException;
+import pl.ust.school.system.SortUtils;
 
 @Controller
 @RequestMapping("teacher")
@@ -83,6 +87,8 @@ public class TeacherController {
 	public String viewTeacher(@PathVariable long id, Model model) {
 
 		TeacherDto teacherDto = this.teacherService.getTeacherDtoById(id);
+		Set<Lesson> sorted = SortUtils.sortLessonsBySubjectName(teacherDto.getLessons());
+		teacherDto.setLessons(sorted);
 		model.addAttribute("teacherDto", teacherDto);
 
 		return VIEW_DETAILS;
@@ -107,6 +113,8 @@ public class TeacherController {
 	public String showUpdateForm(@PathVariable long id, Model model) {
 
 		TeacherDto teacherDto = this.teacherService.getTeacherDtoById(id);
+		Set<Lesson> sorted = SortUtils.sortLessonsBySubjectName(teacherDto.getLessons());
+		teacherDto.setLessons(sorted);
 		model.addAttribute("teacherDto", teacherDto);
 		model.addAttribute("notTaughSubjects", this.teacherService.getNotTaughtSubjectDtos(teacherDto, orderByName()));
 

@@ -9,6 +9,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 import org.assertj.core.util.Sets;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,8 +24,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import pl.ust.school.lesson.Lesson;
 import pl.ust.school.lesson.LessonService;
 import pl.ust.school.student.StudentService;
+import pl.ust.school.system.RecordNotFoundException;
+import pl.ust.school.system.SortUtils;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(SchoolformController.class)
@@ -107,6 +113,7 @@ public class SchoolformControllerTest {
 
 	@Test
 	public void shouldRetrieveSchooFormByIdWhenExists() throws Exception {
+		
 		mockMvc.perform(get("/schoolform/view/{id}", TEST_SCHOOLFORM_ID))
 				.andDo(print())
 				.andExpect(status().isOk())
@@ -115,7 +122,7 @@ public class SchoolformControllerTest {
 
 	@Test
 	public void shouldHandle404AndPassMessageWhenEntityNotFound() throws Exception {
-		given(this.schoolformService.getSchoolformDtoById(-1L)).willReturn(new SchoolformDto());
+		given(this.schoolformService.getSchoolformDtoById(-1L)).willThrow(new RecordNotFoundException(""));
 		
 		mockMvc.perform(get("/schoolform/view/{id}", -1))
 				.andDo(print())

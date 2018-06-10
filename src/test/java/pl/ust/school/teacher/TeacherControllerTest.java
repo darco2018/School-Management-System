@@ -24,6 +24,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import pl.ust.school.subject.SubjectDto;
 import pl.ust.school.subject.SubjectService;
+import pl.ust.school.system.RecordNotFoundException;
 import pl.ust.school.teacher.TeacherController;
 import pl.ust.school.teacher.TeacherDto;
 import pl.ust.school.teacher.TeacherService;
@@ -137,7 +138,7 @@ public class TeacherControllerTest {
 	public void shouldHandle404AndPassMessageWhenEntityNotFound() throws Exception {
 		
 		given(this.teacherService.getTeacherDtoById(-1L))
-				.willReturn(new TeacherDto());
+				.willThrow(new RecordNotFoundException(""));
 		
 		mockMvc.perform(get("/teacher/view/{id}", -1))
 				.andDo(print())

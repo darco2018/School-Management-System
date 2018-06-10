@@ -44,9 +44,10 @@ public class GradeController {
 		
 		LessonDto lessonDto = lessonService.getLessonDto(lessonId);
 		model.addAttribute("lessonID", lessonId);
-		model.addAttribute("schoolformName", lessonDto.getSchoolform().getName());
-		model.addAttribute("subjectId", lessonDto.getSubject().getId());
-		model.addAttribute("subjectName", lessonDto.getSubject().getName());
+		
+		model.addAttribute("schoolformName", lessonDto.getSchoolform() != null ? lessonDto.getSchoolform().getName() : "");
+		model.addAttribute("subjectId", lessonDto.getSubject() != null ?  lessonDto.getSubject().getId() : "");
+		model.addAttribute("subjectName", lessonDto.getSubject() != null ? lessonDto.getSubject().getName() : "");
 		model.addAttribute("teacherName", lessonDto.getTeacher().getFirstName() + " " + lessonDto.getTeacher().getLastName());
 		
 		Set<StudentDto> withFilteredGrades = this.studentService.filterGradesBySubject(lessonDto.getSubject().getId(),

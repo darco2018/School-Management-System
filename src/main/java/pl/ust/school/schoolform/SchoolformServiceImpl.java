@@ -72,8 +72,8 @@ public class SchoolformServiceImpl implements SchoolformService {
 		Collection<LessonDto> schoolformLessons = schoolformDto.getLessons().stream().map(lessonMapper::toDTO)
 				 .collect(Collectors.toCollection(LinkedHashSet::new));
 		
-		for (Iterator iterator = allLessonsSorted.iterator(); iterator.hasNext();) {
-			LessonDto lessonDto =(LessonDto) iterator.next();
+		for (Iterator<LessonDto> iterator = allLessonsSorted.iterator(); iterator.hasNext();) {
+			LessonDto lessonDto =  iterator.next();
 			for(LessonDto schoolformLesson : schoolformLessons) {
 				if( lessonDto.getId() == schoolformLesson.getId())
 					iterator.remove();

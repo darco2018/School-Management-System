@@ -21,10 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import pl.ust.school.lesson.LessonService;
+import pl.ust.school.lesson.Lesson;
 import pl.ust.school.student.StudentDto;
 import pl.ust.school.student.StudentService;
 import pl.ust.school.system.RecordNotFoundException;
+import pl.ust.school.system.SortUtils;
 
 @Controller
 @RequestMapping("schoolform")
@@ -37,7 +38,6 @@ public class SchoolformController {
 
 	private static final String NAME_COLLECTION_OF_SCHOOLFORMS = "schoolformItems";
 	private static final String NAME_COLLECTION_OF_STUDENTS = "studentItems";
-	private static final String NAME_COLLECTION_OF_LESSONS = "lessonItems";
 	private static final String ENTITY_NAME = "entityName";
 	private static final String ENTITY_NAME_VALUE = "schoolform";
 
@@ -47,9 +47,6 @@ public class SchoolformController {
 	@Autowired
 	private StudentService studentService;
 	
-	@Autowired
-	private LessonService lessonService;
-
 	//////////////////////////// before each ////////////////////////////
 
 	@ModelAttribute
@@ -96,11 +93,13 @@ public class SchoolformController {
 	public String viewSchoolform(@PathVariable long id, Model model) {
 		
 			SchoolformDto schoolformDto = this.schoolformService.getSchoolformDtoById(id);
+			
+			Set<Lesson> sorted = SortUtils.sortLessonsBySubjectName(schoolformDto.getLessons());
+			schoolformDto.setLessons(sorted);
 			model.addAttribute("schoolformDto", schoolformDto);
+			
 			Set<StudentDto> students =  this.studentService.getStudentDtosBySchoolformId(id);
 			model.addAttribute(NAME_COLLECTION_OF_STUDENTS, students);
-			model.addAttribute(NAME_COLLECTION_OF_LESSONS, this.lessonService.getAllLessonDtos( orderBySubjectName()));
-
 
 		return VIEW_DETAILS;
 	}
@@ -124,14 +123,19 @@ public class SchoolformController {
 	@GetMapping("/update/{id}")
 	public String showUpdateForm(@PathVariable long id, Model model) {
 
-			SchoolformDto schoolformDto = this.schoolformService.getSchoolformDtoById(id);
-			model.addAttribute("schoolformDto", schoolformDto);
-			model.addAttribute("notTaughLessons", this.schoolformService.getNotTaughtLessonDtos(schoolformDto, orderBySubjectName()));
-			model.addAttribute(NAME_COLLECTION_OF_STUDENTS, this.studentService.getStudentDtosBySchoolformId(id));
-			model.addAttribute(NAME_COLLECTION_OF_LESSONS, this.lessonService.getAllLessons());
+		SchoolformDto schoolformDto = this.schoolformService.getSchoolformDtoById(id);
+		Set<Lesson> sorted = SortUtils.sortLessonsBySubjectName(schoolformDto.getLessons());
+		schoolformDto.setLessons(sorted);
+
+		model.addAttribute("schoolformDto", schoolformDto);
+		model.addAttribute("notTaughLessons",
+				this.schoolformService.getNotTaughtLessonDtos(schoolformDto, orderBySubjectName()));
+		model.addAttribute(NAME_COLLECTION_OF_STUDENTS, this.studentService.getStudentDtosBySchoolformId(id));
 
 		return VIEW_CREATE_OR_UPDATE_FORM;
 	}
+
+	
 
 	@PostMapping("/update/{id}")
 	public String updateSchoolform(@Valid SchoolformDto schoolformDto, BindingResult result, @PathVariable long id, Model model) {
