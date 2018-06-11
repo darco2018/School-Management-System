@@ -19,7 +19,7 @@ public class SortUtils {
 	public static Set<Lesson> sortLessonsBySubjectName(Set<Lesson> lessons) {
 		
 		if(lessons == null) {
-			return new LinkedHashSet<Lesson>();
+			return new LinkedHashSet<>();
 		}
 		
 		List<Lesson> lessonsList = new ArrayList<>(lessons);
