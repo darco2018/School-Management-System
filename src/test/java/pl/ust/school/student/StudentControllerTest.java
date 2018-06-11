@@ -33,7 +33,7 @@ import pl.ust.school.schoolform.SchoolformService;
 @WebMvcTest(StudentController.class)
 public class StudentControllerTest {
 
-	private static final String VIEW_CREATE_OR_UPDATE_FORM = "student/studentForm";
+	private static final String VIEW_CREATE_OR_EDIT_FORM = "student/studentForm";
 	private static final String VIEW_LIST = "student/studentList";
 	private static final String VIEW_DETAILS = "student/studentDetails";
 	private static final String VIEW_CONFIRM_DELETE = "forms/confirmDelete";
@@ -78,7 +78,7 @@ public class StudentControllerTest {
 				.andExpect(status().isOk())
 				.andExpect(model().attributeExists(NAME_COLLECTION_OF_SCHOOLFORMS))
 	            .andExpect(model().attributeExists("studentDto"))
-				.andExpect(view().name(VIEW_CREATE_OR_UPDATE_FORM));
+				.andExpect(view().name(VIEW_CREATE_OR_EDIT_FORM));
 	}
 
 	@Test
@@ -113,7 +113,7 @@ public class StudentControllerTest {
 				.andExpect(model().attributeHasFieldErrors("studentDto", "telephone"))
 				.andExpect(model().attributeHasFieldErrors("studentDto", "password"))
 				.andExpect(model().attributeErrorCount("studentDto", 6))
-				.andExpect(view().name(VIEW_CREATE_OR_UPDATE_FORM));
+				.andExpect(view().name(VIEW_CREATE_OR_EDIT_FORM));
 	}
 
 	@Test
@@ -149,18 +149,18 @@ public class StudentControllerTest {
 	}
 
 	@Test
-	public void shouldAddDtoToModelWhenUpdate() throws Exception {
+	public void shouldAddDtoToModelWhenEdit() throws Exception {
 
-		mockMvc.perform(get("/student/update/{id}", TEST_STUDENT_ID))
+		mockMvc.perform(get("/student/edit/{id}", TEST_STUDENT_ID))
 				.andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(model().attributeExists("studentDto"))
-				.andExpect(view().name(VIEW_CREATE_OR_UPDATE_FORM));
+				.andExpect(view().name(VIEW_CREATE_OR_EDIT_FORM));
 	}
 
 	@Test
-	public void shouldProcessUpdateWhenNoErrors() throws Exception {
-		mockMvc.perform(post("/student/update/{id}", TEST_STUDENT_ID).param("telephone", "1111111111")
+	public void shouldProcessEditWhenNoErrors() throws Exception {
+		mockMvc.perform(post("/student/edit/{id}", TEST_STUDENT_ID).param("telephone", "1111111111")
 				.param("address", "Penny Lane 12, London, England").param("email", "maria@gmail.com")
 				.param("firstName", "Maria").param("lastName", "Smith").param("password", "000777"))
 				.andDo(print())
@@ -171,8 +171,8 @@ public class StudentControllerTest {
 	}
 
 	 @Test
-	public void shouldReturnUpdateFormWhenErrors() throws Exception {
-		mockMvc.perform(post("/student/update/{id}", TEST_STUDENT_ID)
+	public void shouldReturnEditFormWhenErrors() throws Exception {
+		mockMvc.perform(post("/student/edit/{id}", TEST_STUDENT_ID)
 				.param("firstName", "")
 				.param("email", "<error>")
 				.param("telephone", "<error>")
@@ -188,7 +188,7 @@ public class StudentControllerTest {
 				.andExpect(model().attributeHasFieldErrors("studentDto", "telephone"))
 				.andExpect(model().attributeHasFieldErrors("studentDto", "password"))
 				.andExpect(model().attributeErrorCount("studentDto", 6))
-				.andExpect(view().name(VIEW_CREATE_OR_UPDATE_FORM));
+				.andExpect(view().name(VIEW_CREATE_OR_EDIT_FORM));
 	}
 	
 	 @Test

@@ -60,7 +60,7 @@ public class StudentServiceImpl implements StudentService {
 
 		Student student = this.mapper.fromDTO(studentDto);
 
-		if (student.isNew()) { // update to non-new student's schoolform is added on student save
+		if (student.isNew()) { // edit to non-new student's schoolform is added on student save
 			addStudentToSchoolform(student);
 		}
 

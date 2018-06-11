@@ -29,7 +29,7 @@ import pl.ust.school.system.SortUtils;
 @RequestMapping("teacher")
 public class TeacherController {
 
-	private static final String VIEW_CREATE_OR_UPDATE_FORM = "teacher/teacherForm";
+	private static final String VIEW_CREATE_OR_EDIT_FORM = "teacher/teacherForm";
 	private static final String VIEW_LIST = "teacher/teacherList";
 	private static final String VIEW_DETAILS = "teacher/teacherDetails";
 	private static final String VIEW_CONFIRM_DELETE = "forms/confirmDelete";
@@ -59,14 +59,14 @@ public class TeacherController {
 
 	@GetMapping("/save")
 	public String showCreateForm(TeacherDto teacherDto) {
-		return VIEW_CREATE_OR_UPDATE_FORM;
+		return VIEW_CREATE_OR_EDIT_FORM;
 	}
 
 	@PostMapping("/save")
 	public String saveTeacher(@Valid TeacherDto teacherDto, BindingResult result) {
 
 		if (result.hasErrors()) {
-			return VIEW_CREATE_OR_UPDATE_FORM;
+			return VIEW_CREATE_OR_EDIT_FORM;
 		}
 
 		long id = this.teacherService.createTeacher(teacherDto);
@@ -107,10 +107,10 @@ public class TeacherController {
 		return "redirect:/teacher/list";
 	}
 
-	//////////////////////////// UPDATE ////////////////////////////
+	//////////////////////////// EDIT ////////////////////////////
 
-	@GetMapping("/update/{id}")
-	public String showUpdateForm(@PathVariable long id, Model model) {
+	@GetMapping("/edit/{id}")
+	public String showEditForm(@PathVariable long id, Model model) {
 
 		TeacherDto teacherDto = this.teacherService.getTeacherDtoById(id);
 		Set<Lesson> sorted = SortUtils.sortLessonsBySubjectName(teacherDto.getLessons());
@@ -118,15 +118,15 @@ public class TeacherController {
 		model.addAttribute("teacherDto", teacherDto);
 		model.addAttribute("notTaughSubjects", this.teacherService.getNotTaughtSubjectDtos(teacherDto, orderByName()));
 
-		return VIEW_CREATE_OR_UPDATE_FORM;
+		return VIEW_CREATE_OR_EDIT_FORM;
 	}
 
-	@PostMapping("/update/{id}")
-	public String updateTeacher(@Valid TeacherDto teacherDto, BindingResult result, @PathVariable long id, Model model) {
+	@PostMapping("/edit/{id}")
+	public String editTeacher(@Valid TeacherDto teacherDto, BindingResult result, @PathVariable long id, Model model) {
 
 		if (result.hasErrors()) {
 		    model.addAttribute("notTaughSubjects", this.teacherService.getNotTaughtSubjectDtos(teacherDto, orderByName()));
-			return VIEW_CREATE_OR_UPDATE_FORM;
+			return VIEW_CREATE_OR_EDIT_FORM;
 		} else {
 			teacherDto.setId(id);
 			this.teacherService.createTeacher(teacherDto);
@@ -140,14 +140,14 @@ public class TeacherController {
 	private String removeSubjectFromTeacher(@PathVariable long teacherId, @PathVariable long lessonId) {
 
 		this.teacherService.removeLesson(lessonId); // completely
-		return "redirect:/teacher/update/" + teacherId;
+		return "redirect:/teacher/edit/" + teacherId;
 	}
 
 	@GetMapping("/{teacherId}/subject/{subjectId}/add")
 	private String addSubjectToTeacher(@PathVariable long teacherId, @PathVariable long subjectId) {
 
 		this.teacherService.addLesson(teacherId, subjectId);
-		return "redirect:/teacher/update/" + teacherId;
+		return "redirect:/teacher/edit/" + teacherId;
 	}
 
 	////////////////////// exception handling ////////////////////////////////////

@@ -24,7 +24,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest(SubjectController.class)
 public class SubjectControllerTest {
 	
-	private static final String VIEW_CREATE_OR_UPDATE_FORM = "subject/subjectForm";
+	private static final String VIEW_CREATE_OR_EDIT_FORM = "subject/subjectForm";
 	private static final String VIEW_LIST = "subject/subjectList";
 	private static final String VIEW_DETAILS = "subject/subjectDetails";
 	private static final String VIEW_CONFIRM_DELETE = "forms/confirmDelete";
@@ -56,7 +56,7 @@ public class SubjectControllerTest {
         	.andDo(print())
             .andExpect(status().isOk())
             .andExpect(model().attributeExists("subjectDto"))
-            .andExpect(view().name(VIEW_CREATE_OR_UPDATE_FORM));
+            .andExpect(view().name(VIEW_CREATE_OR_EDIT_FORM));
     }
 
     @Test
@@ -77,7 +77,7 @@ public class SubjectControllerTest {
             .andExpect(status().isOk()) 
             .andExpect(model().attributeHasErrors("subjectDto"))
             .andExpect(model().attributeHasFieldErrors("subjectDto", "name"))
-            .andExpect(view().name(VIEW_CREATE_OR_UPDATE_FORM));
+            .andExpect(view().name(VIEW_CREATE_OR_EDIT_FORM));
     }
    
     @Test
@@ -112,19 +112,19 @@ public class SubjectControllerTest {
     }
 
      @Test
-    public void shouldShowUpdateForm() throws Exception {
+    public void shouldShowEditForm() throws Exception {
     	
-        mockMvc.perform(get("/subject/update/{id}", TEST_SUBJECT_ID))
+        mockMvc.perform(get("/subject/edit/{id}", TEST_SUBJECT_ID))
         	.andDo(print())
             .andExpect(status().isOk())
             .andExpect(model().attributeExists("subjectDto"))
             .andExpect(model().attribute("subjectDto", this.biology))
-            .andExpect(view().name(VIEW_CREATE_OR_UPDATE_FORM));
+            .andExpect(view().name(VIEW_CREATE_OR_EDIT_FORM));
     }
 
     @Test
-    public void shouldProcessUpdateWhenNoErrors() throws Exception {
-        mockMvc.perform( post("/subject/update/{id}", TEST_SUBJECT_ID)
+    public void shouldProcessEditWhenNoErrors() throws Exception {
+        mockMvc.perform( post("/subject/edit/{id}", TEST_SUBJECT_ID)
             .param("name", "Astrophysics")
         )
         	// .andExpect(model().attributeHasNoErrors("subject"))  No BindingResult for attribute: product WHY?!
@@ -138,7 +138,7 @@ public class SubjectControllerTest {
    
     @Test
     public void shouldFindErrorWhenNameIsEmpty() throws Exception {
-        mockMvc.perform( post("/subject/update/{id}", TEST_SUBJECT_ID)
+        mockMvc.perform( post("/subject/edit/{id}", TEST_SUBJECT_ID)
             .param("name", "")
         )
         	.andDo(print())
@@ -146,7 +146,7 @@ public class SubjectControllerTest {
         	.andExpect(model().attributeHasErrors("subjectDto"))
         	.andExpect(model().attributeHasFieldErrors("subjectDto", "name"))
         	.andExpect(model().errorCount(1))
-            .andExpect(view().name(VIEW_CREATE_OR_UPDATE_FORM));
+            .andExpect(view().name(VIEW_CREATE_OR_EDIT_FORM));
     }
     
     

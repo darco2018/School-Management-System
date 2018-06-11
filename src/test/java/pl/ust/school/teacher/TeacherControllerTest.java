@@ -33,7 +33,7 @@ import pl.ust.school.teacher.TeacherService;
 @WebMvcTest(TeacherController.class)
 public class TeacherControllerTest {
 	
-	private static final String VIEW_CREATE_OR_UPDATE_FORM = "teacher/teacherForm";
+	private static final String VIEW_CREATE_OR_EDIT_FORM = "teacher/teacherForm";
 	private static final String VIEW_LIST = "teacher/teacherList";
 	private static final String VIEW_DETAILS = "teacher/teacherDetails";
 	private static final String VIEW_CONFIRM_DELETE = "forms/confirmDelete";
@@ -75,7 +75,7 @@ public class TeacherControllerTest {
 		.andDo(print())
 		.andExpect(status().isOk())
         .andExpect(model().attributeExists("teacherDto")) 
-		.andExpect(view().name(VIEW_CREATE_OR_UPDATE_FORM));
+		.andExpect(view().name(VIEW_CREATE_OR_EDIT_FORM));
 	}
 
 	@Test
@@ -110,7 +110,7 @@ public class TeacherControllerTest {
 				.andExpect(model().attributeHasFieldErrors("teacherDto", "telephone"))
 				.andExpect(model().attributeHasFieldErrors("teacherDto", "password"))
 				.andExpect(model().attributeErrorCount("teacherDto", 6))
-				.andExpect(view().name(VIEW_CREATE_OR_UPDATE_FORM));
+				.andExpect(view().name(VIEW_CREATE_OR_EDIT_FORM));
 	}
 	
 	@Test
@@ -146,21 +146,21 @@ public class TeacherControllerTest {
 	}
 
 	@Test
-	public void shouldAddDtoToModelWhenUpdate() throws Exception {
+	public void shouldAddDtoToModelWhenEdit() throws Exception {
 		
 		given(this.teacherService.getNotTaughtSubjectDtos( new TeacherDto(), new Sort(Sort.Direction.ASC, "name")))
 				.willReturn(Lists.newArrayList( new SubjectDto()));
 
-		mockMvc.perform(get("/teacher/update/{id}", TEST_TEACHER_ID))
+		mockMvc.perform(get("/teacher/edit/{id}", TEST_TEACHER_ID))
 				.andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(model().attributeExists("teacherDto"))
-				.andExpect(view().name(VIEW_CREATE_OR_UPDATE_FORM));
+				.andExpect(view().name(VIEW_CREATE_OR_EDIT_FORM));
 	}
 
 	@Test
-	public void shouldProcessUpdateWhenNoErrors() throws Exception {
-		mockMvc.perform(post("/teacher/update/{id}", TEST_TEACHER_ID).param("telephone", "1111111111")
+	public void shouldProcessEditWhenNoErrors() throws Exception {
+		mockMvc.perform(post("/teacher/edit/{id}", TEST_TEACHER_ID).param("telephone", "1111111111")
 				.param("address", "Penny Lane 12, London, England").param("email", "maria@gmail.com")
 				.param("firstName", "Maria").param("lastName", "Smith").param("password", "000777"))
 				.andDo(print())
@@ -171,8 +171,8 @@ public class TeacherControllerTest {
 	}
 
 	 @Test
-	public void shouldFindErrorsAndShowUpdateFormWhenErrors() throws Exception {
-		mockMvc.perform(post("/teacher/update/{id}", TEST_TEACHER_ID)
+	public void shouldFindErrorsAndShowEditFormWhenErrors() throws Exception {
+		mockMvc.perform(post("/teacher/edit/{id}", TEST_TEACHER_ID)
 				.param("firstName", "")
 				.param("email", "<error>")
 				.param("telephone", "<error>")
@@ -188,7 +188,7 @@ public class TeacherControllerTest {
 				.andExpect(model().attributeHasFieldErrors("teacherDto", "telephone"))
 				.andExpect(model().attributeHasFieldErrors("teacherDto", "password"))
 				.andExpect(model().attributeErrorCount("teacherDto", 6))
-			    .andExpect(view().name(VIEW_CREATE_OR_UPDATE_FORM));
+			    .andExpect(view().name(VIEW_CREATE_OR_EDIT_FORM));
 	}
 
 	@Test
@@ -220,7 +220,7 @@ public class TeacherControllerTest {
 
 		// assert
 		.andExpect(status().is3xxRedirection())
-		.andExpect( redirectedUrl("/teacher/update/" + TEST_TEACHER_ID));
+		.andExpect( redirectedUrl("/teacher/edit/" + TEST_TEACHER_ID));
 	}
 	
 	@Test
@@ -231,7 +231,7 @@ public class TeacherControllerTest {
 		
 		// assert
 		.andExpect(status().is3xxRedirection())
-		.andExpect( redirectedUrl("/teacher/update/" + TEST_TEACHER_ID));
+		.andExpect( redirectedUrl("/teacher/edit/" + TEST_TEACHER_ID));
 		
 	}
 

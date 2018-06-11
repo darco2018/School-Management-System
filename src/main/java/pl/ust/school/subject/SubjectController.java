@@ -23,7 +23,7 @@ import pl.ust.school.system.RecordNotFoundException;
 @RequestMapping("subject")
 public class SubjectController {
 
-	private static final String VIEW_CREATE_OR_UPDATE_FORM = "subject/subjectForm";
+	private static final String VIEW_CREATE_OR_EDIT_FORM = "subject/subjectForm";
 	private static final String VIEW_LIST = "subject/subjectList";
 	private static final String VIEW_DETAILS = "subject/subjectDetails";
 	private static final String VIEW_CONFIRM_DELETE = "forms/confirmDelete";
@@ -53,14 +53,14 @@ public class SubjectController {
 
 	@GetMapping("/save")
 	public String showCreateForm(SubjectDto subjectDto, Model model) {
-		return VIEW_CREATE_OR_UPDATE_FORM;
+		return VIEW_CREATE_OR_EDIT_FORM;
 	}
 
 	@PostMapping("/save")
 	public String saveSubject(@Valid SubjectDto subjectDto, BindingResult result) {
 
 		if (result.hasErrors()) {
-			return VIEW_CREATE_OR_UPDATE_FORM;
+			return VIEW_CREATE_OR_EDIT_FORM;
 		}
 
 		long id = this.subjectService.createSubject(subjectDto);
@@ -99,22 +99,22 @@ public class SubjectController {
 		return "redirect:/subject/list";
 	}
 
-	//////////////////////////// UPDATE ////////////////////////////
+	//////////////////////////// EDIT ////////////////////////////
 
-	@GetMapping("/update/{id}")
-	public String showUpdateForm(@PathVariable long id, Model model) {
+	@GetMapping("/edit/{id}")
+	public String showEditForm(@PathVariable long id, Model model) {
 
 		SubjectDto subjectDto = this.subjectService.getSubjectDtoById(id);
 		model.addAttribute(subjectDto);
 
-		return VIEW_CREATE_OR_UPDATE_FORM;
+		return VIEW_CREATE_OR_EDIT_FORM;
 	}
 
-	@PostMapping("/update/{id}")
-	public String updateSubject(@Valid SubjectDto subjectDto, BindingResult result, @PathVariable long id) {
+	@PostMapping("/edit/{id}")
+	public String editSubject(@Valid SubjectDto subjectDto, BindingResult result, @PathVariable long id) {
 
 		if (result.hasErrors()) {
-			return VIEW_CREATE_OR_UPDATE_FORM;
+			return VIEW_CREATE_OR_EDIT_FORM;
 		} else {
 			subjectDto.setId(id);
 			this.subjectService.createSubject(subjectDto);

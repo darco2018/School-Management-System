@@ -28,7 +28,7 @@ import pl.ust.school.system.RecordNotFoundException;
 @RequestMapping("student")
 public class StudentController {
 
-	private static final String VIEW_CREATE_OR_UPDATE_FORM = "student/studentForm";
+	private static final String VIEW_CREATE_OR_EDIT_FORM = "student/studentForm";
 	private static final String VIEW_LIST = "student/studentList";
 	private static final String VIEW_DETAILS = "student/studentDetails";
 	private static final String VIEW_CONFIRM_DELETE = "forms/confirmDelete";
@@ -67,14 +67,14 @@ public class StudentController {
 
 	@GetMapping("/save")
 	public String showCreateForm(StudentDto studentDto) {
-		return VIEW_CREATE_OR_UPDATE_FORM;
+		return VIEW_CREATE_OR_EDIT_FORM;
 	}
 
 	@PostMapping("/save")
 	public String saveStudent(@Valid StudentDto studentDto, BindingResult result) {
 
 		if (result.hasErrors()) {
-			return VIEW_CREATE_OR_UPDATE_FORM;
+			return VIEW_CREATE_OR_EDIT_FORM;
 		}
 
 		long id = this.studentService.createStudent(studentDto);
@@ -113,22 +113,22 @@ public class StudentController {
 		return "redirect:/student/list";
 	}
 
-	//////////////////////////// UPDATE ////////////////////////////
+	//////////////////////////// EDIT ////////////////////////////
 
-	@GetMapping("/update/{id}")
-	public String showUpdateForm(@PathVariable long id, Model model) {
+	@GetMapping("/edit/{id}")
+	public String showEditForm(@PathVariable long id, Model model) {
 
 		StudentDto studentDto = this.studentService.getStudentDtoById(id);
 		model.addAttribute("studentDto", studentDto);
 
-		return VIEW_CREATE_OR_UPDATE_FORM;
+		return VIEW_CREATE_OR_EDIT_FORM;
 	}
 
-	@PostMapping("/update/{id}")
-	public String updateStudent(@Valid StudentDto studentDto, BindingResult result, @PathVariable long id) {
+	@PostMapping("/edit/{id}")
+	public String editStudent(@Valid StudentDto studentDto, BindingResult result, @PathVariable long id) {
 
 		if (result.hasErrors()) {
-			return VIEW_CREATE_OR_UPDATE_FORM;
+			return VIEW_CREATE_OR_EDIT_FORM;
 		} else {
 			studentDto.setId(id);
 			this.studentService.createStudent(studentDto);

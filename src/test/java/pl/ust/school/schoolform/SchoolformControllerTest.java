@@ -34,7 +34,7 @@ import pl.ust.school.system.SortUtils;
 @WebMvcTest(SchoolformController.class)
 public class SchoolformControllerTest {
 
-	private static final String VIEW_CREATE_OR_UPDATE_FORM = "schoolform/schoolformForm";
+	private static final String VIEW_CREATE_OR_EDIT_FORM = "schoolform/schoolformForm";
 	private static final String VIEW_LIST = "schoolform/schoolformList";
 	private static final String VIEW_DETAILS = "schoolform/schoolformDetails";
 	private static final String VIEW_CONFIRM_DELETE = "forms/confirmDelete";
@@ -74,7 +74,7 @@ public class SchoolformControllerTest {
 				
 				.andExpect(status().isOk())
 				.andExpect(model().attributeExists("schoolformDto"))
-				.andExpect(view().name(VIEW_CREATE_OR_UPDATE_FORM));
+				.andExpect(view().name(VIEW_CREATE_OR_EDIT_FORM));
 	}
 
 	@Test
@@ -95,7 +95,7 @@ public class SchoolformControllerTest {
 				.andExpect(status().isOk())
 				.andExpect(model().attributeHasErrors("schoolformDto"))
 				.andExpect(model().attributeHasFieldErrors("schoolformDto", "name"))
-				.andExpect(view().name(VIEW_CREATE_OR_UPDATE_FORM));
+				.andExpect(view().name(VIEW_CREATE_OR_EDIT_FORM));
 	}
 
 	@Test
@@ -130,19 +130,19 @@ public class SchoolformControllerTest {
 	}
 
 	@Test
-	public void shouldAddDtoToModelWhenUpdate() throws Exception {
+	public void shouldAddDtoToModelWhenEdit() throws Exception {
 
-		mockMvc.perform(get("/schoolform/update/{id}", TEST_SCHOOLFORM_ID))
+		mockMvc.perform(get("/schoolform/edit/{id}", TEST_SCHOOLFORM_ID))
 				.andDo(print())
 				
 				.andExpect(status().isOk())
 				.andExpect(model().attributeExists("schoolformDto"))
-				.andExpect(view().name(VIEW_CREATE_OR_UPDATE_FORM));
+				.andExpect(view().name(VIEW_CREATE_OR_EDIT_FORM));
 	}
 
 	@Test
-	public void shouldProcessUpdateWhenNoErrors() throws Exception {
-		mockMvc.perform(post("/schoolform/update/{id}", TEST_SCHOOLFORM_ID)
+	public void shouldProcessEditWhenNoErrors() throws Exception {
+		mockMvc.perform(post("/schoolform/edit/{id}", TEST_SCHOOLFORM_ID)
 				.param("name", "2B"))
 				.andDo(print())
 				
@@ -153,12 +153,12 @@ public class SchoolformControllerTest {
 
 	@Test
 	public void shouldFindErrorWhenEmptyName() throws Exception {
-		mockMvc.perform(post("/schoolform/update/{id}", TEST_SCHOOLFORM_ID).contentType(MediaType.TEXT_HTML)
+		mockMvc.perform(post("/schoolform/edit/{id}", TEST_SCHOOLFORM_ID).contentType(MediaType.TEXT_HTML)
 
 				.param("name", "")).andDo(print()).andExpect(status().isOk())
 				.andExpect(model().attributeHasErrors("schoolformDto"))
 				.andExpect(model().attributeHasFieldErrors("schoolformDto", "name")).andExpect(model().errorCount(1))
-				.andExpect(view().name(VIEW_CREATE_OR_UPDATE_FORM));
+				.andExpect(view().name(VIEW_CREATE_OR_EDIT_FORM));
 	}
 
 	@Test

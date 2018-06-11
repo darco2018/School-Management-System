@@ -31,7 +31,7 @@ import pl.ust.school.system.SortUtils;
 @RequestMapping("schoolform")
 public class SchoolformController {
 
-	private static final String VIEW_CREATE_OR_UPDATE_FORM = "schoolform/schoolformForm";
+	private static final String VIEW_CREATE_OR_EDIT_FORM = "schoolform/schoolformForm";
 	private static final String VIEW_LIST = "schoolform/schoolformList";
 	private static final String VIEW_DETAILS = "schoolform/schoolformDetails";
 	private static final String VIEW_CONFIRM_DELETE = "forms/confirmDelete";
@@ -65,14 +65,14 @@ public class SchoolformController {
 
 	@GetMapping("/save")
 	public String showCreateForm(SchoolformDto schoolformDto, Model model) {
-		return VIEW_CREATE_OR_UPDATE_FORM;
+		return VIEW_CREATE_OR_EDIT_FORM;
 	}
 
 	@PostMapping("/save")
 	public String saveSchoolform(@Valid SchoolformDto schoolformDto, BindingResult result) {
 
 		if (result.hasErrors()) {
-			return VIEW_CREATE_OR_UPDATE_FORM;
+			return VIEW_CREATE_OR_EDIT_FORM;
 		}
 
 		this.schoolformService.createSchoolform(schoolformDto);
@@ -118,10 +118,10 @@ public class SchoolformController {
 		return "redirect:/schoolform/list";
 	}
 
-	//////////////////////////// UPDATE ////////////////////////////
+	//////////////////////////// EDIT ////////////////////////////
 	
-	@GetMapping("/update/{id}")
-	public String showUpdateForm(@PathVariable long id, Model model) {
+	@GetMapping("/edit/{id}")
+	public String showEditForm(@PathVariable long id, Model model) {
 
 		SchoolformDto schoolformDto = this.schoolformService.getSchoolformDtoById(id);
 		Set<Lesson> sorted = SortUtils.sortLessonsBySubjectName(schoolformDto.getLessons());
@@ -132,17 +132,17 @@ public class SchoolformController {
 				this.schoolformService.getNotTaughtLessonDtos(schoolformDto, orderBySubjectName()));
 		model.addAttribute(NAME_COLLECTION_OF_STUDENTS, this.studentService.getStudentDtosBySchoolformId(id));
 
-		return VIEW_CREATE_OR_UPDATE_FORM;
+		return VIEW_CREATE_OR_EDIT_FORM;
 	}
 
 	
 
-	@PostMapping("/update/{id}")
-	public String updateSchoolform(@Valid SchoolformDto schoolformDto, BindingResult result, @PathVariable long id, Model model) {
+	@PostMapping("/edit/{id}")
+	public String editSchoolform(@Valid SchoolformDto schoolformDto, BindingResult result, @PathVariable long id, Model model) {
 
 		if (result.hasErrors()) {
 			model.addAttribute("notTaughLessons", this.schoolformService.getNotTaughtLessonDtos(schoolformDto, orderBySubjectName()));
-			return VIEW_CREATE_OR_UPDATE_FORM;
+			return VIEW_CREATE_OR_EDIT_FORM;
 		} else {
 			schoolformDto.setId(id);
 			this.schoolformService.createSchoolform(schoolformDto);
@@ -157,7 +157,7 @@ public class SchoolformController {
 	private String removeLessonFromSchoolForm(@PathVariable long schoolformId, @PathVariable long lessonId) {
 
 		this.schoolformService.removeSchoolformFromLesson(schoolformId, lessonId);
-		return "redirect:/schoolform/update/" + schoolformId;
+		return "redirect:/schoolform/edit/" + schoolformId;
 	}
 
 	@GetMapping("/{schoolformId}/lesson/{lessonId}/add")
@@ -165,7 +165,7 @@ public class SchoolformController {
 
 		this.schoolformService.addSchoolformToLesson(schoolformId, lessonId);
 		
-		return "redirect:/schoolform/update/" + schoolformId;
+		return "redirect:/schoolform/edit/" + schoolformId;
 	}
 	
 	//////////////////////////////remove student from schoolform//////////////////////////////////////////
@@ -175,7 +175,7 @@ public class SchoolformController {
 	public String removeStudentFromSchoolform(@PathVariable long studentId, @PathVariable long schoolformId) {
 
 		this.studentService.removeStudentFromSchoolform(studentId);
-		return "redirect:/schoolform/update/" + schoolformId;
+		return "redirect:/schoolform/edit/" + schoolformId;
 	}
 
 	////////////////////// exception handling ////////////////////////////////////
