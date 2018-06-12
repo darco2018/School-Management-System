@@ -11,11 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import pl.ust.school.exception.RecordNotFoundException;
 import pl.ust.school.lesson.Lesson;
 import pl.ust.school.lesson.LessonDto;
 import pl.ust.school.lesson.LessonMapper;
 import pl.ust.school.lesson.LessonService;
-import pl.ust.school.system.RecordNotFoundException;
 
 @Service
 public class SchoolformServiceImpl implements SchoolformService {

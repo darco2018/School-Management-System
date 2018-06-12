@@ -9,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import pl.ust.school.exception.RecordNotFoundException;
 import pl.ust.school.lesson.Lesson;
 import pl.ust.school.lesson.LessonService;
 import pl.ust.school.subject.Subject;
 import pl.ust.school.subject.SubjectDto;
 import pl.ust.school.subject.SubjectService;
-import pl.ust.school.system.RecordNotFoundException;
 
 @Service
 public class TeacherServiceImpl implements TeacherService {

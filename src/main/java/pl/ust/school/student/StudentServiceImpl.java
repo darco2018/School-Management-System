@@ -11,12 +11,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import pl.ust.school.exception.RecordNotFoundException;
 import pl.ust.school.grade.Grade;
 import pl.ust.school.schoolform.Schoolform;
 import pl.ust.school.schoolform.SchoolformService;
 import pl.ust.school.subject.Subject;
 import pl.ust.school.subject.SubjectService;
-import pl.ust.school.system.RecordNotFoundException;
 
 @Service
 public class StudentServiceImpl implements StudentService {

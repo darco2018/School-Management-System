@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,8 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import pl.ust.school.system.RecordNotFoundException;
 
 @Controller
 @RequestMapping("subject")
@@ -123,13 +120,9 @@ public class SubjectController {
 
 	}
 
-	////////////////////// exception handling ////////////////////////////////////
+	////////////////////// others ////////////////////////////////////
 
-	@ExceptionHandler
-	private String recordNotFoundHandler(RecordNotFoundException ex, Model model) {
-		model.addAttribute("notFound", ex.getMessage());
-		return VIEW_DETAILS;
-	}
+	
 	
 	private Sort orderByName() {
 	    return new Sort(Sort.Direction.ASC, "name");
