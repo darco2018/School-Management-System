@@ -20,6 +20,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import pl.ust.school.exception.RecordNotFoundException;
+import pl.ust.school.system.AppConstants;
+
 @RunWith(SpringRunner.class)
 @WebMvcTest(SubjectController.class)
 public class SubjectControllerTest {
@@ -103,12 +106,15 @@ public class SubjectControllerTest {
   
     @Test
     public void shouldHandle404AndPassMessageWhenEntityNotFound() throws Exception {
-    	 given(this.subjectService.getSubjectDtoById(-1L)).willReturn(new SubjectDto());
+    	
+    	 given(this.subjectService.getSubjectDtoById(-1L))
+    	 	.willThrow(new RecordNotFoundException(""));
+    	 
         mockMvc.perform(get("/subject/view/{id}", -1)
         )
         	.andDo(print())
         	.andExpect(status().isOk())
-            .andExpect(view().name(VIEW_DETAILS));
+        	.andExpect(view().name(AppConstants.VIEW_SUPPORT));
     }
 
      @Test

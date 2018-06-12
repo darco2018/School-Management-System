@@ -75,7 +75,6 @@ public class SubjectJPATest {
 	private Teacher createTeacher(String name) {
 
 		Teacher teacher = new Teacher();
-		teacher = new Teacher();
 		teacher.setFirstName("Jessica");
 		teacher.setLastName("Motgmomery");
 		teacher.setEmail(name + "@gamil.com");

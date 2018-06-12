@@ -26,6 +26,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import pl.ust.school.exception.RecordNotFoundException;
 import pl.ust.school.subject.SubjectDto;
 import pl.ust.school.subject.SubjectService;
+import pl.ust.school.system.AppConstants;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(TeacherController.class)
@@ -139,8 +140,8 @@ public class TeacherControllerTest {
 				.willThrow(new RecordNotFoundException(""));
 		
 		mockMvc.perform(get("/teacher/view/{id}", -1))
-				.andDo(print())
-				.andExpect(view().name(VIEW_DETAILS));
+				.andDo(print()) //
+				.andExpect(view().name(AppConstants.VIEW_SUPPORT));
 	}
 
 	@Test

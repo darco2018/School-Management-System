@@ -24,6 +24,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import pl.ust.school.exception.RecordNotFoundException;
 import pl.ust.school.lesson.LessonService;
 import pl.ust.school.student.StudentService;
+import pl.ust.school.system.AppConstants;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(SchoolformController.class)
@@ -117,11 +118,13 @@ public class SchoolformControllerTest {
 
 	@Test
 	public void shouldHandle404AndPassMessageWhenEntityNotFound() throws Exception {
-		given(this.schoolformService.getSchoolformDtoById(-1L)).willThrow(new RecordNotFoundException(""));
+		
+		given(this.schoolformService.getSchoolformDtoById(-1L))
+				.willThrow(new RecordNotFoundException(""));
 		
 		mockMvc.perform(get("/schoolform/view/{id}", -1))
 				.andDo(print())
-				.andExpect(view().name(VIEW_DETAILS));
+				.andExpect(view().name(AppConstants.VIEW_SUPPORT));
 	}
 
 	@Test

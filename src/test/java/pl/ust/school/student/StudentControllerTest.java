@@ -22,8 +22,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import pl.ust.school.exception.RecordNotFoundException;
 import pl.ust.school.schoolform.Schoolform;
 import pl.ust.school.schoolform.SchoolformService;
+import pl.ust.school.system.AppConstants;
 
 
 // allows the Web App Context to be loaded. By default Spring will load the context into a Static variable so it only gets 
@@ -141,11 +143,13 @@ public class StudentControllerTest {
 
 	@Test
 	public void shouldHandle404AndPassMessageWhenEntityNotFound() throws Exception {
-		given(this.studentService.getStudentDtoById(-1L)).willReturn(new StudentDto());
+		
+		given(this.studentService.getStudentDtoById(-1L))
+				.willThrow(new RecordNotFoundException(""));
 
 		mockMvc.perform(get("/student/view/{id}", -1))
 				.andDo(print())
-				.andExpect(view().name(VIEW_DETAILS));
+				.andExpect(view().name(AppConstants.VIEW_SUPPORT));
 	}
 
 	@Test

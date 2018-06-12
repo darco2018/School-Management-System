@@ -12,12 +12,19 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<div>
-				
-				<h3>Hmmmm..., there's no page at this address!</h3>
-				
-				<img src="/images/shocked-face.png" alt="shocked face">
+					<h1>Ooops... unexpected problem</h1>
 					
-				<p>If you think there should be one, please contact support at <b>us3cki@zoho.com</b>
+					<div id="content">
+						<p>${message}</p>
+						<p>Failed URL: ${url} </p>
+						<p>Status: ${status} </p>
+						<p>Occurred: ${timestamp} </p>
+						<p>Exception: ${exception.message} </p>
+						
+						<c:forEach items="${exception.stackTrace}" var="ste">    
+        					${ste} 
+    					</c:forEach>
+					</div>
 				</div>
 			</div>
 		</div>

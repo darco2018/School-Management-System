@@ -12,15 +12,11 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<div>
-					<h1>SUPPORT PAGE</h1>
-					
-					<img src="/images/shocked-face.png" alt="shocked face">
-					
-					<h3>Ooops... something unexpected happened...</h3>
+					<h1>ERROR DETAILS</h1>
 					
 					<div id="content">
 						<p>${message}</p>
-						<!-- INFO FOR THE DEVELOPER WHEN ERROR OCCURS:
+						
 						<p>Page: ${url} </p>
 						<p>Status: ${status} </p>
 						<p>Occurred: ${timestamp} </p>
@@ -32,7 +28,7 @@
        					 <c:forEach items="${exception.stackTrace}" var="ste">    
         						${ste} 
    	 					</c:forEach>
- 						 -->
+ 						 
 					</div>
 				</div>
 			</div>

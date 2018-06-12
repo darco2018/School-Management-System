@@ -25,5 +25,10 @@ public class HomeController {
     public @ResponseBody String helloworld() {
         return "Hello World";
     }
+	
+	@RequestMapping("/ex")
+    public @ResponseBody void throwException() {
+		throw new RuntimeException("test exception");
+    }
 
 }
