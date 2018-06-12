@@ -5,7 +5,6 @@ import java.util.Set;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -73,7 +72,7 @@ public class TeacherController {
 
 	@RequestMapping("/list")
 	public String listTeachers(@RequestParam(defaultValue = "0", required = false) int min, Model model) {
-		model.addAttribute(NAME_COLLECTION_OF_TEACHERS, this.teacherService.getAllTeacherDtos(orderByLastName()));
+		model.addAttribute(NAME_COLLECTION_OF_TEACHERS, this.teacherService.getAllTeacherDtos(SortUtils.orderByLastNameAsc()));
 		return VIEW_LIST;
 	}
 
@@ -112,7 +111,7 @@ public class TeacherController {
 		Set<Lesson> sorted = SortUtils.sortLessonsBySubjectName(teacherDto.getLessons());
 		teacherDto.setLessons(sorted);
 		model.addAttribute("teacherDto", teacherDto);
-		model.addAttribute("notTaughSubjects", this.teacherService.getNotTaughtSubjectDtos(teacherDto, orderByName()));
+		model.addAttribute("notTaughSubjects", this.teacherService.getNotTaughtSubjectDtos(teacherDto, SortUtils.orderByNameAsc()));
 
 		return VIEW_CREATE_OR_EDIT_FORM;
 	}
@@ -121,7 +120,7 @@ public class TeacherController {
 	public String editTeacher(@Valid TeacherDto teacherDto, BindingResult result, @PathVariable long id, Model model) {
 
 		if (result.hasErrors()) {
-		    model.addAttribute("notTaughSubjects", this.teacherService.getNotTaughtSubjectDtos(teacherDto, orderByName()));
+		    model.addAttribute("notTaughSubjects", this.teacherService.getNotTaughtSubjectDtos(teacherDto, SortUtils.orderByNameAsc()));
 			return VIEW_CREATE_OR_EDIT_FORM;
 		} else {
 			teacherDto.setId(id);
@@ -148,12 +147,6 @@ public class TeacherController {
 
 	////////////////////// others ////////////////////////////////////
 
-	private Sort orderByLastName() {
-	    return new Sort(Sort.Direction.ASC, "lastName");
-	}
 	
-	private Sort orderByName() {
-	    return new Sort(Sort.Direction.ASC, "name");
-	}
 
 }

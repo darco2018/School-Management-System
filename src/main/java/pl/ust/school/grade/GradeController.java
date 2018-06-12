@@ -15,6 +15,7 @@ import pl.ust.school.lesson.LessonDto;
 import pl.ust.school.lesson.LessonService;
 import pl.ust.school.student.StudentDto;
 import pl.ust.school.student.StudentService;
+import pl.ust.school.system.SortUtils;
 
 @Controller
 @RequestMapping("grade")
@@ -35,7 +36,7 @@ public class GradeController {
 	
 	@GetMapping("/lessons")
 	public String showLessons(Model model) { 
-		model.addAttribute(NAME_COLLECTION_OF_LESSONS, this.lessonService.getAllLessonDtos(orderBySchoolformName()));
+		model.addAttribute(NAME_COLLECTION_OF_LESSONS, this.lessonService.getAllLessonDtos(SortUtils.orderBySchoolformNameAsc()));
 		return VIEW_LESSON_LIST;
 	}
 
@@ -67,9 +68,7 @@ public class GradeController {
 		return "redirect:/grade/showGrades/lesson/" + lessonID; 
 	}
 	
-	private Sort orderBySchoolformName() {
-	    return new Sort(Sort.Direction.ASC, "Schoolform.name");
-	}
+	
 }
 
 

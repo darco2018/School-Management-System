@@ -3,7 +3,6 @@ package pl.ust.school.subject;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import pl.ust.school.system.SortUtils;
 
 @Controller
 @RequestMapping("subject")
@@ -68,7 +69,7 @@ public class SubjectController {
 
 	@RequestMapping("/list")
 	public String listSubjects(@RequestParam(defaultValue = "0", required = false) int min, Model model) {
-		model.addAttribute(NAME_COLLECTION_OF_SUBJECTS, this.subjectService.getAllSubjectDtos(orderByName()));
+		model.addAttribute(NAME_COLLECTION_OF_SUBJECTS, this.subjectService.getAllSubjectDtos(SortUtils.orderByNameAsc()));
 		return VIEW_LIST;
 	}
 
@@ -118,14 +119,6 @@ public class SubjectController {
 			return "redirect:/subject/view/" + id;
 		}
 
-	}
-
-	////////////////////// others ////////////////////////////////////
-
-	
-	
-	private Sort orderByName() {
-	    return new Sort(Sort.Direction.ASC, "name");
 	}
 
 }

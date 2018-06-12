@@ -5,7 +5,6 @@ import java.util.Set;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -79,7 +78,7 @@ public class SchoolformController {
 
 	@RequestMapping("/list")
 	public String listSchoolforms(@RequestParam(defaultValue = "0", required = false) int min, Model model) {
-		model.addAttribute(NAME_COLLECTION_OF_SCHOOLFORMS, this.schoolformService.getAllSchoolformDtos(orderBySchoolformName()));
+		model.addAttribute(NAME_COLLECTION_OF_SCHOOLFORMS, this.schoolformService.getAllSchoolformDtos(SortUtils.orderBySchoolformNameAsc()));
 		return VIEW_LIST;
 	}
 
@@ -125,7 +124,7 @@ public class SchoolformController {
 
 		model.addAttribute("schoolformDto", schoolformDto);
 		model.addAttribute("notTaughLessons",
-				this.schoolformService.getNotTaughtLessonDtos(schoolformDto, orderBySubjectName()));
+				this.schoolformService.getNotTaughtLessonDtos(schoolformDto, SortUtils.orderBySubjectNameAsc()));
 		model.addAttribute(NAME_COLLECTION_OF_STUDENTS, this.studentService.getStudentDtosBySchoolformId(id));
 
 		return VIEW_CREATE_OR_EDIT_FORM;
@@ -137,7 +136,7 @@ public class SchoolformController {
 	public String editSchoolform(@Valid SchoolformDto schoolformDto, BindingResult result, @PathVariable long id, Model model) {
 
 		if (result.hasErrors()) {
-			model.addAttribute("notTaughLessons", this.schoolformService.getNotTaughtLessonDtos(schoolformDto, orderBySubjectName()));
+			model.addAttribute("notTaughLessons", this.schoolformService.getNotTaughtLessonDtos(schoolformDto, SortUtils.orderBySubjectNameAsc()));
 			return VIEW_CREATE_OR_EDIT_FORM;
 		} else {
 			schoolformDto.setId(id);
@@ -172,18 +171,6 @@ public class SchoolformController {
 
 		this.studentService.removeStudentFromSchoolform(studentId);
 		return "redirect:/schoolform/edit/" + schoolformId;
-	}
-
-	////////////////////// other methods ////////////////////////////////////
-
-	
-	
-	private Sort orderBySchoolformName() {
-	    return new Sort(Sort.Direction.ASC, "name");
-	}
-	
-	private Sort orderBySubjectName() {
-	    return new Sort(Sort.Direction.ASC, "Subject.name");
 	}
 
 }

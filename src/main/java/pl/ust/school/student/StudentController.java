@@ -5,7 +5,6 @@ import java.util.Collection;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import pl.ust.school.schoolform.SchoolformDto;
 import pl.ust.school.schoolform.SchoolformService;
+import pl.ust.school.system.SortUtils;
 
 @Controller
 @RequestMapping("student")
@@ -50,7 +50,7 @@ public class StudentController {
 
 	@ModelAttribute(NAME_COLLECTION_OF_SCHOOLFORMS)
 	public Collection<SchoolformDto> populateSchoolformItems() {
-		return this.schoolformService.getAllSchoolformDtos(orderByName());
+		return this.schoolformService.getAllSchoolformDtos(SortUtils.orderByNameAsc());
 	}
 
 	//////////////////////////////////////////////////////////
@@ -82,7 +82,7 @@ public class StudentController {
 
 	@RequestMapping("/list")
 	public String listStudents(@RequestParam(defaultValue = "0", required = false) int min, Model model) {
-		model.addAttribute(NAME_COLLECTION_OF_STUDENTS, this.studentService.getAllStudentDtos(orderByLastName()));
+		model.addAttribute(NAME_COLLECTION_OF_STUDENTS, this.studentService.getAllStudentDtos(SortUtils.orderByLastNameAsc()));
 		return VIEW_LIST;
 	}
 
@@ -134,15 +134,5 @@ public class StudentController {
 
 	}
 	
-	////////////////////// others ////////////////////////////////////
-
-	
-	private Sort orderByLastName() {
-	    return new Sort(Sort.Direction.ASC, "lastName");
-	}
-	
-	private Sort orderByName() {
-	    return new Sort(Sort.Direction.ASC, "name");
-	}
 
 }

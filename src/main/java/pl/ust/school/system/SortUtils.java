@@ -7,6 +7,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.data.domain.Sort;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,22 @@ public class SortUtils {
 		Comparator<Lesson> bySubjectName = (l1, l2) -> l1.getSubject().getName().compareTo(l2.getSubject().getName());
 		Collections.sort(lessonsList, bySubjectName);
 		return new LinkedHashSet<>(lessonsList);
+	}
+	
+	public static Sort orderByLastNameAsc() {
+	    return new Sort(Sort.Direction.ASC, "lastName");
+	}
+	
+	public static Sort orderByNameAsc() {
+	    return new Sort(Sort.Direction.ASC, "name");
+	}
+	
+	public static Sort orderBySchoolformNameAsc() {
+	    return new Sort(Sort.Direction.ASC, "Schoolform.name");
+	}
+	
+	public static Sort orderBySubjectNameAsc() {
+	    return new Sort(Sort.Direction.ASC, "Subject.name");
 	}
 
 }
