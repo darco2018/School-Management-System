@@ -41,27 +41,20 @@ public class SchoolformServiceImpl implements SchoolformService {
 		return schoolform.getId();
 	}
 
-	public SchoolformDto getSchoolformDtoById(long id) {
+	public SchoolformDto getSchoolformDtoById(long schoolformId) {
 
-		Optional<Schoolform> opt = this.schoolformRepo.findById(id);
-
-		if (opt.isPresent()) {
-			return this.schoolformMapper.toDTO(opt.get());
-		} else {
-			throw new RecordNotFoundException("No schoolform with id " + id + " has been found.");
-		}
+		Optional<Schoolform> opt = this.schoolformRepo.findById(schoolformId);
+		Schoolform schoolform = opt.orElseThrow(()-> new RecordNotFoundException("No schoolform with id " + schoolformId
+				+ " has been found."));
+			return this.schoolformMapper.toDTO(schoolform);
 	}
 
 	@Override
-	public Schoolform getSchoolformById(long id) {
+	public Schoolform getSchoolformById(long schoolformId) {
 
-		Optional<Schoolform> opt = this.schoolformRepo.findById(id);
-
-		if (opt.isPresent()) {
-			return opt.get();
-		} else {
-			throw new RecordNotFoundException("No schoolform with id " + id + " has been found.");
-		}
+		Optional<Schoolform> opt = this.schoolformRepo.findById(schoolformId);
+		return opt.orElseThrow(()-> new RecordNotFoundException("No schoolform with id " + schoolformId
+				+ " has been found."));
 
 	}
 
@@ -91,23 +84,18 @@ public class SchoolformServiceImpl implements SchoolformService {
 				.collect(Collectors.toCollection(LinkedHashSet::new));
 	}
 	
-	public void deleteSchoolform(Long id) {
+	public void deleteSchoolform(Long schoolformId) {
 		
-		Optional<Schoolform> opt = this.schoolformRepo.findById(id);
-
-		if (opt.isPresent()) {
+		Optional<Schoolform> opt = this.schoolformRepo.findById(schoolformId);
+		Schoolform schoolform = opt.orElseThrow(()-> new RecordNotFoundException("No schoolform with id " + schoolformId
+				+ " has been found."));
 			
-			Schoolform schoolform = opt.get();
 			schoolform.removeAllStudents();
 			Collection<Lesson> lessons = schoolform.getLessons();
 			lessons.stream().forEach(lesson -> lesson.setSchoolform(null));
 			lessons.clear();
 			
 			this.schoolformRepo.delete(schoolform);
-			
-		} else {
-			throw new RecordNotFoundException("No schoolform with id " + id + " has been found.");
-		}
 	}
 
 	@Override
@@ -124,17 +112,11 @@ public class SchoolformServiceImpl implements SchoolformService {
 
 		Lesson lesson = this.lessonService.getLessonById(lessonId);
 		Optional<Schoolform> schOpt = this.schoolformRepo.findById(schoolformId);
+		Schoolform schoolform = schOpt.orElseThrow(()-> new RecordNotFoundException("No schoolform with id " + schoolformId
+				+ " has been found."));
 		
-		if (schOpt.isPresent()) {
-			
-			Schoolform schoolform = schOpt.get();
-			lesson.setSchoolform(schoolform);
-			this.schoolformRepo.save(schoolform);
-			
-		} else {
-			throw new RecordNotFoundException("No schoolform with id " + schoolformId + " has been found.");
-
-		}
+		lesson.setSchoolform(schoolform);
+		this.schoolformRepo.save(schoolform);
 
 	}
 

@@ -44,15 +44,11 @@ public class LessonServiceImpl implements LessonService{
 		
 		Optional<Lesson> opt = this.lessonRepo.findById(lessonId);
 		
-		if(opt.isPresent()) {
+		Lesson lesson = opt.orElseThrow(()-> new RecordNotFoundException("No Lesson with id " + lessonId 
+				+ " has been found."));
 			
-			Lesson lesson = opt.get();
-			lesson.removeLesson();
-			this.lessonRepo.delete(lesson);
-		} else {
-			throw new RecordNotFoundException("No Lesson with id " + lessonId + " has been found.");
-		} 
-		
+		lesson.removeLesson();
+		this.lessonRepo.delete(lesson);
 	}
 	
 	@Override
@@ -70,12 +66,8 @@ public class LessonServiceImpl implements LessonService{
 	public Lesson getLessonById(long lessonId) {
 		
 		Optional<Lesson> opt = this.lessonRepo.findById(lessonId);
-		
-		if(opt.isPresent()) {
-			return opt.get();
-		} else {
-			throw new RecordNotFoundException("No Lesson with id " + lessonId + " has been found.");
-		} 
+		return opt.orElseThrow(()-> new RecordNotFoundException("No Lesson with id " + lessonId 
+				+ " has been found."));
 	}
 
 
@@ -83,13 +75,10 @@ public class LessonServiceImpl implements LessonService{
 	public LessonDto getLessonDto(long lessonId) {
 		
 		Optional<Lesson> opt = this.lessonRepo.findById(lessonId);
+		Lesson lesson = opt.orElseThrow(()-> new RecordNotFoundException("No Lesson with id " + lessonId 
+				+ " has been found."));
 		
-		if(opt.isPresent()) {
-			return this.lessonMapper.toDTO(opt.get());
-		} else {
-			throw new RecordNotFoundException("No Lesson with id " + lessonId + " has been found.");
-		} 
-		
+			return this.lessonMapper.toDTO(lesson);
 	}
 	
 	

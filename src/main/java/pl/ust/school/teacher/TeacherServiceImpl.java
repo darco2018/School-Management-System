@@ -52,32 +52,25 @@ public class TeacherServiceImpl implements TeacherService {
 	}
 
 	@Override
-	public TeacherDto getTeacherDtoById(long id) {
+	public TeacherDto getTeacherDtoById(long teacherId) {
 
-		Optional<Teacher> opt = this.teacherRepo.findById(id);
+		Optional<Teacher> opt = this.teacherRepo.findById(teacherId);
+		Teacher teacher = opt
+				.orElseThrow(() -> new RecordNotFoundException("No teacher with id " + teacherId + " has been found."));
 
-		if (opt.isPresent()) {
-			return this.mapper.toDTO(opt.get());
-		} else {
-			throw new RecordNotFoundException("No teacher with id " + id + " has been found.");
-		}
+		return this.mapper.toDTO(teacher);
 	}
 
 	@Override
 	public void deleteTeacher(long id) {
 
 		Optional<Teacher> opt = this.teacherRepo.findById(id);
-		
-		if (opt.isPresent()) {
-			
-			Teacher teacher = opt.get();
-			teacher.removeTeacherFromAllLessons();
-			teacher.setDeleted(true);
-			this.teacherRepo.save(teacher);
-			
-		} else {
-			throw new RecordNotFoundException("No teacher with id " + id + " has been found.");
-		}
+
+		Teacher teacher = opt
+				.orElseThrow(() -> new RecordNotFoundException("No teacher with id " + id + " has been found."));
+		teacher.removeTeacherFromAllLessons();
+		teacher.setDeleted(true);
+		this.teacherRepo.save(teacher);
 	}
 
 	@Override
@@ -110,36 +103,25 @@ public class TeacherServiceImpl implements TeacherService {
 
 		Subject subject = this.subjectService.getSubjectById(subjectId);
 		Optional<Teacher> teacherOpt = this.teacherRepo.findById(teacherId);
-		
-		if (teacherOpt.isPresent()) {
-			
-			Teacher teacher = teacherOpt.get();
-			teacher.addLesson(subject);
-			this.teacherRepo.save(teacher);
-			
-		} else {
-			throw new RecordNotFoundException("No teacher with id " + teacherId + " has been found.");
-		}
 
+		Teacher teacher = teacherOpt
+				.orElseThrow(() -> new RecordNotFoundException("No teacher with id " + teacherId + " has been found."));
+
+		teacher.addLesson(subject);
+		this.teacherRepo.save(teacher);
 	}
 
 	@Override
-	public Teacher getTeacherById(long id) {
-
-		Optional<Teacher> opt = this.teacherRepo.findById(id);
-
-		if (opt.isPresent()) {
-			return opt.get();
-		} else {
-			throw new RecordNotFoundException("No teacher with id " + id + " has been found.");
-		}
+	public Teacher getTeacherById(long teacherId) {
+		
+		Optional<Teacher> opt = this.teacherRepo.findById(teacherId);
+		return opt.orElseThrow(() -> new RecordNotFoundException("No teacher with id " + teacherId + " has been found."));
 
 	}
 
 	private boolean isUniqueLesson(long teacherId, long subjectId) {
 
 		Optional<Lesson> opt = this.lessonService.getLessonByTeacherAndSubject(teacherId, subjectId);
-		
 		return opt.isPresent() ? false : true;
 
 	}

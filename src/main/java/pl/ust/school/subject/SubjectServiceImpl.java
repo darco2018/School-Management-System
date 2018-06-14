@@ -40,41 +40,30 @@ public class SubjectServiceImpl implements SubjectService {
 				.collect(Collectors.toCollection(LinkedHashSet::new));
 	}
 
-	public SubjectDto getSubjectDtoById(long id) {
+	public SubjectDto getSubjectDtoById(long subjectId) {
 
-		Optional<Subject> opt = this.subjectRepo.findById(id);
+		Optional<Subject> opt = this.subjectRepo.findById(subjectId);
+		Subject subject = opt.orElseThrow(() -> new RecordNotFoundException("No subject with id " 
+		+ subjectId + " has been found."));
 
-		if (opt.isPresent()) {
-			return this.mapper.toDTO(opt.get());
-		} else {
-			throw new RecordNotFoundException("No subject with id " + id + " has been found.");
-		}
+		return this.mapper.toDTO(subject);
 	}
 
-	public Subject getSubjectById(long id) {
+	public Subject getSubjectById(long subjectId) {
 
-		Optional<Subject> opt = this.subjectRepo.findById(id);
-
-		if (opt.isPresent()) {
-			return opt.get();
-		} else {
-			throw new RecordNotFoundException("No subject with id " + id + " has been found.");
-		}
+		Optional<Subject> opt = this.subjectRepo.findById(subjectId);
+		return opt.orElseThrow(() -> new RecordNotFoundException("No subject with id " + subjectId 
+				+ " has been found."));
 	}
 
 	@Override
 	public void deleteSubject(long subjectId) {
-		
-		Optional<Subject> subjectOpt = this.subjectRepo.findById(subjectId);
 
-		if (subjectOpt.isPresent()) {
-			
-			this.lessonService.deleteLessonsBySubject(subjectId);
-			this.subjectRepo.delete(subjectOpt.get());
-			
-		} else {
-			throw new RecordNotFoundException("No subject with id " + subjectId + " has been found.");
-		}
-				
+		Optional<Subject> subjectOpt = this.subjectRepo.findById(subjectId);
+		Subject subject = subjectOpt.orElseThrow(() -> new RecordNotFoundException("No subject with id " + subjectId 
+				+ " has been found."));
+
+		this.lessonService.deleteLessonsBySubject(subjectId);
+		this.subjectRepo.delete(subject);
 	}
 }
