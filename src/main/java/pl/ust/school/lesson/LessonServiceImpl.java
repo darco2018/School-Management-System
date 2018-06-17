@@ -6,32 +6,30 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
 import pl.ust.school.exception.RecordNotFoundException;
 
+@RequiredArgsConstructor(onConstructor=@__({@Autowired}))
 @Service
 public class LessonServiceImpl implements LessonService{
 	
-	@Autowired
-	private LessonRepository lessonRepo;
-	
-	@Autowired
-	private LessonMapper lessonMapper;
+	private final @NotNull LessonRepository lessonRepo;
+	private final @NotNull  LessonMapper lessonMapper;
 
-	@Override
 	public Optional<Lesson> getLessonByTeacherAndSubject(long teacherId, long subjectId) {
 		return this.lessonRepo.findByTeacherIdAndSubjectId(teacherId, subjectId);
 	}
 
-	@Override
 	public Set<Lesson> getAllLessons() {
 		return (Set<Lesson>) this.lessonRepo.findAll();
 	}
 
-	@Override
 	public Set<LessonDto> getAllLessonDtos(Sort sort) {
 		return this.lessonRepo.findAll(sort)
 				.stream()

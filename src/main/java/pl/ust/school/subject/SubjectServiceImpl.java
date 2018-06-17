@@ -9,16 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
 import pl.ust.school.exception.RecordNotFoundException;
 import pl.ust.school.lesson.LessonService;
 
+@RequiredArgsConstructor(onConstructor=@__({@Autowired}))
 @Service
 public class SubjectServiceImpl implements SubjectService {
 
-	@Autowired
 	private SubjectRepository subjectRepo;
-	
-	@Autowired
 	private LessonService lessonService;
 
 	@Autowired

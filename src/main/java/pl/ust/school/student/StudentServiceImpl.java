@@ -6,11 +6,14 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import lombok.RequiredArgsConstructor;
 import pl.ust.school.exception.RecordNotFoundException;
 import pl.ust.school.grade.Grade;
 import pl.ust.school.schoolform.Schoolform;
@@ -18,20 +21,14 @@ import pl.ust.school.schoolform.SchoolformService;
 import pl.ust.school.subject.Subject;
 import pl.ust.school.subject.SubjectService;
 
+@RequiredArgsConstructor(onConstructor=@__({@Autowired}))
 @Service
 public class StudentServiceImpl implements StudentService {
 
-	@Autowired
-	private StudentRepository studentRepo;
-
-	@Autowired
-	private StudentMapper mapper;
-
-	@Autowired
-	private SchoolformService schoolformService;
-	
-	@Autowired
-	private SubjectService subjectService;
+	private final @NotNull  StudentRepository studentRepo;
+	private final @NotNull  StudentMapper mapper;
+	private final @NotNull  SchoolformService schoolformService;
+	private final @NotNull  SubjectService subjectService;
 
 	@Override
 	public void removeStudentFromSchoolform(long studentId) {

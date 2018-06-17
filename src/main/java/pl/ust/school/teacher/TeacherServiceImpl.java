@@ -5,10 +5,13 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
 import pl.ust.school.exception.RecordNotFoundException;
 import pl.ust.school.lesson.Lesson;
 import pl.ust.school.lesson.LessonService;
@@ -16,20 +19,14 @@ import pl.ust.school.subject.Subject;
 import pl.ust.school.subject.SubjectDto;
 import pl.ust.school.subject.SubjectService;
 
+@RequiredArgsConstructor(onConstructor=@__({@Autowired}))
 @Service
 public class TeacherServiceImpl implements TeacherService {
 
-	@Autowired
-	private TeacherRepository teacherRepo;
-
-	@Autowired
-	private SubjectService subjectService;
-
-	@Autowired
-	private LessonService lessonService;
-
-	@Autowired
-	private TeacherMapper mapper;
+	private final @NotNull  TeacherRepository teacherRepo;
+	private final @NotNull  SubjectService subjectService;
+	private final @NotNull  LessonService lessonService;
+	private final @NotNull  TeacherMapper mapper;
 
 	///////////////////////////////////////////////////
 

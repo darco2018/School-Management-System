@@ -11,27 +11,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
 import pl.ust.school.exception.RecordNotFoundException;
 import pl.ust.school.lesson.Lesson;
 import pl.ust.school.lesson.LessonDto;
 import pl.ust.school.lesson.LessonMapper;
 import pl.ust.school.lesson.LessonService;
 
+@RequiredArgsConstructor(onConstructor=@__({@Autowired}))
 @Service
 public class SchoolformServiceImpl implements SchoolformService {
 
-	@Autowired
 	private SchoolformRepository schoolformRepo;
-	
-	@Autowired
 	private SchoolformMapper schoolformMapper;
-	
-	@Autowired
 	private LessonService lessonService;
-	
-	@Autowired
 	private LessonMapper lessonMapper;
-	
 
 	public long createSchoolform(SchoolformDto schoolformDto) {
 		
