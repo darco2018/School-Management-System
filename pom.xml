@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>pl.ustrzycki</groupId>
-	<artifactId>a_SchoolManagement</artifactId>
+	<artifactId>a_School-Management-System</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging> <!-- for JSP zmienione z JAr -->
 
-	<name>a_SchoolManagement</name>
+	<name>a_School-Management-System</name>
 	<description>Final project for Coders Lab</description>
 
 	<parent>

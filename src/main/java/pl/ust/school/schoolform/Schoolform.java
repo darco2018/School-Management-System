@@ -35,7 +35,7 @@ public class Schoolform extends NamedEntity {
 	/**
 	 * @param lessons = objects of type Lesson (TeacherSubjectSchoolform), eg Smith/Maths/FirstYear1A
 	 */
-	@OneToMany(mappedBy = "schoolform", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	@OneToMany(mappedBy = "schoolform", cascade = { CascadeType.MERGE, CascadeType.PERSIST }) // FetchType.LAZY
 	private Set<Lesson> lessons; 
 
 	/////////////// getters and setters ///////////////////
