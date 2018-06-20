@@ -23,10 +23,10 @@ import pl.ust.school.subject.SubjectService;
 @Service
 public class TeacherServiceImpl implements TeacherService {
 
-	private final @NotNull  TeacherRepository teacherRepo;
-	private final @NotNull  SubjectService subjectService;
-	private final @NotNull  LessonService lessonService;
-	private final @NotNull  TeacherMapper mapper;
+	private final @NotNull TeacherRepository teacherRepo;
+	private final @NotNull SubjectService subjectService;
+	private final @NotNull LessonService lessonService;
+	private final @NotNull TeacherMapper mapper;
 
 	///////////////////////////////////////////////////
 

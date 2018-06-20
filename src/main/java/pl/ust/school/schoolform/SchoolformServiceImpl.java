@@ -7,6 +7,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -22,10 +24,10 @@ import pl.ust.school.lesson.LessonService;
 @Service
 public class SchoolformServiceImpl implements SchoolformService {
 
-	private SchoolformRepository schoolformRepo;
-	private SchoolformMapper schoolformMapper;
-	private LessonService lessonService;
-	private LessonMapper lessonMapper;
+	private final @NotNull  SchoolformRepository schoolformRepo;
+	private final @NotNull  SchoolformMapper schoolformMapper;
+	private final @NotNull  LessonService lessonService;
+	private final @NotNull  LessonMapper lessonMapper;
 
 	public long createSchoolform(SchoolformDto schoolformDto) {
 		

@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -17,8 +19,8 @@ import pl.ust.school.lesson.LessonService;
 @Service
 public class SubjectServiceImpl implements SubjectService {
 
-	private SubjectRepository subjectRepo;
-	private LessonService lessonService;
+	private final @NotNull SubjectRepository subjectRepo;
+	private final @NotNull LessonService lessonService;
 
 	@Autowired
 	private SubjectMapper mapper;
