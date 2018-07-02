@@ -11,22 +11,36 @@ public class EncodePassword {
 		
 		String devPassword = Role.DEVELOPER.getLogin();
 		String adminPassword = Role.ADMIN.getLogin();
-		String libPassword = Role.LIBRARIAN.getLogin();
 		String userPassword = Role.USER.getLogin();
+		
+		String schoolAdminPassword = Role.SCHOOLADMIN.getLogin();
+		String studentPassword = Role.STUDENT.getLogin();
+		String teacherPassword = Role.TEACHER.getLogin();
+		String parentPassword = Role.PARENT.getLogin();
 			
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		System.err.println(devPassword == null);
+		
 		System.out.println("dev login password: " + passwordEncoder.encode(devPassword));
 		// $2a$10$8UIxVZL.jqRFtYnBuqYN1OS80N3wQbgJq0F3txglyaEgfZ3SfPIr6
+		
 		System.out.println("admin login password: " + passwordEncoder.encode(adminPassword));
 		// $2a$10$2VYRrT14AqU0mKMSE3yPqOGquk2/mEZJTgW0EZeZ3kJwDCG9NdSXK
-		System.out.println("librarian login password: " + passwordEncoder.encode(libPassword));
-		// $2a$10$ajf3Zn1F0Gl6hgvvk7dAcOz/inmlfgMCo5vg4InvKcgRes/cCAtkS
+		
 		System.out.println("user login password: " + passwordEncoder.encode(userPassword));
 		// $2a$10$40AVFuSQ3vrz.9i2pPufguOSBrFBGUYszQyjrPn1f1mjOADVC1x6S
 		
-		System.err.println("Role.LIBRARIAN" + Role.LIBRARIAN);
-		System.err.println("Role.LIBRARIAN.value()" + Role.LIBRARIAN.value());
+		System.out.println("school admin login password: " + passwordEncoder.encode(schoolAdminPassword));
+		// $2a$10$0ZL4ONWijMM7hqmKT7bhaOrhYjGgCMpEDFET91q3xKRHKyyWcFxIi
+		
+		System.out.println("student login password: " + passwordEncoder.encode(studentPassword));
+		// $2a$10$oMXlsxw3RbVjedL4OWNNT.MbZJJ/NGZMZPXdS.4pjI1rW3tjSnTs2
+		
+		System.out.println("teacher login password: " + passwordEncoder.encode(teacherPassword));
+		// $2a$10$lZGjvuNWkgYRgkIwAfoY6u84LflGD7eu/zTKgbcZj51.imM6Cd066
+		
+		System.out.println("parent login password: " + passwordEncoder.encode(parentPassword));
+		// $2a$10$ZpS3Ei1A0qIaR8Bbscec0eEkkvLECGDHzQRdnTP2UCl87NZo/EtCe
+		
 	}
 
 }

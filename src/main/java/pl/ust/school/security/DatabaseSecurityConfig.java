@@ -34,8 +34,6 @@ public class DatabaseSecurityConfig extends WebSecurityConfigurerAdapter {
 		    RENAME TABLE authorities TO user_roles;
 			ALTER TABLE user_roles CHANGE authority user_role varchar(255);*/
 	}
-	
-	
 			
 	//Authorization
 	@Override
