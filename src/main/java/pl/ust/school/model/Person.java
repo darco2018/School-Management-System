@@ -8,7 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
 
 import org.hibernate.annotations.NaturalId;
@@ -28,11 +28,11 @@ public class Person extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
-	@NotEmpty // @NotNull + @Size(min=1)
+	@NotBlank // @NotNull + @Size(min=1)
 	@Column(name = "first_name", nullable = false)
 	private String firstName;
 
-	@NotEmpty
+	@NotBlank
 	@Column(name = "last_name", nullable = false)
 	private String lastName;
 
@@ -41,15 +41,15 @@ public class Person extends BaseEntity {
 	@Column(unique = true, nullable = false)
 	private String email;
 
-	@NotEmpty
+	@NotBlank
 	@Column(nullable = false)
 	private String password;
 
-	@NotEmpty 
+	@NotBlank 
 	@Column
 	private String address;
 
-	@NotEmpty
+	@NotBlank
 	@Digits(fraction = 0, integer = 12)
 	@Column
 	private String telephone;
