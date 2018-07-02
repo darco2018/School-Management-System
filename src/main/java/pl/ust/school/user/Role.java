@@ -6,9 +6,12 @@ import lombok.Getter;
 public enum Role {
 
     ADMIN("ADMIN", "admin"),
+    SCHOOLADMIN("SCHOOLADMIN", "schooladmin"),
     USER("USER", "user"),
     DEVELOPER("DEVELOPER", "dev"),
-    LIBRARIAN("LIBRARIAN", "lib");
+    STUDENT("STUDENT", "student"),
+	TEACHER("TEACHER", "teacher"),
+	PARENT("PARENT", "parent");
 
     private String userRole;
     private String login;

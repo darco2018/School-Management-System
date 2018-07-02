@@ -40,15 +40,39 @@ public class DatabaseSecurityConfig extends WebSecurityConfigurerAdapter {
 	//Authorization
 	@Override
 	protected void configure(HttpSecurity http) throws Exception{
+		
+		final String adminPath = "admin";
+		final String schoolAdminPath = "schooladmin";
+		final String teacherPath = "teacheruser";
+		final String studentPath = "studentuser";
+		final String parentPath = "parentuser";
+		
 		http
 		.authorizeRequests()
-		.antMatchers("/**/lib/**").hasRole(Role.DEVELOPER.value())
-		.antMatchers("/**/lib/**").hasRole(Role.ADMIN.value())
-		.antMatchers("/**/lib/**").hasRole(Role.LIBRARIAN.value())
 		
-		.antMatchers("/**/admin/**").hasRole(Role.DEVELOPER.value())
-		.antMatchers("/**/admin/**").hasRole(Role.ADMIN.value())
+		.antMatchers("/**/" + adminPath + "/**").hasRole(Role.DEVELOPER.value())
+		.antMatchers("/**/" + adminPath + "/**").hasRole(Role.ADMIN.value())
 		
+		.antMatchers("/**/" + schoolAdminPath + "/**").hasRole(Role.DEVELOPER.value())
+		.antMatchers("/**/" + schoolAdminPath + "/**").hasRole(Role.ADMIN.value())
+		.antMatchers("/**/" + schoolAdminPath + "/**").hasRole(Role.SCHOOLADMIN.value())
+		
+		.antMatchers("/**/" + teacherPath + "/**").hasRole(Role.DEVELOPER.value())
+		.antMatchers("/**/" + teacherPath + "/**").hasRole(Role.ADMIN.value())
+		.antMatchers("/**/" + teacherPath + "/**").hasRole(Role.SCHOOLADMIN.value())
+		.antMatchers("/**/" + teacherPath + "/**").hasRole(Role.TEACHER.value())
+		
+		.antMatchers("/**/" + studentPath + "/**").hasRole(Role.DEVELOPER.value())
+		.antMatchers("/**/" + studentPath + "/**").hasRole(Role.ADMIN.value())
+		.antMatchers("/**/" + studentPath + "/**").hasRole(Role.SCHOOLADMIN.value())
+		.antMatchers("/**/" + studentPath + "/**").hasRole(Role.STUDENT.value())
+		
+		.antMatchers("/**/" + parentPath + "/**").hasRole(Role.DEVELOPER.value())
+		.antMatchers("/**/" + parentPath + "/**").hasRole(Role.ADMIN.value())
+		.antMatchers("/**/" + parentPath + "/**").hasRole(Role.SCHOOLADMIN.value())
+		.antMatchers("/**/" + parentPath + "/**").hasRole(Role.PARENT.value())
+
+		// for test only
 		.antMatchers("/protectedByDeveloperAdminRole*").hasRole(Role.DEVELOPER.value())
 		.antMatchers("/protectedByDeveloperAdminRole*").hasRole(Role.ADMIN.value())
 		
