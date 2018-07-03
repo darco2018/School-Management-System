@@ -16,6 +16,20 @@
 				<div>
 					<h3>Login</h3>
 					<p>Please login to start using the application</p>
+					
+					<c:if test="${param.error}">
+					<div>Invalid username and password.</div>
+					</c:if>
+					
+					<c:if test="${param.logout}">
+					<div>You have been logged out.</div>
+					</c:if>
+					
+					<form action='/login' method='POST'>
+						<div><label> Email : <input type="text" name='email'></label></div>
+						<div><label> Password : <input type="password" name='password'></label></div>
+						<div><input type="submit" value='Sign in'></div>
+					</form>
 				</div>
 			</div>
 		</div>

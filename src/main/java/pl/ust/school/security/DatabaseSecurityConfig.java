@@ -49,23 +49,14 @@ public class DatabaseSecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		http
 		.authorizeRequests()
-		.antMatchers("/**/" + developerPath + "/**").hasRole(Role.DEVELOPER.value())
-		.antMatchers("/**/" + adminPath + "/**").hasRole(Role.ADMIN.value())
-		.antMatchers("/**/" + schoolAdminPath + "/**").hasRole(Role.SCHOOLADMIN.value())
-		.antMatchers("/**/" + teacherPath + "/**").hasRole(Role.TEACHER.value())
-		.antMatchers("/**/" + studentPath + "/**").hasRole(Role.STUDENT.value())
-		.antMatchers("/**/" + parentPath + "/**").hasRole(Role.PARENT.value())
-		// for testing only
-		.antMatchers("/protectedByDeveloperAdminRole*").hasRole(Role.ADMIN.value())
-		.antMatchers("/protectedByTeacherRole*").hasRole(Role.TEACHER.value())
-		.antMatchers("/**","/notprotected*", "/welcome").permitAll() 
-		/*.and()
-			.formLogin().loginPage("/login").permitAll() //TODO provide custom login page
-		.and()
-			.logout().permitAll()*/
-		.and()
-			.httpBasic();
+			.antMatchers("/", "**/static/**").permitAll()
+			.anyRequest().authenticated()
+			.and()
+		.formLogin()
+			.loginPage("/login").permitAll()
+			.and()
+		.logout().permitAll();
+			
 	}
-	// Spring Boot relies on Spring Security’s content-negotiation strategy to determine whether to use httpBasic or formLogin
 
 }
