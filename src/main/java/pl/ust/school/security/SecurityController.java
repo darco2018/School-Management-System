@@ -17,19 +17,19 @@ public class SecurityController {
 		return "Hello";
 	}
 	
-	@RequestMapping("lib/page1")
+	@RequestMapping("teacheruser/page1")
 	public String protectedByLibrarianRole1() {
-		return "Librarian can enter lib/page1";
+		return "teacheruser can enter teacheruser/page1";
 	}
 	
-	@RequestMapping("lib/page2/whatever") 
+	@RequestMapping("teacheruser/page2/whatever") 
 	public String protectedByLibrarianRole2() {
-		return "Librarian can enter lib/page2/whatever";
+		return "teacheruser can enter teacheruser/page2/whatever";
 	}
 	
-	@RequestMapping("whatever/lib/page2/whatever") 
+	@RequestMapping("whatever/teacheruser/page2/whatever") 
 	public String protectedByLibrarianRole3() {
-		return "Librarian can enter whatever/lib/page2/whatever";
+		return "teacheruser can enter whatever/teacheruser/page2/whatever";
 	}
 	
 	@RequestMapping("admin/page1")
@@ -47,23 +47,21 @@ public class SecurityController {
 		return "Admin can enter admin/page2/whatever";
 	}
 	
-	
-	
 	@RequestMapping("/notprotected")
 	public String notProtected() {
 		return "Im not protected";
 	}
 	
 	
-	@RequestMapping("/protectedByUserRole")
+	@RequestMapping("/protectedByTeacherRole")
 	public String protectedByUserRole() {
-		return "Hello User!. I'm protected By UserRole";
+		return "Hello User!. I'm protected By TeacherRole";
 	}
 	
 	
 	@RequestMapping("/protectedByDeveloperAdminRole")
 	public String protectedByAdminRole() {
-		return "Hello Admin and Developer! Im protected By DeveloperRole";
+		return "Hello Admin and Developer! Im protected By DeveloperRole, AdminRole";
 	}
 	
 	

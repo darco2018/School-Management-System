@@ -7,7 +7,6 @@ public enum Role {
 
     ADMIN("ADMIN", "admin"),
     SCHOOLADMIN("SCHOOLADMIN", "schooladmin"),
-    USER("USER", "user"),
     DEVELOPER("DEVELOPER", "dev"),
     STUDENT("STUDENT", "student"),
 	TEACHER("TEACHER", "teacher"),

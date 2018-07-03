@@ -28,6 +28,7 @@ public class DatabaseSecurityConfig extends WebSecurityConfigurerAdapter {
 			.jdbcAuthentication()
 			.dataSource(dataSource)
 			.passwordEncoder(new BCryptPasswordEncoder())
+			//.withUser("darek").password("darek").authorities("DEV").and() - will work if email is nullable and default names for users and authorities tables
 			.usersByUsernameQuery("select username, password, enabled from users where username=?")
 			.authoritiesByUsernameQuery("select username, user_role from user_roles where username=?");
 		/* the two lines above necessary when changing default table values
@@ -39,6 +40,7 @@ public class DatabaseSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception{
 		
+		final String developerPath = "dev";
 		final String adminPath = "admin";
 		final String schoolAdminPath = "schooladmin";
 		final String teacherPath = "teacheruser";
@@ -47,35 +49,15 @@ public class DatabaseSecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		http
 		.authorizeRequests()
-		
-		.antMatchers("/**/" + adminPath + "/**").hasRole(Role.DEVELOPER.value())
+		.antMatchers("/**/" + developerPath + "/**").hasRole(Role.DEVELOPER.value())
 		.antMatchers("/**/" + adminPath + "/**").hasRole(Role.ADMIN.value())
-		
-		.antMatchers("/**/" + schoolAdminPath + "/**").hasRole(Role.DEVELOPER.value())
-		.antMatchers("/**/" + schoolAdminPath + "/**").hasRole(Role.ADMIN.value())
 		.antMatchers("/**/" + schoolAdminPath + "/**").hasRole(Role.SCHOOLADMIN.value())
-		
-		.antMatchers("/**/" + teacherPath + "/**").hasRole(Role.DEVELOPER.value())
-		.antMatchers("/**/" + teacherPath + "/**").hasRole(Role.ADMIN.value())
-		.antMatchers("/**/" + teacherPath + "/**").hasRole(Role.SCHOOLADMIN.value())
 		.antMatchers("/**/" + teacherPath + "/**").hasRole(Role.TEACHER.value())
-		
-		.antMatchers("/**/" + studentPath + "/**").hasRole(Role.DEVELOPER.value())
-		.antMatchers("/**/" + studentPath + "/**").hasRole(Role.ADMIN.value())
-		.antMatchers("/**/" + studentPath + "/**").hasRole(Role.SCHOOLADMIN.value())
 		.antMatchers("/**/" + studentPath + "/**").hasRole(Role.STUDENT.value())
-		
-		.antMatchers("/**/" + parentPath + "/**").hasRole(Role.DEVELOPER.value())
-		.antMatchers("/**/" + parentPath + "/**").hasRole(Role.ADMIN.value())
-		.antMatchers("/**/" + parentPath + "/**").hasRole(Role.SCHOOLADMIN.value())
 		.antMatchers("/**/" + parentPath + "/**").hasRole(Role.PARENT.value())
-
-		// for test only
-		.antMatchers("/protectedByDeveloperAdminRole*").hasRole(Role.DEVELOPER.value())
+		// for testing only
 		.antMatchers("/protectedByDeveloperAdminRole*").hasRole(Role.ADMIN.value())
-		
-		.antMatchers("/protectedByUserRole*").hasRole(Role.USER.value())
-		
+		.antMatchers("/protectedByTeacherRole*").hasRole(Role.TEACHER.value())
 		.antMatchers("/**","/notprotected*", "/welcome").permitAll() 
 		/*.and()
 			.formLogin().loginPage("/login").permitAll() //TODO provide custom login page

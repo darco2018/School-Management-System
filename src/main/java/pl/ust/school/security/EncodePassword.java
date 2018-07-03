@@ -11,7 +11,7 @@ public class EncodePassword {
 		
 		String devPassword = Role.DEVELOPER.getLogin();
 		String adminPassword = Role.ADMIN.getLogin();
-		String userPassword = Role.USER.getLogin();
+		
 		
 		String schoolAdminPassword = Role.SCHOOLADMIN.getLogin();
 		String studentPassword = Role.STUDENT.getLogin();
@@ -25,9 +25,6 @@ public class EncodePassword {
 		
 		System.out.println("admin login password: " + passwordEncoder.encode(adminPassword));
 		// $2a$10$2VYRrT14AqU0mKMSE3yPqOGquk2/mEZJTgW0EZeZ3kJwDCG9NdSXK
-		
-		System.out.println("user login password: " + passwordEncoder.encode(userPassword));
-		// $2a$10$40AVFuSQ3vrz.9i2pPufguOSBrFBGUYszQyjrPn1f1mjOADVC1x6S
 		
 		System.out.println("school admin login password: " + passwordEncoder.encode(schoolAdminPassword));
 		// $2a$10$0ZL4ONWijMM7hqmKT7bhaOrhYjGgCMpEDFET91q3xKRHKyyWcFxIi
