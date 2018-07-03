@@ -18,7 +18,7 @@ import pl.ust.school.student.StudentService;
 import pl.ust.school.system.SortUtils;
 
 @Controller
-@RequestMapping("grade")
+@RequestMapping("schooladmin/grade")
 public class GradeController {
 	
 	private static final String VIEW_LESSON_LIST = "grade/lessonList";
@@ -65,7 +65,7 @@ public class GradeController {
 			@RequestParam String gradeValue) {
 		
 		this.studentService.addGrade(gradeValue,studentId, subjectId);
-		return "redirect:/grade/showGrades/lesson/" + lessonID; 
+		return "redirect:/schooladmin/grade/showGrades/lesson/" + lessonID; 
 	}
 	
 	

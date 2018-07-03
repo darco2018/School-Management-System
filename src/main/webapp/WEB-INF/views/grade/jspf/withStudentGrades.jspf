@@ -22,7 +22,7 @@
 				</td>
 				<td class="form-group row">
 					<form
-						action='${pageContext.request.contextPath}/grade/save/student/${student.id}/subject/${subjectId}/lesson/${lessonID}'
+						action='${pageContext.request.contextPath}/schooladmin/grade/save/student/${student.id}/subject/${subjectId}/lesson/${lessonID}'
 						method='get'>
 						<select name='gradeValue'>
 							<c:forEach items='${gradeItems}' var='grade'>

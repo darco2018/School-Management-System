@@ -16,7 +16,7 @@
 				<td>${lesson.schoolform.name}</td>
 				<td>${lesson.subject.name}</td>
 				<td>${lesson.teacher.firstName}&nbsp${lesson.teacher.lastName}</td>
-				<td><form action='${pageContext.request.contextPath}/grade/showGrades/lesson/${lesson.id}' method="GET">
+				<td><form action='${pageContext.request.contextPath}/schooladmin/grade/showGrades/lesson/${lesson.id}' method="GET">
 						<input type="submit" value="Show grades" />
 					</form></td>                    
 			</tr>
