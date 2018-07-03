@@ -55,7 +55,7 @@ public class SubjectControllerTest {
 
     @Test
     public void shouldAddDtoToModelWhenSaving() throws Exception {
-        mockMvc.perform(get("/subject/save"))
+        mockMvc.perform(get("/schooladmin/subject/save"))
         	.andDo(print())
             .andExpect(status().isOk())
             .andExpect(model().attributeExists("subjectDto"))
@@ -64,7 +64,7 @@ public class SubjectControllerTest {
 
     @Test
     public void shouldProcessFormDataWhenNoErrors() throws Exception {
-        mockMvc.perform( post("/subject/save")
+        mockMvc.perform( post("/schooladmin/subject/save")
         	   .param("name", "Astrophysics") )
         	   .andDo(print())
                .andExpect(status().is3xxRedirection()); 
@@ -73,7 +73,7 @@ public class SubjectControllerTest {
     @Test
     public void shouldFindErrorWhenNameIsEmptyString() throws Exception {
     	
-        mockMvc.perform(post("/subject/save")
+        mockMvc.perform(post("/schooladmin/subject/save")
             .param("name", "")
         )
         	.andDo(print())
@@ -89,7 +89,7 @@ public class SubjectControllerTest {
         given(this.subjectService.getAllSubjectDtos(new Sort(Sort.Direction.ASC, "name")))
         	.willReturn( Sets.newLinkedHashSet(this.biology, new SubjectDto()));
         
-        mockMvc.perform(get("/subject/list"))
+        mockMvc.perform(get("/schooladmin/subject/list"))
             .andExpect(status().isOk())
             .andExpect(model().attributeExists(NAME_COLLECTION_OF_SUBJECTS))
             .andExpect(view().name(VIEW_LIST));
@@ -97,7 +97,7 @@ public class SubjectControllerTest {
    
     @Test
     public void shouldRetrieveSubjectByIdWhenExists() throws Exception {
-        mockMvc.perform(get("/subject/view/{id}", TEST_SUBJECT_ID)
+        mockMvc.perform(get("/schooladmin/subject/view/{id}", TEST_SUBJECT_ID)
         )
         	.andDo(print())
         	.andExpect(status().isOk())
@@ -110,7 +110,7 @@ public class SubjectControllerTest {
     	 given(this.subjectService.getSubjectDtoById(-1L))
     	 	.willThrow(new RecordNotFoundException(""));
     	 
-        mockMvc.perform(get("/subject/view/{id}", -1)
+        mockMvc.perform(get("/schooladmin/subject/view/{id}", -1)
         )
         	.andDo(print())
         	.andExpect(status().isOk())
@@ -120,7 +120,7 @@ public class SubjectControllerTest {
      @Test
     public void shouldShowEditForm() throws Exception {
     	
-        mockMvc.perform(get("/subject/edit/{id}", TEST_SUBJECT_ID))
+        mockMvc.perform(get("/schooladmin/subject/edit/{id}", TEST_SUBJECT_ID))
         	.andDo(print())
             .andExpect(status().isOk())
             .andExpect(model().attributeExists("subjectDto"))
@@ -130,7 +130,7 @@ public class SubjectControllerTest {
 
     @Test
     public void shouldProcessEditWhenNoErrors() throws Exception {
-        mockMvc.perform( post("/subject/edit/{id}", TEST_SUBJECT_ID)
+        mockMvc.perform( post("/schooladmin/subject/edit/{id}", TEST_SUBJECT_ID)
             .param("name", "Astrophysics")
         )
         	// .andExpect(model().attributeHasNoErrors("subject"))  No BindingResult for attribute: product WHY?!
@@ -139,12 +139,12 @@ public class SubjectControllerTest {
         	.andDo(print())
         	.andExpect(model().hasNoErrors())
         	.andExpect(status().is3xxRedirection())
-            .andExpect( redirectedUrl("/subject/view/" + TEST_SUBJECT_ID));
+            .andExpect( redirectedUrl("/schooladmin/subject/view/" + TEST_SUBJECT_ID));
     }
    
     @Test
     public void shouldFindErrorWhenNameIsEmpty() throws Exception {
-        mockMvc.perform( post("/subject/edit/{id}", TEST_SUBJECT_ID)
+        mockMvc.perform( post("/schooladmin/subject/edit/{id}", TEST_SUBJECT_ID)
             .param("name", "")
         )
         	.andDo(print())
@@ -159,7 +159,7 @@ public class SubjectControllerTest {
     @Test
     public void shouldAskForConfirmationBeforeDeleting() throws Exception {
     	
-    	mockMvc.perform(get("/subject/delete/{id}/confirm", TEST_SUBJECT_ID))
+    	mockMvc.perform(get("/schooladmin/subject/delete/{id}/confirm", TEST_SUBJECT_ID))
     	.andDo(print())
     	.andExpect(status().isOk())
     	.andExpect(view().name(VIEW_CONFIRM_DELETE));
@@ -169,12 +169,12 @@ public class SubjectControllerTest {
     public void shouldDeleteSuccessfully() throws Exception {
     	
     	//then
-    	mockMvc.perform(get("/subject/delete/{id}", TEST_SUBJECT_ID))
+    	mockMvc.perform(get("/schooladmin/subject/delete/{id}", TEST_SUBJECT_ID))
     	.andDo(print())
     	
     	//assert
     	.andExpect(status().is3xxRedirection())
-    	.andExpect( redirectedUrl("/subject/list"));
+    	.andExpect( redirectedUrl("/schooladmin/subject/list"));
     }
 
 }

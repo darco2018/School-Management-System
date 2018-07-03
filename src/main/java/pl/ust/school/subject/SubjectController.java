@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pl.ust.school.system.SortUtils;
 
 @Controller
-@RequestMapping("subject")
+@RequestMapping("schooladmin/subject")
 public class SubjectController {
 
 	private static final String VIEW_CREATE_OR_EDIT_FORM = "subject/subjectForm";
@@ -62,7 +62,7 @@ public class SubjectController {
 		}
 
 		long id = this.subjectService.createSubject(subjectDto);
-		return "redirect:/subject/view/" + id;
+		return "redirect:/schooladmin/subject/view/" + id;
 	}
 
 	//////////////////////////// LIST ////////////////////////////
@@ -94,7 +94,7 @@ public class SubjectController {
 	@RequestMapping(value = "/delete/{id}")
 	public String deleteSubject(@PathVariable long id) {
 		this.subjectService.deleteSubject(id);
-		return "redirect:/subject/list";
+		return "redirect:/schooladmin/subject/list";
 	}
 
 	//////////////////////////// EDIT ////////////////////////////
@@ -116,7 +116,7 @@ public class SubjectController {
 		} else {
 			subjectDto.setId(id);
 			this.subjectService.createSubject(subjectDto);
-			return "redirect:/subject/view/" + id;
+			return "redirect:/schooladmin/subject/view/" + id;
 		}
 
 	}
