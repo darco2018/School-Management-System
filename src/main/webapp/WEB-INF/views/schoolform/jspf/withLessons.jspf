@@ -16,7 +16,7 @@
 				<td>${lesson.subject.name}</td>
 				<td>${lesson.teacher.firstName}&nbsp${lesson.teacher.lastName}</td>
 				<td><form
-						action='${pageContext.request.contextPath}/schoolform/${lesson.schoolform.id}/lesson/${lesson.id}/remove'
+						action='${pageContext.request.contextPath}/schooladmin/schoolform/${lesson.schoolform.id}/lesson/${lesson.id}/remove'
 						method="GET">
 						<input type="submit" value="Remove" />
 					</form></td>
@@ -46,7 +46,7 @@
 				<td>${lesson.teacher.firstName}&nbsp${lesson.teacher.lastName}</td>
 				<td>
 					<form
-						action='${pageContext.request.contextPath}/schoolform/${schoolformDto.id}/lesson/${lesson.id}/add'
+						action='${pageContext.request.contextPath}/schooladmin/schoolform/${schoolformDto.id}/lesson/${lesson.id}/add'
 						method="GET">
 						<input type="submit" value="Add" />
 					</form>

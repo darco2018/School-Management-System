@@ -11,8 +11,8 @@
 		<tr>
 			<td>${schoolformDto.id}</td>
 			<td>${schoolformDto.name}</td>
-			<td><a href='${pageContext.request.contextPath}/schoolform/edit/${schoolformDto.id}'>Edit</a>
-				<a href='${pageContext.request.contextPath}/schoolform/delete/${schoolformDto.id}/confirm'>Delete</a></td>
+			<td><a href='${pageContext.request.contextPath}/schooladmin/schoolform/edit/${schoolformDto.id}'>Edit</a>
+				<a href='${pageContext.request.contextPath}/schooladmin/schoolform/delete/${schoolformDto.id}/confirm'>Delete</a></td>
 		</tr>
 	</tbody>
 </table>

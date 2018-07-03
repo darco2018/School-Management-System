@@ -14,7 +14,7 @@
 				<td>${student.id}</td>
 				<td>${student.firstName}&nbsp${student.lastName}</td>
 				<td><form
-						action='${pageContext.request.contextPath}/schoolform/${student.id}/removeFrom/${student.schoolform.id}'
+						action='${pageContext.request.contextPath}/schooladmin/schoolform/${student.id}/removeFrom/${student.schoolform.id}'
 						method="GET">
 						<input type="submit" value="Remove from school form" />
 					</form></td>

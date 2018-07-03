@@ -23,7 +23,7 @@ import pl.ust.school.student.StudentService;
 import pl.ust.school.system.SortUtils;
 
 @Controller
-@RequestMapping("schoolform")
+@RequestMapping("schooladmin/schoolform")
 public class SchoolformController {
 
 	private static final String VIEW_CREATE_OR_EDIT_FORM = "schoolform/schoolformForm";
@@ -71,7 +71,7 @@ public class SchoolformController {
 		}
 
 		this.schoolformService.createSchoolform(schoolformDto);
-		return "redirect:/schoolform/list";
+		return "redirect:/schooladmin/schoolform/list";
 	}
 
 	//////////////////////////// LIST ////////////////////////////
@@ -110,7 +110,7 @@ public class SchoolformController {
 	public String deleteSchoolform(@PathVariable long id) {
 
 		this.schoolformService.deleteSchoolform(id);
-		return "redirect:/schoolform/list";
+		return "redirect:/schooladmin/schoolform/list";
 	}
 
 	//////////////////////////// EDIT ////////////////////////////
@@ -141,7 +141,7 @@ public class SchoolformController {
 		} else {
 			schoolformDto.setId(id);
 			this.schoolformService.createSchoolform(schoolformDto);
-			return "redirect:/schoolform/view/" + id;
+			return "redirect:/schooladmin/schoolform/view/" + id;
 		}
 
 	}
@@ -152,7 +152,7 @@ public class SchoolformController {
 	private String removeLessonFromSchoolForm(@PathVariable long schoolformId, @PathVariable long lessonId) {
 
 		this.schoolformService.removeSchoolformFromLesson(schoolformId, lessonId);
-		return "redirect:/schoolform/edit/" + schoolformId;
+		return "redirect:/schooladmin/schoolform/edit/" + schoolformId;
 	}
 
 	@GetMapping("/{schoolformId}/lesson/{lessonId}/add")
@@ -160,7 +160,7 @@ public class SchoolformController {
 
 		this.schoolformService.addSchoolformToLesson(schoolformId, lessonId);
 		
-		return "redirect:/schoolform/edit/" + schoolformId;
+		return "redirect:/schooladmin/schoolform/edit/" + schoolformId;
 	}
 	
 	//////////////////////////////remove student from schoolform//////////////////////////////////////////
@@ -170,7 +170,7 @@ public class SchoolformController {
 	public String removeStudentFromSchoolform(@PathVariable long studentId, @PathVariable long schoolformId) {
 
 		this.studentService.removeStudentFromSchoolform(studentId);
-		return "redirect:/schoolform/edit/" + schoolformId;
+		return "redirect:/schooladmin/schoolform/edit/" + schoolformId;
 	}
 
 }

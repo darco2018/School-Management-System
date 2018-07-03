@@ -65,7 +65,7 @@ public class SchoolformControllerTest {
 
 	@Test
 	public void shouldAddDtoToModelWhenSaving() throws Exception {
-		mockMvc.perform(get("/schoolform/save"))
+		mockMvc.perform(get("/schooladmin/schoolform/save"))
 				.andDo(print())
 				
 				.andExpect(status().isOk())
@@ -75,7 +75,7 @@ public class SchoolformControllerTest {
 
 	@Test
 	public void shouldProcessFormDataWhenNoErrors() throws Exception {
-		mockMvc.perform(post("/schoolform/save")
+		mockMvc.perform(post("/schooladmin/schoolform/save")
 				.param("name", "1A"))
 				.andDo(print())
 				.andExpect(status().is3xxRedirection());
@@ -84,7 +84,7 @@ public class SchoolformControllerTest {
 	@Test
 	public void shouldFindErrorWhenNameIsEmptyString() throws Exception {
 
-		mockMvc.perform(post("/schoolform/save")
+		mockMvc.perform(post("/schooladmin/schoolform/save")
 				.param("name", ""))
 				.andDo(print())
 				
@@ -100,7 +100,7 @@ public class SchoolformControllerTest {
 		given(this.schoolformService.getAllSchoolformDtos(new Sort(Sort.Direction.ASC, "name")))
 				.willReturn( Sets.newLinkedHashSet(schoolform1A, new SchoolformDto()));
 		
-		mockMvc.perform(get("/schoolform/list"))
+		mockMvc.perform(get("/schooladmin/schoolform/list"))
 				.andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(model().attributeExists(NAME_COLLECTION_OF_SCHOOLFORMS))
@@ -110,7 +110,7 @@ public class SchoolformControllerTest {
 	@Test
 	public void shouldRetrieveSchooFormByIdWhenExists() throws Exception {
 		
-		mockMvc.perform(get("/schoolform/view/{id}", TEST_SCHOOLFORM_ID))
+		mockMvc.perform(get("/schooladmin/schoolform/view/{id}", TEST_SCHOOLFORM_ID))
 				.andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(view().name(VIEW_DETAILS));
@@ -122,7 +122,7 @@ public class SchoolformControllerTest {
 		given(this.schoolformService.getSchoolformDtoById(-1L))
 				.willThrow(new RecordNotFoundException(""));
 		
-		mockMvc.perform(get("/schoolform/view/{id}", -1))
+		mockMvc.perform(get("/schooladmin/schoolform/view/{id}", -1))
 				.andDo(print())
 				.andExpect(view().name(AppConstants.VIEW_SUPPORT));
 	}
@@ -130,7 +130,7 @@ public class SchoolformControllerTest {
 	@Test
 	public void shouldAddDtoToModelWhenEdit() throws Exception {
 
-		mockMvc.perform(get("/schoolform/edit/{id}", TEST_SCHOOLFORM_ID))
+		mockMvc.perform(get("/schooladmin/schoolform/edit/{id}", TEST_SCHOOLFORM_ID))
 				.andDo(print())
 				
 				.andExpect(status().isOk())
@@ -140,18 +140,18 @@ public class SchoolformControllerTest {
 
 	@Test
 	public void shouldProcessEditWhenNoErrors() throws Exception {
-		mockMvc.perform(post("/schoolform/edit/{id}", TEST_SCHOOLFORM_ID)
+		mockMvc.perform(post("/schooladmin/schoolform/edit/{id}", TEST_SCHOOLFORM_ID)
 				.param("name", "2B"))
 				.andDo(print())
 				
 				.andExpect(model().hasNoErrors())
 				.andExpect(status().is3xxRedirection())
-				.andExpect(redirectedUrl("/schoolform/view/" + TEST_SCHOOLFORM_ID));
+				.andExpect(redirectedUrl("/schooladmin/schoolform/view/" + TEST_SCHOOLFORM_ID));
 	}
 
 	@Test
 	public void shouldFindErrorWhenEmptyName() throws Exception {
-		mockMvc.perform(post("/schoolform/edit/{id}", TEST_SCHOOLFORM_ID).contentType(MediaType.TEXT_HTML)
+		mockMvc.perform(post("/schooladmin/schoolform/edit/{id}", TEST_SCHOOLFORM_ID).contentType(MediaType.TEXT_HTML)
 
 				.param("name", "")).andDo(print()).andExpect(status().isOk())
 				.andExpect(model().attributeHasErrors("schoolformDto"))
@@ -162,7 +162,7 @@ public class SchoolformControllerTest {
 	@Test
 	public void shouldAskForConfirmationBeforeDelet() throws Exception {
 
-		mockMvc.perform(get("/schoolform/delete/{id}/confirm", TEST_SCHOOLFORM_ID))
+		mockMvc.perform(get("/schooladmin/schoolform/delete/{id}/confirm", TEST_SCHOOLFORM_ID))
 				.andDo(print())
 				
 				.andExpect(status().isOk())
@@ -173,11 +173,11 @@ public class SchoolformControllerTest {
 	public void shouldDeleteSuccessfully() throws Exception {
 
 		// then
-		mockMvc.perform(get("/schoolform/delete/{id}", TEST_SCHOOLFORM_ID)).andDo(print())
+		mockMvc.perform(get("/schooladmin/schoolform/delete/{id}", TEST_SCHOOLFORM_ID)).andDo(print())
 
 				// assert
 				.andExpect(status().is3xxRedirection())
-				.andExpect(redirectedUrl("/schoolform/list"));
+				.andExpect(redirectedUrl("/schooladmin/schoolform/list"));
 	}
 
 }
