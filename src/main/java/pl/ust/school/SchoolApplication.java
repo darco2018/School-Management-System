@@ -2,10 +2,12 @@ package pl.ust.school;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Import;
 
-//@ImportResource("classpath:mvc-configuration.xml") mport Spring XML configuration file(s)
-@SpringBootApplication   //
-//import for security
+import pl.ust.school.security.DatabaseSecurityConfig;
+
+@SpringBootApplication  
+@Import(DatabaseSecurityConfig.class)
 public class SchoolApplication {
 
 	public static void main(String[] args) {
