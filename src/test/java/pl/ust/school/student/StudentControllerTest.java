@@ -74,7 +74,7 @@ public class StudentControllerTest {
 
 	@Test
 	public void shouldAddDtoToModelWhenSaving() throws Exception {
-		mockMvc.perform(get("/student/save"))
+		mockMvc.perform(get("/schooladmin/student/save"))
 				.andDo(print()) 
 				
 				.andExpect(status().isOk())
@@ -85,7 +85,7 @@ public class StudentControllerTest {
 
 	@Test
 	public void shouldProcessFormDataWhenNoErrors() throws Exception {
-		mockMvc.perform(post("/student/save")
+		mockMvc.perform(post("/schooladmin/student/save")
 				.param("telephone", "1111111111")
 				.param("address", "Penny Lane 12, London, England")
 				.param("email", "maria@gmail.com")
@@ -99,7 +99,7 @@ public class StudentControllerTest {
 
 	 @Test
 	public void shouldFindErrorsWhenInvalidValues() throws Exception {
-		mockMvc.perform(post("/student/save")
+		mockMvc.perform(post("/schooladmin/student/save")
 				.param("firstName", "")
 				.param("email", "<error>")
 				.param("telephone", "<error>")
@@ -123,7 +123,7 @@ public class StudentControllerTest {
 		given(this.studentService.getAllStudentDtos(new Sort(Sort.Direction.ASC, "lastName")))
 				.willReturn(Sets.newLinkedHashSet(john, new StudentDto()));
 
-		mockMvc.perform(get("/student/list"))
+		mockMvc.perform(get("/schooladmin/student/list"))
 				.andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(model().attributeExists(NAME_COLLECTION_OF_SCHOOLFORMS))
@@ -134,7 +134,7 @@ public class StudentControllerTest {
 	@Test
 	public void shouldRetrieveStudentByIdWhenExists() throws Exception {
 
-		mockMvc.perform(get("/student/view/{id}", TEST_STUDENT_ID))
+		mockMvc.perform(get("/schooladmin/student/view/{id}", TEST_STUDENT_ID))
 				
 				.andDo(print())
 				.andExpect(status().isOk())
@@ -147,7 +147,7 @@ public class StudentControllerTest {
 		given(this.studentService.getStudentDtoById(-1L))
 				.willThrow(new RecordNotFoundException(""));
 
-		mockMvc.perform(get("/student/view/{id}", -1))
+		mockMvc.perform(get("/schooladmin/student/view/{id}", -1))
 				.andDo(print())
 				.andExpect(view().name(AppConstants.VIEW_SUPPORT));
 	}
@@ -155,7 +155,7 @@ public class StudentControllerTest {
 	@Test
 	public void shouldAddDtoToModelWhenEdit() throws Exception {
 
-		mockMvc.perform(get("/student/edit/{id}", TEST_STUDENT_ID))
+		mockMvc.perform(get("/schooladmin/student/edit/{id}", TEST_STUDENT_ID))
 				.andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(model().attributeExists("studentDto"))
@@ -164,19 +164,19 @@ public class StudentControllerTest {
 
 	@Test
 	public void shouldProcessEditWhenNoErrors() throws Exception {
-		mockMvc.perform(post("/student/edit/{id}", TEST_STUDENT_ID).param("telephone", "1111111111")
+		mockMvc.perform(post("/schooladmin/student/edit/{id}", TEST_STUDENT_ID).param("telephone", "1111111111")
 				.param("address", "Penny Lane 12, London, England").param("email", "maria@gmail.com")
 				.param("firstName", "Maria").param("lastName", "Smith").param("password", "000777"))
 				.andDo(print())
 				
 				.andExpect(model().hasNoErrors())
 				.andExpect(status().is3xxRedirection())
-				.andExpect( redirectedUrl("/student/view/"+ TEST_STUDENT_ID));
+				.andExpect( redirectedUrl("/schooladmin/student/view/"+ TEST_STUDENT_ID));
 	}
 
 	 @Test
 	public void shouldReturnEditFormWhenErrors() throws Exception {
-		mockMvc.perform(post("/student/edit/{id}", TEST_STUDENT_ID)
+		mockMvc.perform(post("/schooladmin/student/edit/{id}", TEST_STUDENT_ID)
 				.param("firstName", "")
 				.param("email", "<error>")
 				.param("telephone", "<error>")
@@ -198,7 +198,7 @@ public class StudentControllerTest {
 	 @Test
 	    public void shouldAskForConfirmationBeforeDelet() throws Exception {
 	    	
-	    	mockMvc.perform(get("/student/delete/{id}/confirm", TEST_STUDENT_ID))
+	    	mockMvc.perform(get("/schooladmin/student/delete/{id}/confirm", TEST_STUDENT_ID))
 	    	.andDo(print())
 	    	.andExpect(status().isOk())
 	    	.andExpect(view().name(VIEW_CONFIRM_DELETE));
@@ -208,12 +208,12 @@ public class StudentControllerTest {
 	    public void shouldDeleteSuccessfully() throws Exception {
 	    	
 	    	//then
-	    	mockMvc.perform(get("/student/delete/{id}", TEST_STUDENT_ID))
+	    	mockMvc.perform(get("/schooladmin/student/delete/{id}", TEST_STUDENT_ID))
 	    	.andDo(print())
 	    	
 	    	//assert
 	    	.andExpect(status().is3xxRedirection())
-	    	.andExpect( redirectedUrl("/student/list"));
+	    	.andExpect( redirectedUrl("/schooladmin/student/list"));
 	    }
 
 }

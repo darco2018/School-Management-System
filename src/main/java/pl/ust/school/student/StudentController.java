@@ -22,7 +22,7 @@ import pl.ust.school.schoolform.SchoolformService;
 import pl.ust.school.system.SortUtils;
 
 @Controller
-@RequestMapping("student")
+@RequestMapping("schooladmin/student")
 public class StudentController {
 
 	private static final String VIEW_CREATE_OR_EDIT_FORM = "student/studentForm";
@@ -75,7 +75,7 @@ public class StudentController {
 		}
 
 		long id = this.studentService.createStudent(studentDto);
-		return "redirect:/student/view/" + id;
+		return "redirect:/schooladmin/student/view/" + id;
 	}
 
 	//////////////////////////// LIST ////////////////////////////
@@ -107,7 +107,7 @@ public class StudentController {
 	public String deleteStudent(@PathVariable long id) {
 
 		this.studentService.deleteStudent(id);
-		return "redirect:/student/list";
+		return "redirect:/schooladmin/student/list";
 	}
 
 	//////////////////////////// EDIT ////////////////////////////
@@ -129,7 +129,7 @@ public class StudentController {
 		} else {
 			studentDto.setId(id);
 			this.studentService.createStudent(studentDto);
-			return "redirect:/student/view/" + id;
+			return "redirect:/schooladmin/student/view/" + id;
 		}
 
 	}

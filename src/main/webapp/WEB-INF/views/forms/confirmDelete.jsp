@@ -19,13 +19,13 @@
 				</h3>
 				<div class="form-group row">
 				<div class="col-xs-1">
-					<form action='${pageContext.request.contextPath}/${entityName}/delete/${id}' method="GET">
+					<form action='${pageContext.request.contextPath}/schooladmin/${entityName}/delete/${id}' method="GET">
 						<input type="submit" class="btn btn-info   btn-primary" value="SUBMIT">
 					</form>
 				</div>
 				<div class="form-group row">
 				<div class="col-xs-1">
-					<form action='${pageContext.request.contextPath}/${entityName}/list/' method="GET">
+					<form action='${pageContext.request.contextPath}/schooladmin/${entityName}/list/' method="GET">
 						<input type="submit" class="btn btn-info  btn-primary"  value="CANCEL">
 					</form>
 				</div>       
