@@ -15,9 +15,9 @@
 	<td>${teacher.firstName}</td>
 	<td>${teacher.lastName}</td>
 	<td>
-	<a href='${pageContext.request.contextPath}/teacher/edit/${teacher.id}'>Edit</a>
-	<a href='${pageContext.request.contextPath}/teacher/view/${teacher.id}'>View</a>
-	<a href='${pageContext.request.contextPath}/teacher/delete/${teacher.id}/confirm'>Delete</a>
+	<a href='${pageContext.request.contextPath}/schooladmin/teacher/edit/${teacher.id}'>Edit</a>
+	<a href='${pageContext.request.contextPath}/schooladmin/teacher/view/${teacher.id}'>View</a>
+	<a href='${pageContext.request.contextPath}/schooladmin/teacher/delete/${teacher.id}/confirm'>Delete</a>
 	</td>
 </tr>
 </c:forEach>

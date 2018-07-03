@@ -13,7 +13,7 @@
       <ul class="nav navbar-nav">
         <li class="active"><a href="/">Home</a></li>
         <li><a href='/schooladmin/schoolform/list'>School forms</a></li>
-      <li><a href='/teacher/list'>Teachers</a></li>
+      <li><a href='/schooladmin/teacher/list'>Teachers</a></li>
       <li><a href='/schooladmin/student/list'>Students</a></li>
       <li><a href='/schooladmin/subject/list'>Subjects</a></li>
       <li><a href='/schooladmin/grade/lessons'>Grades</a></li>

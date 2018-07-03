@@ -21,7 +21,7 @@ import pl.ust.school.lesson.Lesson;
 import pl.ust.school.system.SortUtils;
 
 @Controller
-@RequestMapping("teacher")
+@RequestMapping("schooladmin/teacher")
 public class TeacherController {
 
 	private static final String VIEW_CREATE_OR_EDIT_FORM = "teacher/teacherForm";
@@ -65,7 +65,7 @@ public class TeacherController {
 		}
 
 		long id = this.teacherService.createTeacher(teacherDto);
-		return "redirect:/teacher/view/" + id;
+		return "redirect:/schooladmin/teacher/view/" + id;
 	}
 
 	//////////////////////////// LIST ////////////////////////////
@@ -99,7 +99,7 @@ public class TeacherController {
 	@RequestMapping(value = "/delete/{id}")
 	public String deleteTeacher(@PathVariable long id) {
 		this.teacherService.deleteTeacher(id);
-		return "redirect:/teacher/list";
+		return "redirect:/schooladmin/teacher/list";
 	}
 
 	//////////////////////////// EDIT ////////////////////////////
@@ -125,7 +125,7 @@ public class TeacherController {
 		} else {
 			teacherDto.setId(id);
 			this.teacherService.createTeacher(teacherDto);
-			return "redirect:/teacher/view/" + id;
+			return "redirect:/schooladmin/teacher/view/" + id;
 		}
 	}
 
@@ -135,14 +135,14 @@ public class TeacherController {
 	private String removeSubjectFromTeacher(@PathVariable long teacherId, @PathVariable long lessonId) {
 
 		this.teacherService.removeLesson(lessonId); // completely
-		return "redirect:/teacher/edit/" + teacherId;
+		return "redirect:/schooladmin/teacher/edit/" + teacherId;
 	}
 
 	@GetMapping("/{teacherId}/subject/{subjectId}/add")
 	private String addSubjectToTeacher(@PathVariable long teacherId, @PathVariable long subjectId) {
 
 		this.teacherService.addLesson(teacherId, subjectId);
-		return "redirect:/teacher/edit/" + teacherId;
+		return "redirect:/schooladmin/teacher/edit/" + teacherId;
 	}
 
 	////////////////////// others ////////////////////////////////////

@@ -70,7 +70,7 @@ public class TeacherControllerTest {
 	
 	@Test
 	public void shouldAddDtoToModelWhenSaving() throws Exception {
-		mockMvc.perform(get("/teacher/save"))
+		mockMvc.perform(get("/schooladmin/teacher/save"))
 		.andDo(print())
 		.andExpect(status().isOk())
         .andExpect(model().attributeExists("teacherDto")) 
@@ -79,7 +79,7 @@ public class TeacherControllerTest {
 
 	@Test
 	public void shouldProcessFormDataWhenNoErrors() throws Exception {
-		mockMvc.perform(post("/teacher/save")
+		mockMvc.perform(post("/schooladmin/teacher/save")
 				.param("telephone", "1111111111")
 				.param("address", "Penny Lane 12, London, England")
 				.param("email", "maria@gmail.com")
@@ -93,7 +93,7 @@ public class TeacherControllerTest {
 	 @Test
 	public void shouldFindErrorsWhenInvalidValues() throws Exception {
 
-		mockMvc.perform(post("/teacher/save")
+		mockMvc.perform(post("/schooladmin/teacher/save")
 				.param("firstName", "")
 				.param("email", "123")
 				.param("telephone", "abc")
@@ -117,7 +117,7 @@ public class TeacherControllerTest {
 
 		given(this.teacherService.getAllTeacherDtos(new Sort(Sort.Direction.ASC, "lastName"))).willReturn(Sets.newLinkedHashSet(john, new TeacherDto()));
 		
-		mockMvc.perform(get("/teacher/list"))
+		mockMvc.perform(get("/schooladmin/teacher/list"))
 				.andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(model().attributeExists(NAME_COLLECTION_OF_TEACHERS))
@@ -127,7 +127,7 @@ public class TeacherControllerTest {
 	@Test
 	public void shouldRetrieveTeacherByIdWhenExists() throws Exception {
 
-		mockMvc.perform(get("/teacher/view/{id}", TEST_TEACHER_ID))
+		mockMvc.perform(get("/schooladmin/teacher/view/{id}", TEST_TEACHER_ID))
 				.andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(view().name(VIEW_DETAILS));
@@ -139,7 +139,7 @@ public class TeacherControllerTest {
 		given(this.teacherService.getTeacherDtoById(-1L))
 				.willThrow(new RecordNotFoundException(""));
 		
-		mockMvc.perform(get("/teacher/view/{id}", -1))
+		mockMvc.perform(get("/schooladmin/teacher/view/{id}", -1))
 				.andDo(print()) //
 				.andExpect(view().name(AppConstants.VIEW_SUPPORT));
 	}
@@ -150,7 +150,7 @@ public class TeacherControllerTest {
 		given(this.teacherService.getNotTaughtSubjectDtos( new TeacherDto(), new Sort(Sort.Direction.ASC, "name")))
 				.willReturn(Lists.newArrayList( new SubjectDto()));
 
-		mockMvc.perform(get("/teacher/edit/{id}", TEST_TEACHER_ID))
+		mockMvc.perform(get("/schooladmin/teacher/edit/{id}", TEST_TEACHER_ID))
 				.andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(model().attributeExists("teacherDto"))
@@ -159,19 +159,19 @@ public class TeacherControllerTest {
 
 	@Test
 	public void shouldProcessEditWhenNoErrors() throws Exception {
-		mockMvc.perform(post("/teacher/edit/{id}", TEST_TEACHER_ID).param("telephone", "1111111111")
+		mockMvc.perform(post("/schooladmin/teacher/edit/{id}", TEST_TEACHER_ID).param("telephone", "1111111111")
 				.param("address", "Penny Lane 12, London, England").param("email", "maria@gmail.com")
 				.param("firstName", "Maria").param("lastName", "Smith").param("password", "000777"))
 				.andDo(print())
 				
 				.andExpect(model().hasNoErrors())
 				.andExpect(status().is3xxRedirection())
-				.andExpect( redirectedUrl("/teacher/view/" + TEST_TEACHER_ID));
+				.andExpect( redirectedUrl("/schooladmin/teacher/view/" + TEST_TEACHER_ID));
 	}
 
 	 @Test
 	public void shouldFindErrorsAndShowEditFormWhenErrors() throws Exception {
-		mockMvc.perform(post("/teacher/edit/{id}", TEST_TEACHER_ID)
+		mockMvc.perform(post("/schooladmin/teacher/edit/{id}", TEST_TEACHER_ID)
 				.param("firstName", "")
 				.param("email", "<error>")
 				.param("telephone", "<error>")
@@ -193,7 +193,7 @@ public class TeacherControllerTest {
 	@Test
 	public void shouldAskForConfirmationBeforeDelete() throws Exception {
 
-		mockMvc.perform(get("/teacher/delete/{id}/confirm", TEST_TEACHER_ID))
+		mockMvc.perform(get("/schooladmin/teacher/delete/{id}/confirm", TEST_TEACHER_ID))
 				.andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(view().name(VIEW_CONFIRM_DELETE));
@@ -203,34 +203,34 @@ public class TeacherControllerTest {
 	public void shouldDeleteSuccessfully() throws Exception {
 		
 		// then
-		mockMvc.perform(get("/teacher/delete/{id}", TEST_TEACHER_ID))
+		mockMvc.perform(get("/schooladmin/teacher/delete/{id}", TEST_TEACHER_ID))
 				.andDo(print())
 
 				// assert
 				.andExpect(status().is3xxRedirection())
-				.andExpect(redirectedUrl("/teacher/list"));
+				.andExpect(redirectedUrl("/schooladmin/teacher/list"));
 	}
 	
 	@Test  
 	public void shouldProcessRemoveSubjectSuccessfully() throws Exception {
 		
-		mockMvc.perform(get("/teacher/{teacherId}/remove/{lessonId}/"  , TEST_TEACHER_ID, 1L))
+		mockMvc.perform(get("/schooladmin/teacher/{teacherId}/remove/{lessonId}/"  , TEST_TEACHER_ID, 1L))
 		.andDo(print())
 
 		// assert
 		.andExpect(status().is3xxRedirection())
-		.andExpect( redirectedUrl("/teacher/edit/" + TEST_TEACHER_ID));
+		.andExpect( redirectedUrl("/schooladmin/teacher/edit/" + TEST_TEACHER_ID));
 	}
 	
 	@Test
 	public void shouldProcessAddSubjectSuccessfully() throws Exception {
 		
-		mockMvc.perform(get("/teacher/{teacherId}/subject/{subjectId}/add", TEST_TEACHER_ID, 1L))
+		mockMvc.perform(get("/schooladmin/teacher/{teacherId}/subject/{subjectId}/add", TEST_TEACHER_ID, 1L))
 		.andDo(print())
 		
 		// assert
 		.andExpect(status().is3xxRedirection())
-		.andExpect( redirectedUrl("/teacher/edit/" + TEST_TEACHER_ID));
+		.andExpect( redirectedUrl("/schooladmin/teacher/edit/" + TEST_TEACHER_ID));
 		
 	}
 
