@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Import;
 import pl.ust.school.security.DatabaseSecurityConfig;
 
 @SpringBootApplication  
-@Import(DatabaseSecurityConfig.class)
+//@Import(DatabaseSecurityConfig.class)
 public class SchoolApplication {
 
 	public static void main(String[] args) {
