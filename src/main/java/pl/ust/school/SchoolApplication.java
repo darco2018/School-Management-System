@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
-import pl.ust.school.security.DatabaseSecurityConfig;
+//import pl.ust.school.security.DatabaseSecurityConfig;
 
 @SpringBootApplication  
 //@Import(DatabaseSecurityConfig.class)
