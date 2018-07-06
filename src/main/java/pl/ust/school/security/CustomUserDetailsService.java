@@ -33,14 +33,20 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 		Optional<AppUser> opt = this.userRepository.findUserByUsername(username);
 		AppUser appUser = opt.orElseThrow(() -> new UsernameNotFoundException("User " + username + " was not found in the database"));
-        
-    	// using custom UserDetails enables to add custom properties to Spring Security USerDetails kept in session
+    	
+        return toUserDetails(appUser);
+    	 
+	}
+	
+	private UserDetails toUserDetails(AppUser appUser) {
+		
+		return  new CustomUserDetails(appUser.getUsername(), 
+					appUser.getPassword(), 
+					loadUserAuthorities(appUser.getUsername()), 
+					"1234567"); //TODO remove this mock registration number with actual
+		
+		// using custom UserDetails enables to add custom properties to Spring Security USerDetails kept in session
         // for alternative solutions look at bottom of page
-        
-    	 return  new CustomUserDetails(appUser.getUsername(), 
-    			 						appUser.getPassword(), 
-    			 						loadUserAuthorities(appUser.getUsername()), 
-    			 						"1234567"); //TODO remove this mock registration number with actual
 	}
 	
 	
