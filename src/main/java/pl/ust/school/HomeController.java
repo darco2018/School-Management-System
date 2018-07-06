@@ -6,14 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-/*@Controller
-@RequestMapping("/")*/
+@Controller
+@RequestMapping("/")
 public class HomeController {
-	/*
-	@RequestMapping
-	public String goToIndex() {
-		return "index";
-	}  
 	
 	@RequestMapping("/locale")
 	@ResponseBody
@@ -22,13 +17,15 @@ public class HomeController {
     }
 	
 	@RequestMapping("/helloworld")
-    public @ResponseBody String helloworld() {
+	@ResponseBody
+    public String helloworld() {
         return "Hello World";
     }
 	
 	@RequestMapping("/ex")
-    public @ResponseBody void throwException() {
+	@ResponseBody
+    public void throwException() {
 		throw new RuntimeException("test exception");
     }
-*/
+
 }

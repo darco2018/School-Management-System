@@ -50,6 +50,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	        									"/logout", 
 	        									"/logoutSuccessful",
 	        									"/signup").permitAll();
+	        
+	        //TODO remove when done - access to HomeController handlers for testing only
+	        http.authorizeRequests().antMatchers( 
+												"/locale", 
+												"/helloworld", 
+												"/ex").permitAll();
+	        
 	        // Allow access to static resources
 	        http.authorizeRequests().antMatchers("/css/**", 
 	        									"/images/**", 
