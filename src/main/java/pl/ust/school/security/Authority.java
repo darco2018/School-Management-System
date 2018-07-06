@@ -36,42 +36,6 @@ public class Authority extends BaseEntity{
 
 	@NotNull @Size(min=3, max=50)
 	@Column(name="authority", nullable=false)
-	//@Column(name="user_role", nullable=false)
 	private String authority;
-	
-	/*
-	 create table authorities (
-		       id bigint not null auto_increment,
-		        is_deleted bit default false not null,
-		        authority varchar(50) not null,
-		        username varchar(50) not null,
-		        primary key (id)
-		    ) engine=InnoDB
-		    
-		    alter table authorities 
-       add constraint ix_auth_username unique (username, authority)
-       
-        alter table authorities 
-       add constraint FKhjuy9y4fd8v5m3klig05ktofg 
-       foreign key (username)  references users (id)
-	*/
-	
-	
-	/* // private boolean enabled;
-
-	CREATE TABLE `authorities` (
-			  `username` varchar(255) NOT NULL,
-			  `authority` varchar(255) NOT NULL,
-			  UNIQUE KEY `ix_auth_username` (`username`,`authority`),
-			  CONSTRAINT `fk_authorities_users` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
-			) ENGINE=InnoDB DEFAULT;
-
-			CREATE TABLE `users` (
-			  `username` varchar(255) NOT NULL,
-			  `password` varchar(255) NOT NULL,
-			  `enabled` tinyint(1) NOT NULL,
-			  PRIMARY KEY (`username`)
-			) ENGINE=InnoDB DEFAULT;
-	*/
 
 }

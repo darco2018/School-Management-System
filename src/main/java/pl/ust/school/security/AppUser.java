@@ -29,6 +29,8 @@ import pl.ust.school.model.BaseEntity;
 @Table(name = "users", indexes =  @Index( name = "idx_user_username", columnList = "username", unique = true ))
 public class AppUser extends BaseEntity{
 	 
+	private static final long serialVersionUID = 1L;
+
 	@NotNull @Size(min=3, max=50)
 	@NaturalId(mutable = true)
 	@Column(unique = true, nullable=false) 
@@ -42,38 +44,5 @@ public class AppUser extends BaseEntity{
     
     @OneToMany(mappedBy="username", cascade = CascadeType.MERGE, fetch=FetchType.LAZY) 
 	private List<Authority> authorities;
-    /*
-    create table users (
-    	       id bigint not null auto_increment,
-    	        is_deleted bit default false not null,
-    	        password varchar(100) not null,
-    	        username varchar(50) not null,
-    	        primary key (id)
-    	    ) engine=InnoDB
-    	    
-    alter table users 
-       add constraint UK_r43af9ap4edm43mmtq01oddj6 unique (username)
-       
-       
-       
-    	    */
-    
- 
 }
 
-/* // private boolean enabled;
-
-CREATE TABLE `authorities` (
-		  `username` varchar(255) NOT NULL,
-		  `authority` varchar(255) NOT NULL,
-		  UNIQUE KEY `ix_auth_username` (`username`,`authority`),
-		  CONSTRAINT `fk_authorities_users` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
-		) ENGINE=InnoDB DEFAULT;
-
-		CREATE TABLE `users` (
-		  `username` varchar(255) NOT NULL,
-		  `password` varchar(255) NOT NULL,
-		  `enabled` tinyint(1) NOT NULL,
-		  PRIMARY KEY (`username`)
-		) ENGINE=InnoDB DEFAULT;
-*/
