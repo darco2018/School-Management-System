@@ -2,9 +2,11 @@ package pl.ust.school.security;
 
 import java.security.Principal;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -33,11 +35,21 @@ public class SecurityController {
 	
 
 	@GetMapping(value = "/admin")
-    public String adminPage(Model model, Principal principal) {
+    public String adminPage(Model model, Principal principal, HttpServletRequest request) {
     	   	                                            // can also cast it into CustomUserDetails
     	org.springframework.security.core.userdetails.User loginedUser = (User) ((Authentication) principal).getPrincipal(); 
         model.addAttribute("userInfo", WebUtils.getAuthoritiesAsString(loginedUser));  // gets GrantedAuthorities by loginedUser.getAuthorities() 
          
+        
+        // TODO remove when not needed
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("uri", request.getRequestURI())
+        .addAttribute("user", auth.getName())
+        .addAttribute("roles", auth.getAuthorities());
+        
+        
+        
+        
         return "security/adminPage";
     }
  

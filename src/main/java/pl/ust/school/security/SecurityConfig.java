@@ -4,6 +4,7 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -26,12 +27,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+	
+	@Bean
+	public DaoAuthenticationProvider authenticationProvider() {
+	    DaoAuthenticationProvider authProvider
+	      = new DaoAuthenticationProvider();
+	    authProvider.setUserDetailsService(userDetailsService);
+	    authProvider.setPasswordEncoder(passwordEncoder());
+	    return authProvider;
+	}
 
 	//@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder authManager) throws Exception {
 
-		authManager.userDetailsService(userDetailsService)
-					.passwordEncoder(passwordEncoder());
+		authManager.authenticationProvider(authenticationProvider());
+		
+		/* SHORTER SOLUTION: you can remove the line above and authenticationProvider() method
+		 * authManager.userDetailsService(userDetailsService)
+					.passwordEncoder(passwordEncoder());*/
 		
 		// .usersByUsernameQuery("select username, password, enabled from users where username=?")
 		// .authoritiesByUsernameQuery("select username, user_role from user_roles where username=?");
@@ -71,6 +84,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
            // .anyRequest().authenticated();
 	        
 	        ////////////////////////  access for authorities ///////////////////////////////////////////
+	        
+	        // .antMatchers("/**").hasRole("ADMIN")
 	        
 	        // /userInfo page requires login as ROLE_STUDENT or ROLE_ADMIN.
 	        // If no login, it will redirect to /login page.
