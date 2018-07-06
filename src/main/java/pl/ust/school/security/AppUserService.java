@@ -1,4 +1,4 @@
-package pl.ust.school.user2;
+package pl.ust.school.security;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,13 +14,13 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class MyUserService implements UserDetailsService {
+public class AppUserService implements UserDetailsService {
 	
 	@Autowired
-	UserRepository userRepository;
+	AppUserRepository userRepository;
 	
 	@Autowired
-	RoleRepository roleRepository;
+	AuhtorityRepository roleRepository;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -43,36 +42,40 @@ public class MyUserService implements UserDetailsService {
             		.roles(loadUserAuthoritiesAsStrings(appUser.getUserId()))  // tu wystarczą Strings of authorities
             		.build(); 
         	*/
-        	
+        	System.err.println("PASSWORD FROM MY USER SERVICE: " + appUser.getPassword());
         	// ALTERNATYWA B:													// a tu musza byc authorities jako GrantedAuthorities
-        	 User springUser = new User(appUser.getUserName(), appUser.getEncrytedPassword(), loadUserAuthorities(appUser.getUserId())); 
+        	 User springUser = new User(appUser.getUsername(), appUser.getPassword(), loadUserAuthorities(appUser.getUsername())); 
         	
         	return  springUser; // lub springSecurityUser
 	}
 	
-	private String[] loadUserAuthoritiesAsStrings(long userId) {
-		List<Role> roles = this.roleRepository.findRoleByUserId(userId);
+	
+	
+	
+	// zastepuje Dao z this.getJdbcTemplate().queryForList(sql, params, String.class);
+	private String[] loadUserAuthoritiesAsStrings(String username) {
+		List<Authority> roles = this.roleRepository.findAuthorityByUsername(username);
 		List<String> roleNames = new ArrayList<>();
 		
 		if(roles == null)
 			return new String[0];
 		
-		for(Role role : roles) {
-			roleNames.add(role.getRoleName());
+		for(Authority role : roles) {
+			roleNames.add(role.getAuthority());
 		}
 		
 		return (String[]) roleNames.toArray();
 	}
 	
 	
-	private List<GrantedAuthority> loadUserAuthorities(long userId) {
+	private List<GrantedAuthority> loadUserAuthorities(String username) {
 		List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
 
-		List<Role> roles = this.roleRepository.findRoleByUserId(userId);
+		List<Authority> roles = this.roleRepository.findAuthorityByUsername(username);
         
         if (roles != null) {
-            for (Role role : roles) {  // ROLE_USER, ROLE_ADMIN,..
-                GrantedAuthority authority = new SimpleGrantedAuthority(role.getRoleName());
+            for (Authority role : roles) {  // ROLE_USER, ROLE_ADMIN,..
+                GrantedAuthority authority = new SimpleGrantedAuthority(role.getAuthority());
                 grantedAuthorities.add(authority);
             }
         }

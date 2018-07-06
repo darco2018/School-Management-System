@@ -1,11 +1,10 @@
-package pl.ust.school.user2;
+package pl.ust.school.security;
 
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
-public interface RoleRepository extends CrudRepository<Role, Long> {
+public interface AuhtorityRepository extends CrudRepository<Authority, Long> {
 	
-	List<Role> findRoleByUserId(long userId);
-
+	List<Authority> findAuthorityByUsername(String username);
 }
