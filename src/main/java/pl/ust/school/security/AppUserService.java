@@ -1,9 +1,11 @@
 package pl.ust.school.security;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -12,46 +14,83 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
+
+@RequiredArgsConstructor
 @Service
 public class AppUserService implements UserDetailsService {
 	
-	@Autowired
-	AppUserRepository userRepository;
-	
-	@Autowired
-	AuhtorityRepository roleRepository;
+	final @NotNull AppUserRepository userRepository;
+	final @NotNull AuhtorityRepository roleRepository;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-		// 1. Find User in db  
-		
         AppUser appUser = this.userRepository.findUserByUsername(username);
         
         if(appUser == null) {
-        	System.out.println("User not found! " + username);
             throw new UsernameNotFoundException("User " + username + " was not found in the database");        	
         }
+   	 
+    	// using custom UserDetails enables to add custom properties to Spring Security USerDetails kept in session
+        // for alternative solutions look at bottom of page
         
-       /* ALTERNATYWA A:
-        	//2.Map into into UserDetails/User object. Necessary because: from doc:  "make sure you return a copy (of this data) from your UserDetailsService each time it is invoked"
-        	UserDetails springSecurityUser = User.builder()
-            		.username(username)
-            		.password(appUser.getEncrytedPassword())
-            		.roles(loadUserAuthoritiesAsStrings(appUser.getUserId()))  // tu wystarczą Strings of authorities
-            		.build(); 
-        	*/
-        	System.err.println("PASSWORD FROM MY USER SERVICE: " + appUser.getPassword());
-        	// ALTERNATYWA B:													// a tu musza byc authorities jako GrantedAuthorities
-        	 User springUser = new User(appUser.getUsername(), appUser.getPassword(), loadUserAuthorities(appUser.getUsername())); 
-        	
-        	return  springUser; // lub springSecurityUser
+    	 return  new CustomUserDetails(appUser.getUsername(), 
+    			 						appUser.getPassword(), 
+    			 						loadUserAuthorities(appUser.getUsername()), 
+    			 						"1234567"); //TODO remove this mock registration number with actual
+	}
+	
+	
+	private List<GrantedAuthority> loadUserAuthorities(String username) {
+		
+		List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+		List<Authority> roles = this.roleRepository.findAuthorityByUsername(username);
+        
+        if (roles != null) {
+            for (Authority role : roles) {  // ROLE_USER, ROLE_ADMIN,..
+                GrantedAuthority authority = new SimpleGrantedAuthority(role.getAuthority());
+                grantedAuthorities.add(authority);
+            }
+        }
+        
+		return grantedAuthorities;
+	}
+	
+	// enables to store extra fields in SpringSecurity's UserDetails object, eg registration number
+	// you can also override UserDetails methods
+	@Getter @Setter 
+	@EqualsAndHashCode(callSuper=true, exclude="registrationNum") // super uses only "username"
+	@ToString(includeFieldNames = false, callSuper = true)
+	class CustomUserDetails extends User{
+		
+		private static final long serialVersionUID = 1L;
+		private String registrationNum; // other fields can be added to be stored in Spring's session User
+		
+		public CustomUserDetails(String username, String password, 
+				Collection<? extends GrantedAuthority> authorities, String registrationNum) {
+			super(username, password, authorities);
+			this.registrationNum = registrationNum;
+		}
+
+		public String getRegistrationNum() {
+			return registrationNum;
+		}
+
+		public void setRegistrationNum(String registrationNum) {
+			this.registrationNum = registrationNum;
+		}
 	}
 	
 	
 	
-	
+	///////////////////// info for later //////////////////
+	/* ALTERNATIVE FOR List<GrantedAuthority> loadUserAuthorities(String username)
 	// zastepuje Dao z this.getJdbcTemplate().queryForList(sql, params, String.class);
 	private String[] loadUserAuthoritiesAsStrings(String username) {
 		List<Authority> roles = this.roleRepository.findAuthorityByUsername(username);
@@ -66,20 +105,26 @@ public class AppUserService implements UserDetailsService {
 		
 		return (String[]) roleNames.toArray();
 	}
+	*/
 	
 	
-	private List<GrantedAuthority> loadUserAuthorities(String username) {
-		List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+	/* ALTERNATYWA A for new CustomUserDetails(....):
+	//2.Map appUser into UserDetails/User object. Necessary because: 
+ 	from doc:  "make sure you return a copy (of this data) from your UserDetailsService each time it is invoked"
+	UserDetails springSecurityUser = User.builder()
+		.username(username)
+		.password(appUser.getEncrytedPassword())
+		.roles(loadUserAuthoritiesAsStrings(appUser.getUserId()))  // tu wystarczą Strings of authorities
+		.build(); 
+		
+	return springSecurityUser;  */
+	
 
-		List<Authority> roles = this.roleRepository.findAuthorityByUsername(username);
-        
-        if (roles != null) {
-            for (Authority role : roles) {  // ROLE_USER, ROLE_ADMIN,..
-                GrantedAuthority authority = new SimpleGrantedAuthority(role.getAuthority());
-                grantedAuthorities.add(authority);
-            }
-        }
-		return grantedAuthorities;
-	}
+/*  
+
+// ALTERNATYWA B for new CustomUserDetails(....):												// a tu musza byc authorities jako GrantedAuthorities
+ User springUser = new User(appUser.getUsername(), appUser.getPassword(), loadUserAuthorities(appUser.getUsername())); 
+ return  springUser;
+*/
 
 }
