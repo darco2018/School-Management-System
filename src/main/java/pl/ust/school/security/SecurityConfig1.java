@@ -41,7 +41,10 @@ public class SecurityConfig1 extends WebSecurityConfigurerAdapter {
 	        // The pages does not require login
 	       // http.authorizeRequests().antMatchers("/**").permitAll();
 	        http.authorizeRequests().antMatchers("/", "/login", "/logout").permitAll();
-	 
+	        
+	        http.authorizeRequests().antMatchers("*.css", "/resources/*", "/resources/**", "/resources*").permitAll();
+	        http.authorizeRequests().antMatchers("/static*", "/static/*", "/static/**").permitAll();
+	        http.authorizeRequests().antMatchers("/css/**", "*/css/**").permitAll();
 	      
 	        // /userInfo page requires login as ROLE_STUDENT or ROLE_ADMIN.
 	        // If no login, it will redirect to /login page.
