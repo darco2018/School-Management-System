@@ -20,8 +20,7 @@ public class SecurityConfig1 extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-		return bCryptPasswordEncoder;
+		return new BCryptPasswordEncoder();
 	}
 
 	@Autowired
@@ -50,26 +49,28 @@ public class SecurityConfig1 extends WebSecurityConfigurerAdapter {
 	 
 	        // For ADMIN only.
 	        http.authorizeRequests().antMatchers("/admin").access("hasRole('ROLE_ADMIN')");
+	        
+	        http.authorizeRequests().antMatchers("/**").access("hasRole('ROLE_ADMIN')");
 	 
-	        // When the user has logged in as XX.
-	        // But access a page that requires role YY,
+	        // When the user has logged in as XX. But access a page that requires role YY,
 	        // AccessDeniedException will be thrown.
 	        http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
 	 
 	        // Config for Login Form
-	        http.authorizeRequests().and().formLogin()//
-	                // Submit URL of login page.
-	                .loginProcessingUrl("/j_spring_security_check") // Submit URL
-	                .loginPage("/login")//
-	                .defaultSuccessUrl("/userInfo")// nie ma tekiego URL w kontrolerze
-	                .failureUrl("/login?error=true")//
-	                .usernameParameter("username")//
-	                .passwordParameter("password")
+	        http.authorizeRequests()
+	        		.and()
+	        			.formLogin()//
+	        			.loginProcessingUrl("/j_spring_security_check") 
+	        			.loginPage("/login")//
+	        			.defaultSuccessUrl("/userInfo")
+	        			.failureUrl("/login?error=true")
+	        			.usernameParameter("username")
+	        			.passwordParameter("password")
 	                // Config for Logout Page
-	                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/logoutSuccessful");
-	        
-	        
-	 
+	                .and()
+	                	.logout()
+	                	.logoutUrl("/logout")
+	                	.logoutSuccessUrl("/logoutSuccessful");
 	    }
 
 }
