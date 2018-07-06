@@ -38,14 +38,23 @@ public class SecurityConfig1 extends WebSecurityConfigurerAdapter {
 	 
 	        http.csrf().disable();
 	 
-	        // The pages does not require login
-	       // http.authorizeRequests().antMatchers("/**").permitAll();
-	        http.authorizeRequests().antMatchers("/", "/login", "/logout").permitAll();
+	        // Allow access to home/login/signup   
+	        http.authorizeRequests().antMatchers("/", 
+	        									"/login", 
+	        									"/logout", 
+	        									"/signup").permitAll();
+	        // Allow access to static resources
+	        http.authorizeRequests().antMatchers("/css/**", 
+	        									"/images/**", 
+	        									"/js/**", 
+	        									"/**/favicon.ico",
+	        									"/webjars/**"
+	        									).permitAll();
+
+          //  .antMatchers("/**").fullyAuthenticated()
+           // .anyRequest().authenticated();
 	        
-	        http.authorizeRequests().antMatchers("*.css", "/resources/*", "/resources/**", "/resources*").permitAll();
-	        http.authorizeRequests().antMatchers("/static*", "/static/*", "/static/**").permitAll();
-	        http.authorizeRequests().antMatchers("/css/**", "*/css/**").permitAll();
-	      
+	        
 	        // /userInfo page requires login as ROLE_STUDENT or ROLE_ADMIN.
 	        // If no login, it will redirect to /login page.
 	        http.authorizeRequests().antMatchers("/userInfo").access("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMIN')");
