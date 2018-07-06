@@ -1,6 +1,7 @@
 package pl.ust.school.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,20 +12,22 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import lombok.RequiredArgsConstructor;
+
 @Configuration             
 @EnableWebSecurity
+@RequiredArgsConstructor
 //@EnableGlobalMethodSecurity(securedEnabled = true,prePostEnabled = true)
-public class SecurityConfig1 extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Autowired
-	UserDetailsService userDetailsService;
+	final @NotNull UserDetailsService userDetailsService;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
-	@Autowired
+	//@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder authManager) throws Exception {
 
 		authManager.userDetailsService(userDetailsService)
@@ -54,10 +57,13 @@ public class SecurityConfig1 extends WebSecurityConfigurerAdapter {
 	        									"/**/favicon.ico",
 	        									"/webjars/**"
 	        									).permitAll();
+	        
+	        /////////////////////////////// ?! /////////////////////////////////////////////
 
           //  .antMatchers("/**").fullyAuthenticated()
            // .anyRequest().authenticated();
 	        
+	        ////////////////////////  access for authorities ///////////////////////////////////////////
 	        
 	        // /userInfo page requires login as ROLE_STUDENT or ROLE_ADMIN.
 	        // If no login, it will redirect to /login page.
@@ -72,7 +78,7 @@ public class SecurityConfig1 extends WebSecurityConfigurerAdapter {
 	        // AccessDeniedException will be thrown.
 	        http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
 	 
-	        // Config for Login Form
+	        //////////////////////////////// Config for Login Form ////////////////////////////////////////////
 	        http.authorizeRequests()
 	        		.and()
 	        			.formLogin()//
