@@ -3,6 +3,7 @@ package pl.ust.school.security;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
 
@@ -18,25 +19,21 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 
 @RequiredArgsConstructor
 @Service
-public class AppUserService implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 	
 	final @NotNull AppUserRepository userRepository;
 	final @NotNull AuhtorityRepository roleRepository;
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String username){
 
-        AppUser appUser = this.userRepository.findUserByUsername(username);
+		Optional<AppUser> opt = this.userRepository.findUserByUsername(username);
+		AppUser appUser = opt.orElseThrow(() -> new UsernameNotFoundException("User " + username + " was not found in the database"));
         
-        if(appUser == null) {
-            throw new UsernameNotFoundException("User " + username + " was not found in the database");        	
-        }
-   	 
     	// using custom UserDetails enables to add custom properties to Spring Security USerDetails kept in session
         // for alternative solutions look at bottom of page
         
@@ -66,7 +63,6 @@ public class AppUserService implements UserDetailsService {
 	// you can also override UserDetails methods
 	@Getter @Setter 
 	@EqualsAndHashCode(callSuper=true, exclude="registrationNum") // super uses only "username"
-	@ToString(includeFieldNames = false, callSuper = true)
 	class CustomUserDetails extends User{
 		
 		private static final long serialVersionUID = 1L;
@@ -75,14 +71,6 @@ public class AppUserService implements UserDetailsService {
 		public CustomUserDetails(String username, String password, 
 				Collection<? extends GrantedAuthority> authorities, String registrationNum) {
 			super(username, password, authorities);
-			this.registrationNum = registrationNum;
-		}
-
-		public String getRegistrationNum() {
-			return registrationNum;
-		}
-
-		public void setRegistrationNum(String registrationNum) {
 			this.registrationNum = registrationNum;
 		}
 	}
