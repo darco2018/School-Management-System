@@ -10,7 +10,7 @@ public class WebUtils {
     public static String getAuthoritiesAsString(org.springframework.security.core.userdetails.User user) {
         StringBuilder grantedAuthorities = new StringBuilder();
  
-        grantedAuthorities.append("UserName:").append(user.getUsername()); // getPassword(), getAuthorities() ,isEnabled/Locked etc.
+        grantedAuthorities.append("UserName:").append(user.getUsername()); // getPassword(), getAuthorities() ,isEnabled/Locked, custom values etc.
  
         //GrantedAuthority Represents an authority granted to an Authentication object.
         

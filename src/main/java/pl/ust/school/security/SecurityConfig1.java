@@ -41,6 +41,8 @@ public class SecurityConfig1 extends WebSecurityConfigurerAdapter {
 	 
 	        // Allow access to home/login/signup   
 	        http.authorizeRequests().antMatchers("/", 
+	        									"/home", 
+	        									"/welcome", 
 	        									"/login", 
 	        									"/logout", 
 	        									"/logoutSuccessful",
