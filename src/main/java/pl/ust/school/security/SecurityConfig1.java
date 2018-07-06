@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration             
 @EnableWebSecurity
+//@EnableGlobalMethodSecurity(securedEnabled = true,prePostEnabled = true)
 public class SecurityConfig1 extends WebSecurityConfigurerAdapter {
 
 	@Autowired
@@ -42,6 +43,7 @@ public class SecurityConfig1 extends WebSecurityConfigurerAdapter {
 	        http.authorizeRequests().antMatchers("/", 
 	        									"/login", 
 	        									"/logout", 
+	        									"/logoutSuccessful",
 	        									"/signup").permitAll();
 	        // Allow access to static resources
 	        http.authorizeRequests().antMatchers("/css/**", 

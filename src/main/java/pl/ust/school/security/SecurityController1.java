@@ -2,12 +2,15 @@ package pl.ust.school.security;
 
 import java.security.Principal;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
@@ -38,7 +41,16 @@ public class SecurityController1 {
     }
  
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String loginPage(Model model) {
+    public String loginPage(Model model, @RequestParam(required=false) String error, HttpSession session) {
+    	
+    	if(error != null && session != null) {
+    		
+    			Exception lastExc =  (Exception) session.getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
+    			if(lastExc != null) {
+    				model.addAttribute("invalidLogin", lastExc.getMessage());
+    			}
+    		
+    	}
  
         return "security/loginPage";
     }

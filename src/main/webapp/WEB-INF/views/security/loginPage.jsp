@@ -16,15 +16,12 @@
 					
        
        <!-- /login?error=true -->
-      <c:if test="${request.getParameter('error') == 'true'}">
-      		<div style="color:red;margin:10px 0px;">
-         		Login Failed!!!
-         	<div/>
-         Reason :
-      <%--  <span th:if="${session!= null and #session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION') != null}"
-            th:utext="${session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION').message}">
-                Static summary
-         </span> --%>
+      <c:if test="${param.error == true}">
+      		<p style="color:red;margin:10px 0px;">
+         		Login Failed!!! <br>
+         		Reason: ${invalidLogin}
+         	<p/>
+        
 
       </c:if>
        
