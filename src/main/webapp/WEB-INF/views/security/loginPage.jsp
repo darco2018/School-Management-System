@@ -12,41 +12,46 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<div>
-					<h3>Login Page</h3>
-					
        
-       <!-- /login?error=true -->
-      <c:if test="${param.error == true}">
-      		<p style="color:red;margin:10px 0px;">
-         		Login Failed!!! <br>
-         		Reason: ${invalidLogin}
-         	<p/>
+    <div class="container">
+    	<h2>Login Page</h2>
+      <form class="form-horizontal" name="f" action="<c:url value="/perform_login"/>" method='POST'>              
+            <fieldset>
+                <h3>Please log in</h3>
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                
+                 <!-- /login?error=true -->
+                 <c:if test="${param.error == true}">
+                 <div class="form-group row">
+                 <div class="col-xs-2">
+                		<div class="text-danger">    
+                   			 Login Failed.<br>
+                   			 Reason: ${invalidLogin}.
+                		</div>
+                </div>
+               	</div>
+                </c:if>
+                
+                <div class="form-group row">
+					<div class="col-xs-2">
+						<label for="username">Username:</label>
+						<input type="text" class="form-control" name="username" value=''/>
+					</div>
+				
+					<div class="col-xs-2">
+						<label for="password">Password:</label>
+						<input type="password" class="form-control" name="password" value=''/>
+					</div>
+				</div>
+                
+                <%@ include file="../jspf/formAddResetButtons.jspf"%>
+            </fieldset>
+        </form>
+       
         
-
-      </c:if>
-       
-          
-          
-      <h3>Enter user name and password:</h3>
-      <form name='f' action="<c:url value="/perform_login"></c:url>" method='POST'>
-         <table>
-            <tr>
-               <td>User:</td>
-               <td><input type='text' name='username' value=''></td>
-            </tr>
-            <tr>
-               <td>Password:</td>
-               <td><input type='password' name='password' /></td>
-               <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            </tr>
-            <tr>
-               <td><input name="submit" type="submit" value="submit" /></td>
-            </tr>
-         </table>
-      </form>
        
       <br>
-      Username/pass:
+      Username/password:
       <ul>
         <li>admin/admin</li>
         <li>student/student</li>

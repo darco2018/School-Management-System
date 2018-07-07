@@ -19,8 +19,13 @@
       <li><a href='/schooladmin/grade/lessons'>Grades</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-      	<li><a href="/logoutConfirm"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-        <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
+      
+       <c:if test="${not empty pageContext.request.remoteUser}">
+           <li><a href="/logoutConfirm"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+       </c:if>
+      	 <c:if test="${empty pageContext.request.remoteUser}">
+       		 <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
+        </c:if>
       </ul>
     </div>
   </div>

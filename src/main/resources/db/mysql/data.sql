@@ -58,11 +58,13 @@ INSERT IGNORE INTO grades (id, student_id, subject_id, grade_value) VALUES(16, 6
 
 INSERT IGNORE INTO a_school.users (id, username, password) VALUES(1, 'admin', '$2a$10$2VYRrT14AqU0mKMSE3yPqOGquk2/mEZJTgW0EZeZ3kJwDCG9NdSXK');
 INSERT IGNORE INTO a_school.users (id, username, password) VALUES(2, 'student', '$2a$10$oMXlsxw3RbVjedL4OWNNT.MbZJJ/NGZMZPXdS.4pjI1rW3tjSnTs2');
+INSERT IGNORE INTO a_school.users (id, username, password) VALUES(3, 'darek', '$2a$10$vcZOpdTlGMrG1EhxP.BLZez9hyZBfJYKfld3x9oMW3igd116xovf2');
 
 INSERT IGNORE INTO authorities(id, username, authority) VALUES(1, 'admin', 'ROLE_ADMIN');
 INSERT IGNORE INTO authorities(id, username, authority) VALUES(2, 'admin', 'ROLE_STUDENT');
-
-INSERT IGNORE INTO authorities(id, username, authority) VALUES(3, 'student', 'ROLE_STUDENT');
+INSERT IGNORE INTO authorities(id, username, authority) VALUES(3, 'darek', 'ROLE_ADMIN');
+INSERT IGNORE INTO authorities(id, username, authority) VALUES(4, 'darek', 'ROLE_STUDENT');
+INSERT IGNORE INTO authorities(id, username, authority) VALUES(5, 'student', 'ROLE_STUDENT');
 
 
 

@@ -62,7 +62,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	        									"/login", 
 	        									"/logout", 
 	        									"/logoutSuccessful",
-	        									"/logoutConfirm",
 	        									"/signup").permitAll();
 	        
 	        //TODO remove when done - access to HomeController handlers for testing only

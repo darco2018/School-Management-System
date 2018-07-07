@@ -11,10 +11,9 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-12">
-				<div>
-
-					<h1>Logout Successful!</h1>
-					
+				<div class="text-success" id="content">
+				<br><br>
+					<p>You have been logged out successfully.</p>
 				</div>
 			</div>
 		</div>

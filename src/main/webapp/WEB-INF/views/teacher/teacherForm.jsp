@@ -10,8 +10,9 @@
 	
 	<div class="container">
 		<h2>CREATE/EDIT&nbspa&nbspteacher</h2>
-			<h3>Personal data</h3>
 		<form:form class="form-horizontal" action="#" method="POST" modelAttribute="teacherDto">
+		 <fieldset>
+		 	 <h3>Personal data</h3>
 			<form:hidden path="isDeleted" />
 			<form:hidden path="lessons" />
 			<form:hidden path="password" />
@@ -59,7 +60,7 @@
 			</div>
 
 			<%@ include file="../jspf/formAddResetButtons.jspf"%>
-
+		  <fieldset>
 		</form:form>
 	</div>
 
