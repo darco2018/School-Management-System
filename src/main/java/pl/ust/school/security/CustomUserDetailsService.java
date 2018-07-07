@@ -33,7 +33,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 		Optional<AppUser> opt = this.userRepository.findUserByUsername(username);
 		AppUser appUser = opt.orElseThrow(() -> new UsernameNotFoundException("User " + username + " was not found in the database"));
-    	
         return toUserDetails(appUser);
     	 
 	}

@@ -1,6 +1,7 @@
 package pl.ust.school.security;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -43,6 +44,6 @@ public class AppUser extends BaseEntity{
    
     
     @OneToMany(mappedBy="username", cascade = CascadeType.MERGE, fetch=FetchType.LAZY) 
-	private List<Authority> authorities;
+	private Set<Authority> authorities = new HashSet<>();
 }
 

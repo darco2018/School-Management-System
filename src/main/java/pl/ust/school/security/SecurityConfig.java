@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import lombok.RequiredArgsConstructor;
 
 @Configuration             
-@EnableWebSecurity
+@EnableWebSecurity // The @EnableWebSecurity annotation is crucial if we disable the default security configuration.
 @RequiredArgsConstructor
 //@EnableGlobalMethodSecurity(securedEnabled = true,prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -28,32 +28,32 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
 	
-	@Bean
+	@Bean //some other AuthProviders: RememberMeAuthenticationProvider, OpenIDAuthenticationProvider, TestingAuthenticationProvider, AnonymousAuthenticationProvider,
 	public DaoAuthenticationProvider authenticationProvider() {
-	    DaoAuthenticationProvider authProvider
-	      = new DaoAuthenticationProvider();
+	    DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 	    authProvider.setUserDetailsService(userDetailsService);
 	    authProvider.setPasswordEncoder(passwordEncoder());
 	    return authProvider;
 	}
-
-	//@Autowired
+	
 	public void configureGlobal(AuthenticationManagerBuilder authManager) throws Exception {
 
 		authManager.authenticationProvider(authenticationProvider());
+		
 		
 		/* SHORTER SOLUTION: you can remove the line above and authenticationProvider() method
 		 * authManager.userDetailsService(userDetailsService)
 					.passwordEncoder(passwordEncoder());*/
 		
+		// authManager.jdbcAuthentication()authManager.dataSource(dataSource)
 		// .usersByUsernameQuery("select username, password, enabled from users where username=?")
 		// .authoritiesByUsernameQuery("select username, user_role from user_roles where username=?");
 	}
 	
 	 @Override
 	    protected void configure(HttpSecurity http) throws Exception {
-	 
-	        http.csrf().disable();
+	 // <form:form> tag and @EnableWebSecurity, the CsrfToken is automatically included for you (using the CsrfRequestDataValueProcessor).
+	        http.csrf(); //.disable(); //TODO enable . When abled, i cant log in
 	 
 	        // Allow access to home/login/signup   
 	        http.authorizeRequests().antMatchers("/", 
@@ -62,6 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	        									"/login", 
 	        									"/logout", 
 	        									"/logoutSuccessful",
+	        									"/logoutConfirm",
 	        									"/signup").permitAll();
 	        
 	        //TODO remove when done - access to HomeController handlers for testing only
@@ -79,16 +80,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	        									).permitAll();
 	        
 	        /////////////////////////////// ?! /////////////////////////////////////////////
-
+	     // disallow everything else...
+          //  .anyRequest().authenticated();
+            
           //  .antMatchers("/**").fullyAuthenticated()
            // .anyRequest().authenticated();
 	        
-	        ////////////////////////  access for authorities ///////////////////////////////////////////
 	        
+	        /*/////////////////important info ///////////////////
+	        
+	        http.antMatcher("/foo/**") - a request matcher for the whole filter chain
+	        .authorizeRequests()
+	          .antMatchers("/foo/bar").hasRole("BAR") - only to choose the access rule to apply.
+	          .antMatchers("/foo/spam").hasRole("SPAM") - only to choose the access rule to apply.
+	          .anyRequest().isAuthenticated();
+	        */
+	        ////////////////////////  access for authorities ///////////////////////////////////////////
+	       // http.authorizeRequests().anyRequest().hasAnyRole("ADMIN", "USER")
 	        // .antMatchers("/**").hasRole("ADMIN")
 	        
 	        // /userInfo page requires login as ROLE_STUDENT or ROLE_ADMIN.
-	        // If no login, it will redirect to /login page.
+	        // If no login, it will redirect to /login page.      //  Spring Expression Language (SpEL) 
 	        http.authorizeRequests().antMatchers("/userInfo").access("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMIN')");
 	 
 	        // For ADMIN only.
@@ -104,8 +116,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	        http.authorizeRequests()
 	        		.and()
 	        			.formLogin()//
-	        			.loginProcessingUrl("/j_spring_security_check") 
-	        			.loginPage("/login")//
+	        			.loginProcessingUrl("/perform_login") // The default URL where the Spring Login will POST to trigger the authentication process is /login which used to be /j_spring_security_check before Spring Security 4.
+	        			.loginPage("/login")// springdefault: spring_security_login
 	        			.defaultSuccessUrl("/userInfo")
 	        			.failureUrl("/login?error=true")
 	        			.usernameParameter("username")
@@ -113,7 +125,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	                // Config for Logout Page
 	                .and()
 	                	.logout()
-	                	.logoutUrl("/logout")
+	                	.logoutUrl("/logout") // he URL that triggers log out to occur (default is "/logout"). If CSRF protection is enabled (default), then the request must also be a POST.
 	                	.logoutSuccessUrl("/logoutSuccessful");
 	    }
 

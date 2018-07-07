@@ -25,7 +25,10 @@
 					
 					<div>Presenting user info:</div>
 					<div>${userInfo}</div>
-
+					
+					<div>Get remote user: <c:out value="${pageContext.request.remoteUser}"/></div>
+					<%--The <c:out /> tag ensures the username is escaped to avoid XSS vulnerabilities Regardless of how 
+					an application renders user inputed values, it should ensure that the values are properly escaped. --%>	
 				</div>
 			</div>
 		</div>

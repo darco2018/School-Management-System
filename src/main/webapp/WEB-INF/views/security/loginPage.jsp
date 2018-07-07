@@ -27,9 +27,8 @@
        
           
           
-     <!-- <form action="<c:url value="/j_spring_security_check"></c:url>" method="post" role="form"> -->
       <h3>Enter user name and password:</h3>
-      <form name='f' action="<c:url value="/j_spring_security_check"></c:url>" method='POST'>
+      <form name='f' action="<c:url value="/perform_login"></c:url>" method='POST'>
          <table>
             <tr>
                <td>User:</td>
@@ -38,6 +37,7 @@
             <tr>
                <td>Password:</td>
                <td><input type='password' name='password' /></td>
+               <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             </tr>
             <tr>
                <td><input name="submit" type="submit" value="submit" /></td>
@@ -51,12 +51,6 @@
         <li>admin/admin</li>
         <li>student/student</li>
       </ul> 
-      <ul>
-        <li>dbuser1/123</li>
-        <li>dbadmin1/123</li>
-      </ul>  
-       
-       
   				 </div>
 			</div>
 		</div>

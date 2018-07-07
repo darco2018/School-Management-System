@@ -12,8 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import pl.ust.school.security.CustomUserDetailsService.CustomUserDetails;
@@ -47,8 +46,8 @@ public class SecurityController {
         .addAttribute("user", auth.getName())
         .addAttribute("roles", auth.getAuthorities());
         
-        
-        
+       /*NLP if csrf diabled  CsrfToken csrf = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+        System.out.println("printing the token X" + csrf.getToken());*/
         
         return "security/adminPage";
     }
@@ -65,6 +64,16 @@ public class SecurityController {
  
         return "security/loginPage";
     }
+	
+	@GetMapping(value = "/logoutConfirm")
+    public String confirmLogoutPage() {
+        return "security/logoutConfirmPage";
+    }
+	/*
+	@GetMapping(value = "/logout")
+    public String logout() {
+        return "forward:/logout";
+    }*/
     
 	@GetMapping(value = "/logoutSuccessful")
     public String logoutSuccessfulPage(Model model) {
