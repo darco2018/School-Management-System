@@ -14,7 +14,6 @@
 				<div>
 
 					<div class="container">
-						<h2>Login Page</h2>
 						<form class="form-horizontal" name="f"
 							action="<c:url value="/perform_login"/>" method='POST'>
 							<fieldset>

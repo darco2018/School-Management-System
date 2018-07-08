@@ -7,8 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/")
 public class HomeController {
+	
+	@RequestMapping("/") // otherwise will map to resources/index.html, not WEB-INF/index.jsp 
+	public String goToIndex() {
+		return "index";
+	}  
 	
 	@RequestMapping("/locale")
 	@ResponseBody

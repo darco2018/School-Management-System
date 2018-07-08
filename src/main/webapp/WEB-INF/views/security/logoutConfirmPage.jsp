@@ -13,7 +13,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-12">
-				<h3 class='text-danger'>Do you really want to log out?</h3>
+				<h3>Do you really want to log out?</h3>
 				<div class="form-group row">
 				<div class="col-xs-1">
 				

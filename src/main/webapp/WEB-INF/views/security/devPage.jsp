@@ -11,9 +11,8 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-12">
-				<div>
-
-					<h2>User Info</h2>
+				<div class="text-info" id="content">
+				<h1>Developer's page</h1>
 					
 					<%--The <c:out /> tag ensures the username is escaped to avoid XSS vulnerabilities Regardless of how 
 					an application renders user inputed values, it should ensure that the values are properly escaped. --%>	
@@ -22,7 +21,7 @@
 					<div id="content">
 					<strong>This is protected page!</strong><br>
 					
-					User principal: ${pageContext.request.userPrincipal.name}<br>
+					User principal: ${pageContext.request.userPrincipal.name} or ${requestScope.userPrincipal.name}<br>
 					Login of user making request or null if user not authenticated: ${pageContext.request.remoteUser}<br>
 					Authentication protecting the servlet. If the servlet is not authenticated null is returned.:${pageContext.request.authType}<br>
 					--------------------------------------------------------------------------------<br>
@@ -59,7 +58,8 @@
 					
 					<div>Presenting user info from controller:</div>
 					<div>${userInfo}</div>
-					
+									
+				
 				</div>
 			</div>
 		</div>

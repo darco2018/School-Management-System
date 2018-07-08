@@ -26,7 +26,7 @@ import lombok.Setter;
 public class CustomUserDetailsService implements UserDetailsService {
 	
 	final @NotNull AppUserRepository userRepository;
-	final @NotNull AuhtorityRepository roleRepository;
+	final @NotNull AuthorityRepository roleRepository;
 
 	@Override
 	public UserDetails loadUserByUsername(String username){

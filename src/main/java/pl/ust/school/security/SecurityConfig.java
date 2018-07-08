@@ -16,9 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import lombok.RequiredArgsConstructor;
 
 @Configuration             
-@EnableWebSecurity // The @EnableWebSecurity annotation is crucial if we disable the default security configuration.
+@EnableWebSecurity //crucial if we disable the default security configuration.
 @RequiredArgsConstructor
-//@EnableGlobalMethodSecurity(securedEnabled = true,prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	final @NotNull UserDetailsService userDetailsService;
@@ -40,14 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		authManager.authenticationProvider(authenticationProvider());
 		
-		
-		/* SHORTER SOLUTION: you can remove the line above and authenticationProvider() method
-		 * authManager.userDetailsService(userDetailsService)
-					.passwordEncoder(passwordEncoder());*/
-		
-		// authManager.jdbcAuthentication()authManager.dataSource(dataSource)
-		// .usersByUsernameQuery("select username, password, enabled from users where username=?")
-		// .authoritiesByUsernameQuery("select username, user_role from user_roles where username=?");
+		// 1) look below
 	}
 	
 	 @Override
@@ -83,12 +75,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	        //http.authorizeRequests().anyRequest().hasRole("DEV");// if i give access to ALL requests before more specific
 	        // ones, the rules for more specific ones below will NOT work!
 	        
-	        http.authorizeRequests().antMatchers("/dev*").hasRole("DEV");
-	        http.authorizeRequests().antMatchers("/admin/**").hasAnyRole("DEV","ADMIN");
-	        http.authorizeRequests().antMatchers("/schooladmin/**").hasAnyRole("DEV","ADMIN", "SCHOOLADMIN");
-	        http.authorizeRequests().antMatchers("/studentuser/**").hasAnyRole("DEV","ADMIN", "SCHOOLADMIN", "STUDENT");
-	        http.authorizeRequests().antMatchers("/teacheruser/**").hasAnyRole("DEV","ADMIN", "SCHOOLADMIN", "TEACHER");
-	        http.authorizeRequests().antMatchers("/parentuser/**").hasAnyRole("DEV","ADMIN", "SCHOOLADMIN", "PARENT");
+	        http.authorizeRequests().antMatchers("/dev*").hasRole(AuthorityName.DEV.value());
+	        http.authorizeRequests().antMatchers("/admin/**").hasAnyRole(AuthorityName.DEV.value(),AuthorityName.ADMIN.value());
+	        
+	        http.authorizeRequests().antMatchers("/schooladmin/**").hasAnyRole(AuthorityName.DEV.value(),AuthorityName.ADMIN.value(),
+	        														AuthorityName.SCHOOLADMIN.value());
+	        
+	        http.authorizeRequests().antMatchers("/studentuser/**").hasAnyRole(AuthorityName.DEV.value(),AuthorityName.ADMIN.value(),
+																	AuthorityName.SCHOOLADMIN.value(), AuthorityName.STUDENT.value());
+	        
+	        http.authorizeRequests().antMatchers("/teacheruser/**").hasAnyRole(AuthorityName.DEV.value(),AuthorityName.ADMIN.value(),
+																    AuthorityName.SCHOOLADMIN.value(), AuthorityName.TEACHER.value());
+	        
+	        http.authorizeRequests().antMatchers("/parentuser/**").hasAnyRole(AuthorityName.DEV.value(),AuthorityName.ADMIN.value(),
+				    												AuthorityName.SCHOOLADMIN.value(), AuthorityName.PARENT.value());
 	      
 	        http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
 	 
@@ -98,7 +98,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	        			.formLogin()//
 	        			.loginProcessingUrl("/perform_login") // The default URL where the Spring Login will POST to trigger the authentication process is /login which used to be /j_spring_security_check before Spring Security 4.
 	        			.loginPage("/login")// springdefault: spring_security_login
-	        			.defaultSuccessUrl("/userInfo")
+	        			.defaultSuccessUrl("/loginSuccessful", true)
 	        			.failureUrl("/login?error=true")
 	        			.usernameParameter("username")
 	        			.passwordParameter("password")
@@ -108,6 +108,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	                	.logoutUrl("/logout") // he URL that triggers log out to occur (default is "/logout"). If CSRF protection is enabled (default), then the request must also be a POST.
 	                	.logoutSuccessUrl("/logoutSuccessful");
 	    }
+	 
+	 /* note 1
+	  * SHORTER SOLUTION: you can remove the line above and authenticationProvider() method
+		 * authManager.userDetailsService(userDetailsService)
+					.passwordEncoder(passwordEncoder());*/
+		
+		// authManager.jdbcAuthentication()authManager.dataSource(dataSource)
+		// .usersByUsernameQuery("select username, password, enabled from users where username=?")
+		// .authoritiesByUsernameQuery("select username, user_role from user_roles where username=?");
+	 
 	 
 	 //////////////// EXTRA INFO ///////////////////////////////////////////
      // http.authorizeRequests().anyRequest().hasRole("DEV"); - doesnt work here
