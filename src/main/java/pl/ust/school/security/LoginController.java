@@ -19,7 +19,7 @@ import pl.ust.school.security.CustomUserDetailsService.CustomUserDetails;
 
 
 @Controller
-public class SecurityController {
+public class LoginController {
 	
 	@GetMapping("/") // bez tego mapuje do index.html w resources
 	public String goToIndex() {

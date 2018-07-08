@@ -46,6 +46,7 @@
 					Query string: ${pageContext.request.queryString}<br>
 					--------------------------------------------------------------------------------<br>
 					Collection of all uploaded parts: <!-- pageContext.request.parts} --><br>
+					Locale: ${pageContext.request.locale.displayCountry} ${pageContext.request.locale.displayLanguage}<br>
 					Locales acceptable to client: ${pageContext.request.locales}<br>
 					InputStream of the body --- <br>
 					Retrieves the body of the request as character data using a BufferedReader. ---- <br>

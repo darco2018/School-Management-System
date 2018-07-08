@@ -52,8 +52,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	 @Override
 	    protected void configure(HttpSecurity http) throws Exception {
-	 // <form:form> tag and @EnableWebSecurity, the CsrfToken is automatically included for you (using the CsrfRequestDataValueProcessor).
-	        http.csrf(); //.disable(); //TODO enable . When abled, i cant log in
+	 // with <form:form> tag and @EnableWebSecurity, the CsrfToken is automatically included for you (using the CsrfRequestDataValueProcessor).
+	        http.csrf(); 
 	 
 	        // Allow access to home/login/signup   
 	        http.authorizeRequests().antMatchers("/", 
@@ -61,6 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	        									"/welcome", 
 	        									"/login", 
 	        									"/logout", 
+	        									"/logoutConfirm",
 	        									"/logoutSuccessful",
 	        									"/signup").permitAll();
 	        
@@ -78,40 +79,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	        									"/webjars/**"
 	        									).permitAll();
 	        
-	        /////////////////////////////// ?! /////////////////////////////////////////////
-	     // disallow everything else...
-          //  .anyRequest().authenticated();
-            
-          //  .antMatchers("/**").fullyAuthenticated()
-           // .anyRequest().authenticated();
 	        
+	        //http.authorizeRequests().anyRequest().hasRole("DEV");// if i give access to ALL requests before more specific
+	        // ones, the rules for more specific ones below will NOT work!
 	        
-	        /*/////////////////important info ///////////////////
-	        
-	        http.antMatcher("/foo/**") - a request matcher for the whole filter chain
-	        .authorizeRequests()
-	          .antMatchers("/foo/bar").hasRole("BAR") - only to choose the access rule to apply.
-	          .antMatchers("/foo/spam").hasRole("SPAM") - only to choose the access rule to apply.
-	          .anyRequest().isAuthenticated();
-	        */
-	        ////////////////////////  access for authorities ///////////////////////////////////////////
-	       // http.authorizeRequests().anyRequest().hasAnyRole("ADMIN", "USER")
-	        // .antMatchers("/**").hasRole("ADMIN")
-	        
-	        // /userInfo page requires login as ROLE_STUDENT or ROLE_ADMIN.
-	        // If no login, it will redirect to /login page.      //  Spring Expression Language (SpEL) 
-	        http.authorizeRequests().antMatchers("/userInfo").access("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMIN')");
-	 
-	        // For ADMIN only.
-	        http.authorizeRequests().antMatchers("/admin").access("hasRole('ROLE_ADMIN')");
-	        
-	        http.authorizeRequests().antMatchers("/**").access("hasRole('ROLE_ADMIN')");
-	 
-	        // When the user has logged in as XX. But access a page that requires role YY,
-	        // AccessDeniedException will be thrown.
+	        http.authorizeRequests().antMatchers("/dev*").hasRole("DEV");
+	        http.authorizeRequests().antMatchers("/admin/**").hasAnyRole("DEV","ADMIN");
+	        http.authorizeRequests().antMatchers("/schooladmin/**").hasAnyRole("DEV","ADMIN", "SCHOOLADMIN");
+	        http.authorizeRequests().antMatchers("/studentuser/**").hasAnyRole("DEV","ADMIN", "SCHOOLADMIN", "STUDENT");
+	        http.authorizeRequests().antMatchers("/teacheruser/**").hasAnyRole("DEV","ADMIN", "SCHOOLADMIN", "TEACHER");
+	        http.authorizeRequests().antMatchers("/parentuser/**").hasAnyRole("DEV","ADMIN", "SCHOOLADMIN", "PARENT");
+	      
 	        http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
 	 
-	        //////////////////////////////// Config for Login Form ////////////////////////////////////////////
+	        // LOGIN FORM
 	        http.authorizeRequests()
 	        		.and()
 	        			.formLogin()//
@@ -121,11 +102,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	        			.failureUrl("/login?error=true")
 	        			.usernameParameter("username")
 	        			.passwordParameter("password")
-	                // Config for Logout Page
+	                // LOG OUT
 	                .and()
 	                	.logout()
 	                	.logoutUrl("/logout") // he URL that triggers log out to occur (default is "/logout"). If CSRF protection is enabled (default), then the request must also be a POST.
 	                	.logoutSuccessUrl("/logoutSuccessful");
 	    }
+	 
+	 //////////////// EXTRA INFO ///////////////////////////////////////////
+     // http.authorizeRequests().anyRequest().hasRole("DEV"); - doesnt work here
+    //  http.authorizeRequests().antMatchers("/**").hasRole("DEV"); - doesnt work here
+    // http.authorizeRequests().anyRequest().authenticated(); // .antMatchers("/**").fullyAuthenticated()
+    /* NIE DZIALA MI
+     http.antMatcher("/foo/**") - a request matcher for the whole filter chain
+     .authorizeRequests()
+       .antMatchers("/foo/bar").hasRole("BAR") - only to choose the access rule to apply.
+       .antMatchers("/foo/spam").hasRole("SPAM") - only to choose the access rule to apply.
+       .anyRequest().isAuthenticated();
+     */
 
 }
