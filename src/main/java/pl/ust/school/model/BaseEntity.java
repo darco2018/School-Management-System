@@ -26,7 +26,7 @@ public class BaseEntity implements Serializable {
     private long id;
 	
 	@NotNull
-	@Column(updatable=false, nullable=false)
+	@Column(nullable=false)
 	@org.hibernate.annotations.ColumnDefault("false")
 	private boolean isDeleted;
 
