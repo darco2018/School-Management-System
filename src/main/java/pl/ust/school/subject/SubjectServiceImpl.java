@@ -21,6 +21,8 @@ public class SubjectServiceImpl implements SubjectService {
 
 	private final @NotNull SubjectRepository subjectRepo;
 	private final @NotNull LessonService lessonService;
+	
+	private static final String NOT_FOUND_MESSAGE = "No subject with id %d has been found.";
 
 	@Autowired
 	private SubjectMapper mapper;
@@ -44,8 +46,7 @@ public class SubjectServiceImpl implements SubjectService {
 	public SubjectDto getSubjectDtoById(long subjectId) {
 
 		Optional<Subject> opt = this.subjectRepo.findById(subjectId);
-		Subject subject = opt.orElseThrow(() -> new RecordNotFoundException("No subject with id " 
-		+ subjectId + " has been found."));
+		Subject subject = opt.orElseThrow(() -> new RecordNotFoundException(String.format(NOT_FOUND_MESSAGE, subjectId)));
 
 		return this.mapper.toDTO(subject);
 	}
@@ -53,18 +54,16 @@ public class SubjectServiceImpl implements SubjectService {
 	public Subject getSubjectById(long subjectId) {
 
 		Optional<Subject> opt = this.subjectRepo.findById(subjectId);
-		return opt.orElseThrow(() -> new RecordNotFoundException("No subject with id " + subjectId 
-				+ " has been found."));
+		return opt.orElseThrow(() -> new RecordNotFoundException(String.format(NOT_FOUND_MESSAGE, subjectId)));
 	}
 
 	@Override
-	public void deleteSubject(long subjectId) {
+	public void disableSubject(long subjectId) {
 
 		Optional<Subject> subjectOpt = this.subjectRepo.findById(subjectId);
-		Subject subject = subjectOpt.orElseThrow(() -> new RecordNotFoundException("No subject with id " + subjectId 
-				+ " has been found."));
-
-		this.lessonService.deleteLessonsBySubject(subjectId);
-		this.subjectRepo.delete(subject);
+		Subject subject = subjectOpt.orElseThrow(() -> new RecordNotFoundException(String.format(NOT_FOUND_MESSAGE, subjectId)));
+		subject.setDeleted(true);
+		this.subjectRepo.save(subject);
+		
 	}
 }

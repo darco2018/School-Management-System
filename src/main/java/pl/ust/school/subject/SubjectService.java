@@ -7,7 +7,7 @@ import org.springframework.data.domain.Sort;
 public interface SubjectService {
 	
 	long createSubject(SubjectDto subjectDto);
-	void deleteSubject(long id);
+	void disableSubject(long id);
 	SubjectDto getSubjectDtoById(long id);
 	Subject getSubjectById(long id);
 	Set<SubjectDto> getAllSubjectDtos(Sort sort);

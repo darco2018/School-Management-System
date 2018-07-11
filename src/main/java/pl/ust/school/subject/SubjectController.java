@@ -93,7 +93,7 @@ public class SubjectController {
 
 	@RequestMapping(value = "/delete/{id}")
 	public String deleteSubject(@PathVariable long id) {
-		this.subjectService.deleteSubject(id);
+		this.subjectService.disableSubject(id);
 		return "redirect:/schooladmin/subject/list";
 	}
 
