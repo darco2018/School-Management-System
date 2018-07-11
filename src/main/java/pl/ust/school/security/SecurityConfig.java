@@ -15,8 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import lombok.RequiredArgsConstructor;
 
-@Configuration             
-@EnableWebSecurity //crucial if we disable the default security configuration.
+//@Configuration             
+//@EnableWebSecurity //crucial if we disable the default security configuration.
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
