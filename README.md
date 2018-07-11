@@ -7,7 +7,7 @@ The application was started as the final project during my participation in a **
 * Student - can be added, deleted, edited
 * Grade - can be added
 * Teacher - can be added, deleted, edited
-* Subject - can be added, deleted, edited
+* Subject - can be added, edited (it cannot be deleted as grades are connected with it)
 * School form (class) - can be added, deleted, edited
 
 ##### Manipulations

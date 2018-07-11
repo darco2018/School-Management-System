@@ -85,7 +85,7 @@ public class SubjectController {
 	}
 
 	//////////////////////////// DELETE ////////////////////////////
-
+/*
 	@GetMapping("/delete/{id}/confirm")
 	public String confirmDelete(@PathVariable long id) {
 		return VIEW_CONFIRM_DELETE;
@@ -96,7 +96,7 @@ public class SubjectController {
 		this.subjectService.deleteSubject(id);
 		return "redirect:/schooladmin/subject/list";
 	}
-
+*/
 	//////////////////////////// EDIT ////////////////////////////
 
 	@GetMapping("/edit/{id}")

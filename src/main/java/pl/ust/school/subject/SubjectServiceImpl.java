@@ -56,7 +56,7 @@ public class SubjectServiceImpl implements SubjectService {
 		return opt.orElseThrow(() -> new RecordNotFoundException("No subject with id " + subjectId 
 				+ " has been found."));
 	}
-
+	/*
 	@Override
 	public void deleteSubject(long subjectId) {
 
@@ -65,6 +65,6 @@ public class SubjectServiceImpl implements SubjectService {
 				+ " has been found."));
 
 		this.lessonService.deleteLessonsBySubject(subjectId);
-		this.subjectRepo.delete(subject);
-	}
+		//this.subjectRepo.delete(subject); 
+	} */
 }

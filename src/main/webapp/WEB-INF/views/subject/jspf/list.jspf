@@ -15,7 +15,6 @@
 	<td>
 	<a href='${pageContext.request.contextPath}/schooladmin/subject/edit/${subject.id}'>Edit</a>
 	<a href='${pageContext.request.contextPath}/schooladmin/subject/view/${subject.id}'>View</a>
-	<a href='${pageContext.request.contextPath}/schooladmin/subject/delete/${subject.id}'>Delete</a>
 	</td>
 </tr>
 </c:forEach>

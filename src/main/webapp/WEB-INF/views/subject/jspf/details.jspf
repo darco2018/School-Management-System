@@ -12,7 +12,6 @@
 			<td>${subjectDto.id}</td>
 			<td>${subjectDto.name}</td>
 			<td><a href='${pageContext.request.contextPath}/schooladmin/subject/edit/${subjectDto.id}'>Edit</a>
-				<a href='${pageContext.request.contextPath}/schooladmin/subject/delete/${subjectDto.id}'>Delete</a>
 			</td>
 		</tr>
 	</tbody>
