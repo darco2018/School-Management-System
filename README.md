@@ -23,9 +23,17 @@ The application was started as the final project during my participation in a **
 * Grade panel - you can view all Subject/Teacher/Schoolform trios
 * Grade panel - you can view all Students with their Grades in a given School form 
 
+##### Security
+* There are 6 user roles : ADMIN, SCHOOLADMIN, DEV, STUDENT, TEACHER, PARENT - connected with the following paths:
+* /dev/, /admin/, /schooladmin/, /studentuser/, /teacheruser/, /parentuser/
+* form logging is enabled
+* password hashed with JCrypt
+* custom UserDetailsService to enable adding custom properties to Spring Security USerDetails kept in session
+* with <form:form> tag and @EnableWebSecurity the CsrfToken is automatically included 
+
 #### Technologies and tools used
 ```
-* Spring Boot 2.0.1, Spring-Core 5, Spring-Webmvc 5, Spring-Data 2
+* Spring Boot 2.0.1, Spring-Core 5, Spring-Webmvc 5, Spring-Data 2, Spring Security
 * Hibernate 5, Hibernate Validator 6
 * JUnit 4, AssertJ 3, Mockito 2
 * JSP
@@ -38,6 +46,7 @@ The application was started as the final project during my participation in a **
 ```
 #### NOTE
 The project may or may not be continued as I picked up this project as an exercise to practice a few new (for me) points:
+- Spring SEcurity
 - inheritance mapping with Hibernate
 - biderectional many-to-many relations with a link table
 - soft deletions
