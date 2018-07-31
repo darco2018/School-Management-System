@@ -119,7 +119,7 @@ public class TeacherServiceImpl implements TeacherService {
 	private boolean isUniqueLesson(long teacherId, long subjectId) {
 
 		Optional<Lesson> opt = this.lessonService.getLessonByTeacherAndSubject(teacherId, subjectId);
-		return opt.isPresent() ? false : true;
+		return opt.isPresent();
 
 	}
 	

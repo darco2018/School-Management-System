@@ -2,6 +2,7 @@ package pl.ust.school.security;
 
 import javax.validation.constraints.NotNull;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -15,10 +16,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import lombok.RequiredArgsConstructor;
 
-//@Configuration             
-//@EnableWebSecurity //crucial if we disable the default security configuration.
+@Configuration             
+@EnableWebSecurity //crucial if we disable the default security configuration.
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	
+	@Value("${security.disabled}")
+	// @Value("${security.disabled:true}")
+    private boolean securityDisabled;
 
 	final @NotNull UserDetailsService userDetailsService;
 
@@ -44,13 +49,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	 @Override
 	    protected void configure(HttpSecurity http) throws Exception {
+		 
+		 if(securityDisabled) {
+			 return;
+		 }
+		 
+		 
 	 // with <form:form> tag and @EnableWebSecurity, the CsrfToken is automatically included for you (using the CsrfRequestDataValueProcessor).
 	        http.csrf(); 
 	 
 	        // Allow access to home/login/signup   
 	        http.authorizeRequests().antMatchers("/", 
 	        									"/home", 
-	        									"/welcome", 
+	        									"/welcome",  
 	        									"/login", 
 	        									"/logout", 
 	        									"/logoutConfirm",
@@ -75,7 +86,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	        //http.authorizeRequests().anyRequest().hasRole("DEV");// if i give access to ALL requests before more specific
 	        // ones, the rules for more specific ones below will NOT work!
 	        
-	        http.authorizeRequests().antMatchers("/dev*").hasRole(AuthorityName.DEV.value());
+	        http.authorizeRequests().antMatchers("/dev/**").hasRole(AuthorityName.DEV.value());
 	        http.authorizeRequests().antMatchers("/admin/**").hasAnyRole(AuthorityName.DEV.value(),AuthorityName.ADMIN.value());
 	        
 	        http.authorizeRequests().antMatchers("/schooladmin/**").hasAnyRole(AuthorityName.DEV.value(),AuthorityName.ADMIN.value(),
